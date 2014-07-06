@@ -2,6 +2,7 @@ package com.projectvalis.ann.roomba1.init;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -19,6 +20,7 @@ import java.util.logging.*;
 import javafx.scene.paint.Color;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -37,9 +39,12 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import com.alee.laf.WebLookAndFeel;
+import com.alee.laf.button.WebButton;
 import com.alee.laf.desktoppane.WebDesktopPane;
 import com.alee.laf.desktoppane.WebInternalFrame;
 import com.alee.laf.desktoppane.WebInternalFrameUI;
+import com.alee.laf.toolbar.ToolbarStyle;
+import com.alee.laf.toolbar.WebToolBar;
 
 public class GUI extends JFrame {
 	
@@ -69,8 +74,17 @@ public class GUI extends JFrame {
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		
+		java.awt.Color purpleC = new java.awt.Color(46, 9, 39);
+		java.awt.Color redC = new java.awt.Color(217, 0, 0);
+		java.awt.Color orangeC = new java.awt.Color(255, 45, 0);
+		java.awt.Color mustardC = new java.awt.Color(255, 140, 0);
+		java.awt.Color tealC = new java.awt.Color(4, 117, 111);
+		java.awt.Color charcoalDarkC = new java.awt.Color(0, 0, 10);
+		java.awt.Color charcoalC = new java.awt.Color (34,34,34);
+		
 		InputStream inStream = 
-					Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/VALIS_background.jpg");
+					Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/valis_background_light_charcoal.png");
 		
 		WebDesktopPane rootPaneWDP = new WebDesktopPane() {
 			
@@ -90,16 +104,17 @@ public class GUI extends JFrame {
 		    }
 		};
 		
-		
-		
-		
+
+			
 		//rootPaneWDP.setVisible(true);
 		//rootPaneWDP.setOpaque(false);
         final WebInternalFrame internalFrame = new WebInternalFrame ( "Web frame", true, true, true, true );
-        internalFrame.setOpaque(false);
+        final WebInternalFrame internalFrame1 = new WebInternalFrame ( "Web frame", true, true, true, true );
+        final WebInternalFrame internalFrame2 = new WebInternalFrame ( "Web frame", true, true, true, true );
+        //internalFrame.setOpaque(false);
         
 		InputStream inStream2 = 
-				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/images.jpeg");
+				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/github-icon.png");
 		
 		ImageIcon imgIcon = null;
 		
@@ -109,11 +124,28 @@ public class GUI extends JFrame {
 			e.printStackTrace();
 		}
         
-		internalFrame.setBackground(java.awt.Color.red);
+	
         //internalFrame.setFrameIcon (imgIcon);
         internalFrame.setVisible(true);
         internalFrame.setSize(320, 200);
+        internalFrame.getContentPane().setBackground(charcoalC);
+        internalFrame.setBackground(mustardC);
+        
+        
+        //internalFrame.setFrameIcon (imgIcon);
+        internalFrame1.setVisible(true);
+        internalFrame1.setSize(320, 200);
+        internalFrame1.getContentPane().setBackground(charcoalC);
+        internalFrame1.setBackground(purpleC);
+        
 
+        internalFrame2.setVisible(true);
+        internalFrame2.setSize(320, 200);
+        internalFrame2.getContentPane().setBackground(charcoalC);
+        internalFrame2.setBackground(orangeC);
+        
+        
+        
 
 //        WebInternalFrameUI ifUI = internalFrame.getWebUI();
 //        UIManager.put("MenuBar.background", java.awt.Color.orange);
@@ -127,13 +159,77 @@ public class GUI extends JFrame {
 //	e.printStackTrace();
 //}
 //        
-        JLabel label = new JLabel ( "Just an empty frame", JLabel.CENTER );
-        label.setOpaque ( false );
-        internalFrame.add ( label );
+        //JLabel label = new JLabel ( "Just an empty frame", JLabel.CENTER );
+        //label.setBackground(charcoalDarkC);
+        //label.setOpaque ( false );
+        //internalFrame.add ( label );
 		rootPaneWDP.add(internalFrame);
+		rootPaneWDP.add(internalFrame1);
+		rootPaneWDP.add(internalFrame2);
+		
+
+		
+//		
+//		WebToolBar toolbarWTB = new WebToolBar( WebToolBar.VERTICAL );
+//		
+//		
+//		WebButton butt = new WebButton();
+//		butt.setIcon(imgIcon);
+//		butt.setSize(new Dimension(64, 64));
+//		butt.setFocusable(false);
+//		butt.setBottomBgColor(redC);
+//		butt.setTopBgColor(redC);
+//		
+//		
+//		WebButton butt1 = new WebButton();
+//		butt1.setIcon(imgIcon);
+//		butt1.setSize(new Dimension(64, 64));
+//		butt1.setFocusable(false);
+//		butt1.setBottomBgColor(orangeC);
+//		butt1.setTopBgColor(orangeC);
+//		
+//		
+//		WebButton butt2 = new WebButton();
+//		butt2.setIcon(imgIcon);
+//		butt2.setSize(new Dimension(64, 64));
+//		butt2.setFocusable(false);
+//		butt2.setBottomBgColor(mustardC);
+//		butt2.setTopBgColor(mustardC);
+//		
+//		
+//		WebButton butt3 = new WebButton();
+//		butt3.setIcon(imgIcon);
+//		butt3.setSize(new Dimension(64, 64));
+//		butt3.setFocusable(false);
+//		butt3.setBottomBgColor(tealC);
+//		butt3.setTopBgColor(tealC);
+//		
+//		toolbarWTB.add(butt);
+//		toolbarWTB.add(butt1);
+//		toolbarWTB.add(butt2);
+//		toolbarWTB.add(butt3);
+//		
+//		toolbarWTB.setMargin(5);
+//		toolbarWTB.setSpacing(10);
+//		toolbarWTB.setFloatable(false);
+//		
+//		
+//		//toolbarWTB.setUndecorated(true);
+//		
+//		
+//toolbarWTB.setBorderPainted(false);
+//toolbarWTB.setBorder(BorderFactory.createEmptyBorder());
+//		toolbarWTB.setBottomBgColor(purpleC);
+//		toolbarWTB.setTopBgColor(purpleC);
+//
+//		this.getContentPane().add(toolbarWTB, BorderLayout.EAST);
 		
 		this.getContentPane().add(rootPaneWDP);	
 		setVisible(true);
+		
+		
+		
+	
 		
 	}
 	
