@@ -125,20 +125,26 @@ public class GUI extends JFrame {
 		}
         
 	
-        //internalFrame.setFrameIcon (imgIcon);
+        internalFrame.setFrameIcon (imgIcon);
         internalFrame.setVisible(true);
         internalFrame.setSize(320, 200);
         internalFrame.getContentPane().setBackground(charcoalC);
-        internalFrame.setBackground(mustardC);
+        internalFrame.getContentPane().setMinimumSize(new Dimension(50, 50));
+        //internalFrame.getWebUI().getNorthPane().setForeground(mustardC);
+        //internalFrame.setBackground(mustardC);
         
         
-        //internalFrame.setFrameIcon (imgIcon);
+        // makes the title bar go away --v
+        //((javax.swing.plaf.basic.BasicInternalFrameUI)internalFrame.getUI()).setNorthPane(null);
+        internalFrame.setLocation(300, 300);
+        
+        internalFrame1.setFrameIcon (imgIcon);
         internalFrame1.setVisible(true);
         internalFrame1.setSize(320, 200);
         internalFrame1.getContentPane().setBackground(charcoalC);
         internalFrame1.setBackground(purpleC);
         
-
+        internalFrame2.setFrameIcon(imgIcon);
         internalFrame2.setVisible(true);
         internalFrame2.setSize(320, 200);
         internalFrame2.getContentPane().setBackground(charcoalC);
@@ -257,7 +263,8 @@ public class GUI extends JFrame {
 		try {
 			imgIcon = new ImageIcon(ImageIO.read(inStream));
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace();		jif1.setBorder(null);
+
 		}
 				
 		jif1.setFrameIcon(imgIcon);
