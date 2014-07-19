@@ -1,4 +1,4 @@
-package com.projectvalis.ann.roomba1.init;
+package com.projectvalis.altk.init;
 /*
  *	This programs uses the information found in the UIManager
  *  to create a table of key/value pairs for each Swing component.

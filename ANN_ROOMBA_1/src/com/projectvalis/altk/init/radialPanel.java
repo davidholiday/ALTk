@@ -1,4 +1,4 @@
-package com.projectvalis.ann.roomba1.init;
+package com.projectvalis.altk.init;
 
 import java.awt.Color;
 import java.awt.Graphics;
