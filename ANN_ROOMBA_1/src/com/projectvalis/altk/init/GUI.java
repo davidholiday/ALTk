@@ -92,7 +92,10 @@ public class GUI extends JFrame {
 		}
 		
 		// no need to 'install' web look and feel to make use of the widgets we need
-		//WebLookAndFeel.install();
+		// WebLookAndFeel.install();
+		
+		// to enable the dual use of Nimbus and WLAF
+		WebLookAndFeel.initializeManagers();
 		
 	}
 	
@@ -108,7 +111,7 @@ public class GUI extends JFrame {
 	
 		// load background image
 		InputStream inStream = 
-					Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/valis_background_light_charcoal.png");
+					Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/valis_background_bp.png");
 		
 		// create desktop pane and add background image to it
 		WebDesktopPane rootPaneWDP = new WebDesktopPane() {
@@ -194,13 +197,13 @@ public class GUI extends JFrame {
 		// create test buttons for toolbar
 		//WebButton butt = new WebButton();
 		
-		GlossyButton butt = new GlossyButton("", Theme.GLOSSY_DARKGREEN_THEME);
+		GlossyButton butt = new GlossyButton("", Theme.GLOSSY_GOLD_THEME, ButtonType.BUTTON_ROUNDED_RECTANGLUR);
 		butt.setIcon(imgIcon);
 		butt.setSize(new Dimension(64, 64));
 		butt.setFocusable(false);
 		//butt.setBottomBgColor(redC);
 		//butt.setTopBgColor(redC);
-				
+		
 		WebButton butt1 = new WebButton();
 		butt1.setIcon(imgIcon);
 		butt1.setSize(new Dimension(64, 64));
