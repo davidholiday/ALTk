@@ -195,35 +195,41 @@ public class GUI extends JFrame {
 
 		
 		// create test buttons for toolbar
-		//WebButton butt = new WebButton();
-		
-		GlossyButton butt = new GlossyButton("", Theme.GLOSSY_GOLD_THEME, ButtonType.BUTTON_ROUNDED_RECTANGLUR);
+		//WebButton butt = new WebButton();	
+		GlossyButton butt = new GlossyButton("", Theme.GLOSSY_DARKRED_THEME, ButtonType.BUTTON_ROUNDED_RECTANGLUR);
 		butt.setIcon(imgIcon);
 		butt.setSize(new Dimension(64, 64));
 		butt.setFocusable(false);
 		//butt.setBottomBgColor(redC);
 		//butt.setTopBgColor(redC);
 		
-		WebButton butt1 = new WebButton();
+		
+		//WebButton butt1 = new WebButton();
+		GlossyButton butt1 = new GlossyButton("", Theme.GLOSSY_GREEN_THEME, ButtonType.BUTTON_ROUNDED_RECTANGLUR);
 		butt1.setIcon(imgIcon);
 		butt1.setSize(new Dimension(64, 64));
 		butt1.setFocusable(false);
-		butt1.setBottomBgColor(orangeC);
-		butt1.setTopBgColor(orangeC);
-				
-		WebButton butt2 = new WebButton();
+		//butt1.setBottomBgColor(orangeC);
+		//butt1.setTopBgColor(orangeC);
+			
+		
+		//WebButton butt2 = new WebButton();
+		GlossyButton butt2 = new GlossyButton("", Theme.GLOSSY_ORANGE_THEME, ButtonType.BUTTON_ROUNDED_RECTANGLUR);
 		butt2.setIcon(imgIcon);
 		butt2.setSize(new Dimension(64, 64));
 		butt2.setFocusable(false);
-		butt2.setBottomBgColor(mustardC);
-		butt2.setTopBgColor(mustardC);
-				
-		WebButton butt3 = new WebButton();
+		//butt2.setBottomBgColor(mustardC);
+		//butt2.setTopBgColor(mustardC);
+		
+		
+		//WebButton butt3 = new WebButton();
+		GlossyButton butt3 = new GlossyButton("", Theme.GLOSSY_METALIC_BLUE_THEME);
 		butt3.setIcon(imgIcon);
 		butt3.setSize(new Dimension(64, 64));
 		butt3.setFocusable(false);
-		butt3.setBottomBgColor(tealC);
-		butt3.setTopBgColor(tealC);
+		//butt3.setBottomBgColor(tealC);
+		//butt3.setTopBgColor(tealC);
+		
 		
 		//add buttons to toolbar
 		toolbarWTB.add(butt);
@@ -234,6 +240,7 @@ public class GUI extends JFrame {
 		// add components to their respective parent components
 		this.getContentPane().add(toolbarWTB, BorderLayout.EAST);
 		this.getContentPane().add(rootPaneWDP);	
+		
 		
 		
 		// showtime! 
