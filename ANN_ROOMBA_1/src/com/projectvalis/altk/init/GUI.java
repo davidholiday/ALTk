@@ -1,9 +1,11 @@
 package com.projectvalis.altk.init;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -20,6 +22,7 @@ import java.net.URL;
 import java.util.logging.*;
 
 import javax.imageio.ImageIO;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -50,7 +53,6 @@ import com.alee.laf.toolbar.WebToolBar;
 import com.alee.utils.SwingUtils;
 import com.jd.swing.custom.component.button.GlossyButton;
 import com.jd.swing.util.Theme;
-
 import com.jd.swing.custom.component.button.*;
 
 
@@ -133,109 +135,112 @@ public class GUI extends JFrame {
 		};
 		
 		
-		// load test image for use as frame icon
-		InputStream inStream1 = 
-				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/images.jpeg");	
-		ImageIcon imgIcon1 = null;
-		
-		try {
-			imgIcon1 = new ImageIcon(ImageIO.read(inStream1));
-		} catch (IOException e) {
-			e.printStackTrace();		
-
-		}
-		
-		// create test internal frame and add it to the root pane
-		JInternalFrame jif1 = new JInternalFrame("test");		
-		jif1.setFrameIcon(imgIcon1);
-		jif1.setClosable(true);
-		jif1.getContentPane().setBackground(charcoalC);
-		jif1.setSize(320, 200);
-		jif1.setLocation(250, 250);	
-		jif1.setIconifiable(true);
-		jif1.setMaximizable(true);
-		jif1.setResizable(true);
-		jif1.setVisible(true);
-		rootPaneWDP.add(jif1);
+//		// load test image for use as frame icon
+//		InputStream inStream1 = 
+//				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/images.jpeg");	
+//		ImageIcon imgIcon1 = null;
+//		
+//		try {
+//			imgIcon1 = new ImageIcon(ImageIO.read(inStream1));
+//		} catch (IOException e) {
+//			e.printStackTrace();		
+//
+//		}
+//		
+//		// create test internal frame and add it to the root pane
+//		JInternalFrame jif1 = new JInternalFrame("test");		
+//		jif1.setFrameIcon(imgIcon1);
+//		jif1.setClosable(true);
+//		jif1.getContentPane().setBackground(charcoalC);
+//		jif1.setSize(320, 200);
+//		jif1.setLocation(250, 250);	
+//		jif1.setIconifiable(true);
+//		jif1.setMaximizable(true);
+//		jif1.setResizable(true);
+//		jif1.setVisible(true);
+//		rootPaneWDP.add(jif1);
 		
 		
 		// create toolbar 
-		WebToolBar toolbarWTB = new WebToolBar( WebToolBar.VERTICAL ) {
-            
-			@Override //<-- Paint background
-            protected void paintComponent(Graphics g) {
-                g.setColor(getBackground());
-                g.fillRect(0, 0, getSize().width, getSize().height);
-                super.paintComponent(g);
-            }	
-			
-		};
-		
+		WebToolBar toolbarWTB = new WebToolBar(WebToolBar.VERTICAL);
+
 		//toolbarWTB.setBottomBgColor(new java.awt.Color(0,0,0,100));
 		toolbarWTB.setTopBgColor(new java.awt.Color(0,0,0,75));
-		toolbarWTB.setOpaque(false);
+		//toolbarWTB.setBackground(new java.awt.Color(0,0,0,50));
+		//toolbarWTB.setOpaque(false);
+		toolbarWTB.setMargin(5);
+		toolbarWTB.setSpacing(10);	
+		//toolbarWTB.setFloatable(false);
 		
 		
-		// create test icon for test toolbar buttons
-		InputStream inStream2 = 
-				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/github-icon.png");
+		
+		// create toolbar buttons
+		//
+		
+		
+		// console button
+		InputStream inStreamIcon = 
+				Thread.currentThread().getContextClassLoader().
+					getResourceAsStream("resources/images/console4a.png");
 		
 		ImageIcon imgIcon = null;
 		
 		try {
-			imgIcon = new ImageIcon(ImageIO.read(inStream2));
+			imgIcon = new ImageIcon(ImageIO.read(inStreamIcon));
+			inStreamIcon.close();
 		} catch (IOException e) {
+			LOGGER.severe(e.getMessage());
 			e.printStackTrace();
 		}
 
+		GlossyButton consoleGB = new GlossyButton("", 
+				ButtonType.BUTTON_ROUNDED_RECTANGLUR, 
+				Theme.GLOSSY_DARKRED_THEME, 
+				Theme.GLOSSY_RED_THEME, 
+				Theme.GLOSSY_DARKRED_THEME);
+		consoleGB.setIcon(imgIcon);
+		consoleGB.setSize(new Dimension(64, 64));
+		consoleGB.setFocusable(false);
+		
+		
+		// console button
+		inStreamIcon = 
+				Thread.currentThread().getContextClassLoader().
+					getResourceAsStream("resources/images/bettercodes.png");
+		
+		try {
+			imgIcon = new ImageIcon(ImageIO.read(inStreamIcon));
+			inStreamIcon.close();
+		} catch (IOException e) {
+			LOGGER.severe(e.getMessage());
+			e.printStackTrace();
+		}
 
-		toolbarWTB.setMargin(5);
-		toolbarWTB.setSpacing(10);
-		toolbarWTB.setFloatable(false);
-
-		
-		// create test buttons for toolbar
-		//WebButton butt = new WebButton();	
-		GlossyButton butt = new GlossyButton("", Theme.GLOSSY_DARKRED_THEME, ButtonType.BUTTON_ROUNDED_RECTANGLUR);
-		butt.setIcon(imgIcon);
-		butt.setSize(new Dimension(64, 64));
-		butt.setFocusable(false);
-		//butt.setBottomBgColor(redC);
-		//butt.setTopBgColor(redC);
+		GlossyButton graphGB = new GlossyButton("", 
+				ButtonType.BUTTON_ROUNDED_RECTANGLUR, 
+				Theme.GLOSSY_OLIVEGREEN_THEME, 
+				Theme.GLOSSY_LIGHTGREEN_THEME, 
+				Theme.GLOSSY_OLIVEGREEN_THEME);
+		graphGB.setIcon(imgIcon);
+		graphGB.setSize(new Dimension(64, 64));
+		graphGB.setFocusable(false);
 		
 		
-		//WebButton butt1 = new WebButton();
-		GlossyButton butt1 = new GlossyButton("", Theme.GLOSSY_GREEN_THEME, ButtonType.BUTTON_ROUNDED_RECTANGLUR);
-		butt1.setIcon(imgIcon);
-		butt1.setSize(new Dimension(64, 64));
-		butt1.setFocusable(false);
-		//butt1.setBottomBgColor(orangeC);
-		//butt1.setTopBgColor(orangeC);
-			
-		
-		//WebButton butt2 = new WebButton();
-		GlossyButton butt2 = new GlossyButton("", Theme.GLOSSY_ORANGE_THEME, ButtonType.BUTTON_ROUNDED_RECTANGLUR);
-		butt2.setIcon(imgIcon);
-		butt2.setSize(new Dimension(64, 64));
-		butt2.setFocusable(false);
-		//butt2.setBottomBgColor(mustardC);
-		//butt2.setTopBgColor(mustardC);
-		
-		
-		//WebButton butt3 = new WebButton();
-		GlossyButton butt3 = new GlossyButton("", Theme.GLOSSY_METALIC_BLUE_THEME);
-		butt3.setIcon(imgIcon);
-		butt3.setSize(new Dimension(64, 64));
-		butt3.setFocusable(false);
-		//butt3.setBottomBgColor(tealC);
-		//butt3.setTopBgColor(tealC);
+		GlossyButton testGB = new GlossyButton("", 
+				ButtonType.BUTTON_ROUNDED_RECTANGLUR,
+				Theme.GLOSSY_ORANGE_THEME, 
+				Theme.GLOSSY_YELLOW_THEME, 
+				Theme.GLOSSY_ORANGE_THEME);
+		testGB.setIcon(imgIcon);
+		testGB.setSize(new Dimension(64, 64));
+		testGB.setFocusable(false);
 		
 		
 		//add buttons to toolbar
-		toolbarWTB.add(butt);
-		toolbarWTB.add(butt1);
-		toolbarWTB.add(butt2);
-		toolbarWTB.add(butt3);
+		toolbarWTB.add(graphGB);
+		toolbarWTB.add(consoleGB);
+		toolbarWTB.add(testGB);		
+
 		
 		// add components to their respective parent components
 		this.getContentPane().add(toolbarWTB, BorderLayout.EAST);

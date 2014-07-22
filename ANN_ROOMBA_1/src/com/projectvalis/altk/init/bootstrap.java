@@ -7,6 +7,11 @@ import java.util.logging.*;
 /**
  * bootstraps the program
  * 
+ * <p> NOTE toolbar icons are licensed CC by 3.0 and were downloaded from 
+ * www.flaticon.com. a copy of the license can be viewed at
+ * http://creativecommons.org/licenses/by/3.0/
+ * <p>
+ * 
  * @author funktapuss
  *
  */
