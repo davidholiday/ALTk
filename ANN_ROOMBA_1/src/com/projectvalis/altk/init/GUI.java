@@ -1,59 +1,29 @@
 package com.projectvalis.altk.init;
 
-import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyVetoException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.logging.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JInternalFrame.JDesktopIcon;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-import com.alee.extended.menu.WebDynamicMenu;
-import com.alee.extended.menu.WebDynamicMenuItem;
 import com.alee.laf.WebLookAndFeel;
-import com.alee.laf.button.WebButton;
 import com.alee.laf.desktoppane.WebDesktopPane;
-import com.alee.laf.desktoppane.WebInternalFrame;
-import com.alee.laf.desktoppane.WebInternalFrameUI;
-import com.alee.laf.toolbar.ToolbarStyle;
 import com.alee.laf.toolbar.WebToolBar;
-import com.alee.utils.SwingUtils;
 import com.jd.swing.custom.component.button.GlossyButton;
 import com.jd.swing.util.Theme;
 import com.jd.swing.custom.component.button.*;
+
+import bsh.Console;
+import bsh.Interpreter;
+import bsh.util.JConsole;
 
 
 /**
@@ -98,6 +68,24 @@ public class GUI extends JFrame {
 		
 		// to enable the dual use of Nimbus and WLAF
 		WebLookAndFeel.initializeManagers();
+		
+		
+
+//		// Determine what the default GraphicsDevice can support.
+//		GraphicsEnvironment ge =
+//		    GraphicsEnvironment.getLocalGraphicsEnvironment();
+//		GraphicsDevice gd = ge.getDefaultScreenDevice();
+//
+//		boolean isUniformTranslucencySupported =
+//		    gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
+//		boolean isPerPixelTranslucencySupported =
+//		    gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+//		boolean isShapedWindowSupported =
+//		    gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSPARENT);
+//		
+//		LOGGER.info(isUniformTranslucencySupported + " " + isPerPixelTranslucencySupported +
+//				" " + isShapedWindowSupported);
+		
 		
 	}
 	
@@ -161,23 +149,29 @@ public class GUI extends JFrame {
 //		rootPaneWDP.add(jif1);
 		
 		
+		
+		//attempt to create a beanshell instance
+		
+		JConsole bsConsole = new JConsole();
+		bsConsole.setVisible(true);
+		Interpreter bsInterp = new Interpreter(bsConsole);
+		
 		// create toolbar 
 		WebToolBar toolbarWTB = new WebToolBar(WebToolBar.VERTICAL);
 
-		//toolbarWTB.setBottomBgColor(new java.awt.Color(0,0,0,100));
-		toolbarWTB.setTopBgColor(new java.awt.Color(0,0,0,75));
+		toolbarWTB.setBottomBgColor(new java.awt.Color(0, 0, 0, 25));
+		toolbarWTB.setTopBgColor(new java.awt.Color(0, 0, 0, 75));
 		//toolbarWTB.setBackground(new java.awt.Color(0,0,0,50));
-		//toolbarWTB.setOpaque(false);
+		toolbarWTB.setOpaque(false);
 		toolbarWTB.setMargin(5);
 		toolbarWTB.setSpacing(10);	
 		//toolbarWTB.setFloatable(false);
+
 		
 		
 		
 		// create toolbar buttons
-		//
-		
-		
+		//		
 		// console button
 		InputStream inStreamIcon = 
 				Thread.currentThread().getContextClassLoader().
@@ -195,52 +189,70 @@ public class GUI extends JFrame {
 
 		GlossyButton consoleGB = new GlossyButton("", 
 				ButtonType.BUTTON_ROUNDED_RECTANGLUR, 
-				Theme.GLOSSY_DARKRED_THEME, 
-				Theme.GLOSSY_RED_THEME, 
-				Theme.GLOSSY_DARKRED_THEME);
+				Theme.GLOSSY_OLIVEGREEN_THEME, 
+				Theme.GLOSSY_LIGHTGREEN_THEME, 
+				Theme.GLOSSY_OLIVEGREEN_THEME);
+
 		consoleGB.setIcon(imgIcon);
 		consoleGB.setSize(new Dimension(64, 64));
 		consoleGB.setFocusable(false);
 		
 		
-		// console button
-		inStreamIcon = 
-				Thread.currentThread().getContextClassLoader().
-					getResourceAsStream("resources/images/bettercodes.png");
+//		// console button
+//		inStreamIcon = 
+//				Thread.currentThread().getContextClassLoader().
+//					getResourceAsStream("resources/images/connections1.png");
+//		
+//		try {
+//			imgIcon = new ImageIcon(ImageIO.read(inStreamIcon));
+//			inStreamIcon.close();
+//		} catch (IOException e) {
+//			LOGGER.severe(e.getMessage());
+//			e.printStackTrace();
+//		}
+//
+//		GlossyButton butt2 = new GlossyButton("", 
+//				ButtonType.BUTTON_ROUNDED_RECTANGLUR, 
+//				Theme.GLOSSY_DARKRED_THEME, 
+//				Theme.GLOSSY_RED_THEME, 
+//				Theme.GLOSSY_DARKRED_THEME);
+//		butt2.setIcon(imgIcon);
+//		butt2.setSize(new Dimension(64, 64));
+//		butt2.setFocusable(false);
+//		
+//		
+//		GlossyButton butt3 = new GlossyButton("", 
+//				ButtonType.BUTTON_ROUNDED_RECTANGLUR,
+//				Theme.GLOSSY_LIME_THEME, 
+//				Theme.GLOSSY_LIGHTORANGE_THEME, 
+//				Theme.GLOSSY_ORANGE_THEME);
+//		butt3.setIcon(imgIcon);
+//		butt3.setSize(new Dimension(64, 64));
+//		butt3.setFocusable(false);
+//		
+//		
+//		GlossyButton butt4 = new GlossyButton("", 
+//				ButtonType.BUTTON_ROUNDED_RECTANGLUR,
+//				Theme.GLOSSY_PURPLE_THEME, 
+//				Theme.GLOSSY_LAVENDER_THEME, 
+//				Theme.GLOSSY_PURPLE_THEME);
+//		butt4.setIcon(imgIcon);
+//		butt4.setSize(new Dimension(64, 64));
+//		butt4.setFocusable(false);
 		
-		try {
-			imgIcon = new ImageIcon(ImageIO.read(inStreamIcon));
-			inStreamIcon.close();
-		} catch (IOException e) {
-			LOGGER.severe(e.getMessage());
-			e.printStackTrace();
-		}
-
-		GlossyButton graphGB = new GlossyButton("", 
-				ButtonType.BUTTON_ROUNDED_RECTANGLUR, 
-				Theme.GLOSSY_OLIVEGREEN_THEME, 
-				Theme.GLOSSY_LIGHTGREEN_THEME, 
-				Theme.GLOSSY_OLIVEGREEN_THEME);
-		graphGB.setIcon(imgIcon);
-		graphGB.setSize(new Dimension(64, 64));
-		graphGB.setFocusable(false);
-		
-		
-		GlossyButton testGB = new GlossyButton("", 
-				ButtonType.BUTTON_ROUNDED_RECTANGLUR,
-				Theme.GLOSSY_ORANGE_THEME, 
-				Theme.GLOSSY_YELLOW_THEME, 
-				Theme.GLOSSY_ORANGE_THEME);
-		testGB.setIcon(imgIcon);
-		testGB.setSize(new Dimension(64, 64));
-		testGB.setFocusable(false);
 		
 		
 		//add buttons to toolbar
-		toolbarWTB.add(graphGB);
 		toolbarWTB.add(consoleGB);
-		toolbarWTB.add(testGB);		
+//		toolbarWTB.add(butt2);
+//		toolbarWTB.add(butt3);	
+//		toolbarWTB.add(butt4);
 
+		
+		//add console
+		bsConsole.setSize(300, 300);
+		this.getContentPane().add(bsConsole);
+		
 		
 		// add components to their respective parent components
 		this.getContentPane().add(toolbarWTB, BorderLayout.EAST);
