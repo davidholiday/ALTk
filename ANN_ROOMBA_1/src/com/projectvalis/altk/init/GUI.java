@@ -1,6 +1,7 @@
 package com.projectvalis.altk.init;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -11,12 +12,19 @@ import java.util.logging.*;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.alee.laf.WebLookAndFeel;
 import com.alee.laf.desktoppane.WebDesktopPane;
 import com.alee.laf.toolbar.WebToolBar;
+import com.alee.utils.SwingUtils;
 import com.jd.swing.custom.component.button.GlossyButton;
 import com.jd.swing.util.Theme;
 import com.jd.swing.custom.component.button.*;
@@ -123,38 +131,54 @@ public class GUI extends JFrame {
 		};
 		
 		
-//		// load test image for use as frame icon
-//		InputStream inStream1 = 
-//				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/images.jpeg");	
-//		ImageIcon imgIcon1 = null;
-//		
-//		try {
-//			imgIcon1 = new ImageIcon(ImageIO.read(inStream1));
-//		} catch (IOException e) {
-//			e.printStackTrace();		
-//
-//		}
-//		
-//		// create test internal frame and add it to the root pane
-//		JInternalFrame jif1 = new JInternalFrame("test");		
-//		jif1.setFrameIcon(imgIcon1);
-//		jif1.setClosable(true);
-//		jif1.getContentPane().setBackground(charcoalC);
-//		jif1.setSize(320, 200);
-//		jif1.setLocation(250, 250);	
-//		jif1.setIconifiable(true);
-//		jif1.setMaximizable(true);
-//		jif1.setResizable(true);
-//		jif1.setVisible(true);
-//		rootPaneWDP.add(jif1);
+		// load test image for use as frame icon
+		InputStream inStream1 = 
+				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/images.jpeg");	
+		ImageIcon imgIcon1 = null;
+		
+		try {
+			imgIcon1 = new ImageIcon(ImageIO.read(inStream1));
+		} catch (IOException e) {
+			e.printStackTrace();		
+
+		}
+		
+		// create test internal frame and add it to the root pane
+		JInternalFrame jif1 = new JInternalFrame("test");		
+		jif1.setFrameIcon(imgIcon1);
+		jif1.setClosable(true);
+		jif1.getContentPane().setBackground(charcoalC);
+		jif1.setSize(320, 200);
+		jif1.setLocation(250, 250);	
+		jif1.setIconifiable(true);
+		jif1.setMaximizable(true);
+		jif1.setResizable(true);
+		jif1.setVisible(true);
 		
 		
+	
 		
-		//attempt to create a beanshell instance
-		
+		//attempt to create a beanshell instance	
 		JConsole bsConsole = new JConsole();
-		bsConsole.setVisible(true);
 		Interpreter bsInterp = new Interpreter(bsConsole);
+		
+		
+		new Thread(bsInterp).start();
+		jif1.getContentPane().add(bsConsole);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		// create toolbar 
 		WebToolBar toolbarWTB = new WebToolBar(WebToolBar.VERTICAL);
@@ -248,13 +272,10 @@ public class GUI extends JFrame {
 //		toolbarWTB.add(butt3);	
 //		toolbarWTB.add(butt4);
 
-		
-		//add console
-		bsConsole.setSize(300, 300);
-		this.getContentPane().add(bsConsole);
-		
+				
 		
 		// add components to their respective parent components
+		rootPaneWDP.add(jif1);
 		this.getContentPane().add(toolbarWTB, BorderLayout.EAST);
 		this.getContentPane().add(rootPaneWDP);	
 		
@@ -268,6 +289,8 @@ public class GUI extends JFrame {
 	
 	
 }
+
+
 
 
 

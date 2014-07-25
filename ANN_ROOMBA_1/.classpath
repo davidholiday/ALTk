@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="/home/funktapuss/git_altk/ANN_ROOMBA_1/src/resources/lib/weblaf-complete-1.28.jar" sourcepath="src/resources/lib/weblaf-src-1.28.jar"/>
 	<classpathentry kind="lib" path="/home/funktapuss/git_altk/ANN_ROOMBA_1/src/resources/lib/weblaf-src-1.28.jar"/>
 	<classpathentry kind="lib" path="/home/funktapuss/git_altk/ANN_ROOMBA_1/src/resources/lib/swingJD.jar"/>
+	<classpathentry kind="lib" path="/home/funktapuss/git_altk/ANN_ROOMBA_1/src/resources/lib/bsh-2.0b4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
