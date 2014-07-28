@@ -30,6 +30,7 @@ import com.jd.swing.util.Theme;
 import com.jd.swing.custom.component.button.*;
 
 import bsh.Console;
+import bsh.EvalError;
 import bsh.Interpreter;
 import bsh.util.JConsole;
 
@@ -160,10 +161,14 @@ public class GUI extends JFrame {
 		
 		//attempt to create a beanshell instance	
 		JConsole bsConsole = new JConsole();
-		Interpreter bsInterp = new Interpreter(bsConsole);
-		
-		
+		Interpreter bsInterp = new Interpreter(bsConsole);	
 		new Thread(bsInterp).start();
+		try {
+			bsInterp.set("gui", this);
+		} catch (EvalError e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		jif1.getContentPane().add(bsConsole);
 		
 		
@@ -221,6 +226,13 @@ public class GUI extends JFrame {
 		consoleGB.setSize(new Dimension(64, 64));
 		consoleGB.setFocusable(false);
 		
+		try {
+			bsInterp.set("consoleGB", consoleGB);
+			bsInterp.set("gui", this);
+		} catch (EvalError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 //		// console button
 //		inStreamIcon = 
