@@ -3,6 +3,8 @@ package com.projectvalis.altk.init;
 
 import java.util.logging.*;
 
+import javax.swing.SwingUtilities;
+
 
 /**
  * bootstraps the program
@@ -21,7 +23,16 @@ public class bootstrap {
 	
 	public static void main (String args[]) {
 		LOGGER.setLevel(Level.INFO);
-		gui.buildGUI();	
+		
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				gui.buildGUI();	
+			}
+			
+		});
+		
 	}
 	
 }

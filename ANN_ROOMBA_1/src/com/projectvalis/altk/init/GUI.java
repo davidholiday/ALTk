@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.*;
@@ -53,6 +55,8 @@ public class GUI extends JFrame {
 	public static final java.awt.Color tealC = new java.awt.Color(4, 117, 111);
 	public static final java.awt.Color charcoalDarkC = new java.awt.Color(0, 0, 10);
 	public static final java.awt.Color charcoalC = new java.awt.Color (34,34,34);
+	
+	public static  WebDesktopPane rootPaneWDP = null;
 	
 	
 	/**
@@ -113,7 +117,8 @@ public class GUI extends JFrame {
 					Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/valis_background_bp.png");
 		
 		// create desktop pane and add background image to it
-		WebDesktopPane rootPaneWDP = new WebDesktopPane() {
+		//WebDesktopPane rootPaneWDP = new WebDesktopPane() {
+		rootPaneWDP = new WebDesktopPane() {
 			
 		    private Image image; {
 		    	
@@ -130,59 +135,6 @@ public class GUI extends JFrame {
 		        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 		    }
 		};
-		
-		
-		// load test image for use as frame icon
-		InputStream inStream1 = 
-				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/images.jpeg");	
-		ImageIcon imgIcon1 = null;
-		
-		try {
-			imgIcon1 = new ImageIcon(ImageIO.read(inStream1));
-		} catch (IOException e) {
-			e.printStackTrace();		
-
-		}
-		
-		// create test internal frame and add it to the root pane
-		JInternalFrame jif1 = new JInternalFrame("test");		
-		jif1.setFrameIcon(imgIcon1);
-		jif1.setClosable(true);
-		jif1.getContentPane().setBackground(charcoalC);
-		jif1.setSize(320, 200);
-		jif1.setLocation(250, 250);	
-		jif1.setIconifiable(true);
-		jif1.setMaximizable(true);
-		jif1.setResizable(true);
-		jif1.setVisible(true);
-		
-		
-	
-		
-		//attempt to create a beanshell instance	
-		JConsole bsConsole = new JConsole();
-		Interpreter bsInterp = new Interpreter(bsConsole);	
-		new Thread(bsInterp).start();
-		try {
-			bsInterp.set("gui", this);
-		} catch (EvalError e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		jif1.getContentPane().add(bsConsole);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		// create toolbar 
@@ -226,13 +178,16 @@ public class GUI extends JFrame {
 		consoleGB.setSize(new Dimension(64, 64));
 		consoleGB.setFocusable(false);
 		
-		try {
-			bsInterp.set("consoleGB", consoleGB);
-			bsInterp.set("gui", this);
-		} catch (EvalError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		consoleGB.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new bsInternalFrame();
+				
+			}
+			
+		});
+		
 		
 //		// console button
 //		inStreamIcon = 
@@ -287,7 +242,6 @@ public class GUI extends JFrame {
 				
 		
 		// add components to their respective parent components
-		rootPaneWDP.add(jif1);
 		this.getContentPane().add(toolbarWTB, BorderLayout.EAST);
 		this.getContentPane().add(rootPaneWDP);	
 		
