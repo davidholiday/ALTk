@@ -1,5 +1,6 @@
 package com.projectvalis.altk.init;
 
+import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,24 +31,33 @@ public class bsInternalFrame extends JInternalFrame {
 		
 
 		// create a beanshell instance	
-		JConsole bsConsole = new JConsole();
+		enhancedJConsole bsConsole = new enhancedJConsole();
 		Interpreter bsInterp = new Interpreter(bsConsole);	
 		new Thread(bsInterp).start();	
 		this.getContentPane().add(bsConsole);
 		
 		// set up internal frame
 		setFrameIcon(imgIcon1);
+		setTitle("terminal");
 		setClosable(true);
-		setSize(320, 200);
-		setLocation(250, 250);	
+		setSize(400, 300);
+		setLocation(50, 50);	
 		setIconifiable(true);
 		setMaximizable(true);
 		setResizable(true);
-		setVisible(true);
-		
+		setVisible(true);		
 		
 		// add this to the desktop
-		bootstrap.gui.rootPaneWDP.add(this);		
+		bootstrap.gui.rootPaneWDP.add(this);	
+		
+		// give focus to this frame
+		try {
+			setSelected(true);
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	

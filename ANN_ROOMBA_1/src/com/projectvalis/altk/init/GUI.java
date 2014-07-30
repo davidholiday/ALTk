@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class GUI extends JFrame {
 	public static final java.awt.Color tealC = new java.awt.Color(4, 117, 111);
 	public static final java.awt.Color charcoalDarkC = new java.awt.Color(0, 0, 10);
 	public static final java.awt.Color charcoalC = new java.awt.Color (34,34,34);
+	public static final java.awt.Color charcoalLightC = new java.awt.Color (102, 102, 102);
 	
 	public static  WebDesktopPane rootPaneWDP = null;
 	
@@ -114,7 +116,8 @@ public class GUI extends JFrame {
 	
 		// load background image
 		InputStream inStream = 
-					Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/valis_background_bp.png");
+					Thread.currentThread().getContextClassLoader().
+					getResourceAsStream("resources/images/valis_background_bp.png");
 		
 		// create desktop pane and add background image to it
 		//WebDesktopPane rootPaneWDP = new WebDesktopPane() {
@@ -135,6 +138,22 @@ public class GUI extends JFrame {
 		        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 		    }
 		};
+		
+		
+		// load frame icon
+		InputStream inStream2 = 
+				Thread.currentThread().getContextClassLoader().
+				getResourceAsStream("resources/images/valisLogoFlat.jpeg");
+		
+	    Image valisIcon; {
+	    	
+	        try {
+	            valisIcon = ImageIO.read(inStream2);
+	            setIconImage(valisIcon);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
 		
 		
 		// create toolbar 
@@ -178,15 +197,20 @@ public class GUI extends JFrame {
 		consoleGB.setSize(new Dimension(64, 64));
 		consoleGB.setFocusable(false);
 		
-		consoleGB.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new bsInternalFrame();
-				
-			}
-			
+//		consoleGB.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				new bsInternalFrame();
+//				
+//			}
+//			
+//		});
+		
+		consoleGB.addActionListener( (e) -> {
+			new bsInternalFrame();
 		});
+
 		
 		
 //		// console button
@@ -245,11 +269,13 @@ public class GUI extends JFrame {
 		this.getContentPane().add(toolbarWTB, BorderLayout.EAST);
 		this.getContentPane().add(rootPaneWDP);	
 		
-		
-		
 		// showtime! 
 		setVisible(true);
 		
+		// add a terminal instance 
+		// we have to do this after the frame is visible to ensure it is able
+		// to grab focus 
+		new bsInternalFrame();
 		
 	}
 	
