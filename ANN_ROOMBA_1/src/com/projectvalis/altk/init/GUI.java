@@ -117,7 +117,7 @@ public class GUI extends JFrame {
 		// load background image
 		InputStream inStream = 
 					Thread.currentThread().getContextClassLoader().
-					getResourceAsStream("resources/images/valis_background_bp.png");
+					getResourceAsStream("valis_background_bp.png");
 		
 		// create desktop pane and add background image to it
 		//WebDesktopPane rootPaneWDP = new WebDesktopPane() {
@@ -143,7 +143,7 @@ public class GUI extends JFrame {
 		// load frame icon
 		InputStream inStream2 = 
 				Thread.currentThread().getContextClassLoader().
-				getResourceAsStream("resources/images/valisLogoFlat.jpeg");
+				getResourceAsStream("VALISicon_flat_rounded2.jpg");
 		
 	    Image valisIcon; {
 	    	
@@ -175,7 +175,7 @@ public class GUI extends JFrame {
 		// console button
 		InputStream inStreamIcon = 
 				Thread.currentThread().getContextClassLoader().
-					getResourceAsStream("resources/images/console4a.png");
+					getResourceAsStream("console4a.png");
 		
 		ImageIcon imgIcon = null;
 		

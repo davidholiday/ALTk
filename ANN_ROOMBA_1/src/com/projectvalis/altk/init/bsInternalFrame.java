@@ -19,7 +19,7 @@ public class bsInternalFrame extends JInternalFrame {
 		
 		// load image for use as internal frame icon
 		InputStream inStream1 = 
-				Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/images/console4a.png");	
+				Thread.currentThread().getContextClassLoader().getResourceAsStream("console4a.png");	
 		
 		ImageIcon imgIcon1 = null;
 		try {
@@ -33,6 +33,17 @@ public class bsInternalFrame extends JInternalFrame {
 		// create a beanshell instance	
 		enhancedJConsole bsConsole = new enhancedJConsole();
 		Interpreter bsInterp = new Interpreter(bsConsole);	
+		
+		String importCmdS = "importCommands(" + "\"" + "/" + "\"" + ")";
+		System.out.println(importCmdS);
+		
+		try {
+			bsInterp.eval(importCmdS);
+		} catch (EvalError e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		new Thread(bsInterp).start();	
 		this.getContentPane().add(bsConsole);
 		

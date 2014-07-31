@@ -1,0 +1,21 @@
+// File: printBanner.bsh
+import java.awt.*;
+import bsh.Interpreter;
+import bsh.Capabilities;
+import bsh.util.JConsole;
+
+
+printBanner() {
+    this.jconsole = bsh.console;
+    jconsole.print(
+		"Artificial Life Toolkit (ALTk) v.0.0.1 by David Holiday\n" +
+		"terminal shell by: \n" + 
+		Interpreter.VERSION + " - by Pat Niemeyer (pat@pat.net)",
+		new Font("SansSerif", Font.BOLD, 12), 
+		new Color(20,100,20) );
+    jconsole.println();
+}
+
+
+
+
