@@ -92,7 +92,7 @@ public class GUI extends JFrame {
 //		GraphicsDevice gd = ge.getDefaultScreenDevice();
 //
 //		boolean isUniformTranslucencySupported =
-//		    gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
+//		    gd.isWindowTranslucencySupported(WindowTranslucenc		text.setSize(800, 600);y.TRANSLUCENT);
 //		boolean isPerPixelTranslucencySupported =
 //		    gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 //		boolean isShapedWindowSupported =
@@ -109,11 +109,12 @@ public class GUI extends JFrame {
 	 * builds the GUI
 	 */
 	public void buildGUI() {
-		
-		// define basic frame attributes
-		this.setSize(800, 600);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	
+		// define basic frame attributes
+		this.setMinimumSize(new Dimension(800, 600));
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		// load background image
 		InputStream inStream = 
 					Thread.currentThread().getContextClassLoader().
@@ -138,7 +139,7 @@ public class GUI extends JFrame {
 		        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 		    }
 		};
-		
+			
 		
 		// load frame icon
 		InputStream inStream2 = 
@@ -216,7 +217,7 @@ public class GUI extends JFrame {
 //		// console button
 //		inStreamIcon = 
 //				Thread.currentThread().getContextClassLoader().
-//					getResourceAsStream("resources/images/connections1.png");
+//					getResourceAsStream("images/connections1.png");
 //		
 //		try {
 //			imgIcon = new ImageIcon(ImageIO.read(inStreamIcon));
@@ -234,7 +235,7 @@ public class GUI extends JFrame {
 //		butt2.setIcon(imgIcon);
 //		butt2.setSize(new Dimension(64, 64));
 //		butt2.setFocusable(false);
-//		
+		
 //		
 //		GlossyButton butt3 = new GlossyButton("", 
 //				ButtonType.BUTTON_ROUNDED_RECTANGLUR,
@@ -276,6 +277,7 @@ public class GUI extends JFrame {
 		// we have to do this after the frame is visible to ensure it is able
 		// to grab focus 
 		new bsInternalFrame();
+		
 		
 	}
 	

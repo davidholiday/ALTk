@@ -1,5 +1,6 @@
 package com.projectvalis.altk.init;
 
+import java.awt.Dimension;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,12 +51,12 @@ public class bsInternalFrame extends JInternalFrame {
 		setFrameIcon(imgIcon1);
 		setTitle("terminal");
 		setClosable(true);
-		setSize(450, 300);
 		setLocation(50, 50);	
 		setIconifiable(true);
 		setMaximizable(true);
 		setResizable(true);
-		setVisible(true);		
+		setVisible(true);	
+		setSize(640, 480);
 		
 		// add this to the desktop
 		bootstrap.gui.rootPaneWDP.add(this);	
