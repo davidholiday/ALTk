@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
-		<attributes>
-			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/scripts"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.4">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="M2_REPO/beanshell/beanshell/0.0.1-SNAPSHOT/beanshell-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/orbit/org.objectweb.asm/3.3.1.v201105211655/org.objectweb.asm-3.3.1.v201105211655.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/orbit/javax.servlet/3.0.0.v201112011016/javax.servlet-3.0.0.v201112011016.jar"/>
+	<classpathentry kind="var" path="M2_REPO/swingJD/swingJD/0.0.1-SNAPSHOT/swingJD-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/de/sciss/weblaf-core/1.28/weblaf-core-1.28.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.4.7/xstream-1.4.7.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/htmlparser/jericho/jericho-html/3.3/jericho-html-3.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/mortennobel/java-image-scaling/0.8.5/java-image-scaling-0.8.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/jhlabs/filters/2.0.235/filters-2.0.235.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.7.7/slf4j-simple-1.7.7.jar"/>
+	<classpathentry kind="var" path="M2_REPO/de/sciss/weblaf-ui/1.28/weblaf-ui-1.28.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

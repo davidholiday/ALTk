@@ -1,0 +1,42 @@
+// File: printBanner.bsh
+import java.awt.*;
+import bsh.Interpreter;
+import bsh.Capabilities;
+import bsh.util.JConsole;
+
+
+printBanner() {
+    this.jconsole = bsh.console;
+
+    jconsole.print(
+
+		"      ___           ___       ___           ___     \n" +
+		"     /\\  \\         /\\__\\     /\\  \\         /\\__\\    \n" +
+		"    /::\\  \\       /:/  /     \\:\\  \\       /:/  /    \n" +
+		"   /:/\\:\\  \\     /:/  /       \\:\\  \\     /:/__/     \n" +
+		"  /::\\~\\:\\  \\   /:/  /        /::\\  \\   /::\\__\\____ \n" +
+		" /:/\\:\\ \\:\\__\\ /:/__/        /:/\\:\\__\\ /:/\\:::::\\__|\n" +	
+		" \/__\\:\\/:/  / \\:\\  \\       /:/  \\/__/ \\/_|:|~~|~   \n" +
+		"      \::/  /   \\:\\  \\     /:/  /         |:|  |    \n" +
+		"      /:/  /     \\:\\  \\    \\/__/          |:|  |    \n" +
+		"     /:/  /       \\:\\__\\                  |:|  |    \n" +
+		"     \\/__/         \\/__/                   \\|__|    \n" +
+
+		);
+
+    jconsole.print(
+		"Artificial Life Toolkit (ALTk) \n" +
+		"v.0.0.1 by David Holiday\n" +
+		"epicdave@gmail.com\n\n" +
+		"terminal powered by: \n" + 
+		"Beanshell " + Interpreter.VERSION + " by Pat Niemeyer \n" + 
+		"pat@pat.net\n" +
+		"---------------------------------"
+		);
+
+    jconsole.println();
+}
+
+
+
+

@@ -92,7 +92,7 @@ public class GUI extends JFrame {
 //		GraphicsDevice gd = ge.getDefaultScreenDevice();
 //
 //		boolean isUniformTranslucencySupported =
-//		    gd.isWindowTranslucencySupported(WindowTranslucenc		text.setSize(800, 600);y.TRANSLUCENT);
+//		    gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 //		boolean isPerPixelTranslucencySupported =
 //		    gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 //		boolean isShapedWindowSupported =

@@ -55,8 +55,9 @@ public class bsInternalFrame extends JInternalFrame {
 		setIconifiable(true);
 		setMaximizable(true);
 		setResizable(true);
-		setVisible(true);	
 		setSize(640, 480);
+		setVisible(true);	
+		
 		
 		// add this to the desktop
 		bootstrap.gui.rootPaneWDP.add(this);	
