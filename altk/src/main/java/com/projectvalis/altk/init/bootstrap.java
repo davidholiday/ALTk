@@ -11,7 +11,11 @@ import javax.swing.SwingUtilities;
  * <p> NOTE toolbar icons are licensed CC by 3.0 and were downloaded from 
  * www.flaticon.com. a copy of the license can be viewed at
  * http://creativecommons.org/licenses/by/3.0/
- * <p>
+ * </p>
+ * 
+ * <p> if executing on a linux machine, use -Dsun.java2d.opengl=True to
+ * activate graphics acceleration. 
+ * </p>
  * 
  * @author funktapuss
  *

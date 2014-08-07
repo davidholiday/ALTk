@@ -14,7 +14,7 @@ import bsh.Interpreter;
 import bsh.util.JConsole;
 
 
-public class bsInternalFrame extends JInternalFrame {
+public class bsInternalFrame extends internalFrameDark {
 	
 	public bsInternalFrame() {
 		
@@ -35,41 +35,29 @@ public class bsInternalFrame extends JInternalFrame {
 		enhancedJConsole bsConsole = new enhancedJConsole();
 		Interpreter bsInterp = new Interpreter(bsConsole);	
 		
+		// import scripts and set classpath
 		String importCmdS = "importCommands(" + "\"" + "/" + "\"" + ")";
+		String importPkgS = "import com.projectvalis.altk.init.*";
 		
 		try {
 			bsInterp.eval(importCmdS);
+			bsInterp.eval(importPkgS);
 		} catch (EvalError e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
+		
+		// give interpreter its own thread and add console to internal frame
 		new Thread(bsInterp).start();	
 		this.getContentPane().add(bsConsole);
 		
-		// set up internal frame
+		// add icon and title to frame
 		setFrameIcon(imgIcon1);
 		setTitle("terminal");
-		setClosable(true);
-		setLocation(50, 50);	
-		setIconifiable(true);
-		setMaximizable(true);
-		setResizable(true);
-		setSize(640, 480);
-		setVisible(true);	
 		
-		
-		// add this to the desktop
-		bootstrap.gui.rootPaneWDP.add(this);	
-		
-		// give focus to this frame
-		try {
-			setSelected(true);
-		} catch (PropertyVetoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		// add to desktop pane and give it focus
+		attach();
 		
 	}
 	
