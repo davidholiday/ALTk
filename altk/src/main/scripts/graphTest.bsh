@@ -40,6 +40,11 @@ graphTest() {
 	// add graph variable to the interpreter shared hash table
 	bsh.shared.varHT.put("graphTest", graph);
 
+	// set background color of graph to something other than bright 
+	// fucking white	
+	String bkgColorAttribS = "graph { fill-color:" + GUI.charcoalHS + "; }";
+	bsGraphAttribHelper.addAttrib(graph,"ui.stylesheet", bkgColorAttribS);
+
 	// attach the frame to the desktop pane and give it focus
 	graphContainerIFD.attach();	
 

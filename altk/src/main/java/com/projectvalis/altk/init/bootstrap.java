@@ -26,7 +26,7 @@ public class bootstrap {
 	
 	public static void main (String args[]) {
 		LOGGER.setLevel(Level.INFO);
-		
+	
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
