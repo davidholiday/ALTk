@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -42,6 +43,13 @@ public class bsInternalFrame extends internalFrameDark {
 		try {
 			bsInterp.eval(importCmdS);
 			bsInterp.eval(importPkgS);
+			
+			// setup the beanshell shared hashtable if it isn't already initialized.
+			// this will enable sharing of variables accross shell instances.
+			if (bsInterp.get("bsh.shared.varHT") == null) {
+				bsInterp.set("bsh.shared.varHT", new Hashtable());
+			}
+			
 		} catch (EvalError e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -51,6 +59,8 @@ public class bsInternalFrame extends internalFrameDark {
 		// give interpreter its own thread and add console to internal frame
 		new Thread(bsInterp).start();	
 		this.getContentPane().add(bsConsole);
+		
+	
 		
 		// add icon and title to frame
 		setFrameIcon(imgIcon1);

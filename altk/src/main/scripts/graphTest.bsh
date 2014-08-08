@@ -6,8 +6,11 @@ import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
  
 graphTest() {
+
+	// create a graph object
 	Graph graph = new SingleGraph("Tutorial 1");
 	 
+	// add some nodes and edges to the graph
 	graph.addNode("A");
 	graph.addNode("B");
 	graph.addNode("C");
@@ -15,19 +18,31 @@ graphTest() {
 	graph.addEdge("BC", "B", "C");
 	graph.addEdge("CA", "C", "A");
 	
+	// create a new internal frame to hold the graph
 	internalFrameDark graphContainerIFD = new internalFrameDark();
 
-
+	// create a viewer for the graph (might want to figure out
+	// what exactly this does)
 	Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-	//Viewer viewer = graph.display();
-	View view = viewer.addDefaultView(false);   // false indicates "no JFrame".
-	//View view = viewer.getDefaultView();
+	
+	// allows the viewer to lay things out and provide basic mouse support
+	viewer.enableAutoLayout();
 
+	// create new view and ensure a JFrame doesn't get spawned
+	View view = viewer.addDefaultView(false);   
 
+	// add the 'view' (which is really a JPanel of sorts) to the internal frame
 	graphContainerIFD.add(view);
 
+	// give the internal frame a title
+	graphContainerIFD.setTitle("graphTest");
 
+	// add graph variable to the interpreter shared hash table
+	bsh.shared.varHT.put("graphTest", graph);
+
+	// attach the frame to the desktop pane and give it focus
 	graphContainerIFD.attach();	
-	//graph.display();
+
+
 }
 
