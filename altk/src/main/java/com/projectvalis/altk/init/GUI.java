@@ -58,7 +58,15 @@ public class GUI extends JFrame {
 	public static final java.awt.Color charcoalC = new java.awt.Color (34,34,34);
 	public static final java.awt.Color charcoalLightC = new java.awt.Color (102, 102, 102);
 	
+	public static final String purpleHS = "#2E0927";
+	public static final String redHS = "#D90000";
+	public static final String orangeHS = "#FF2D00";
+	public static final String mustardHS = "#FF8C00";
+	public static final String tealHS = "#04756F";
+	public static final String charcoalDarkHS = "#00000A";
 	public static final String charcoalHS = "#222222";
+	public static final String charcoalLightHS = "#666666";
+	
 	
 	public static  WebDesktopPane rootPaneWDP = null;
 	

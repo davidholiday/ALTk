@@ -9,14 +9,22 @@ graphTest() {
 
 	// create a graph object
 	Graph graph = new SingleGraph("Tutorial 1");
+
 	 
 	// add some nodes and edges to the graph
 	graph.addNode("A");
 	graph.addNode("B");
 	graph.addNode("C");
+	graph.addNode("D");
+	graph.addNode("E");
 	graph.addEdge("AB", "A", "B");
+	graph.addEdge("AC", "A", "C");
 	graph.addEdge("BC", "B", "C");
-	graph.addEdge("CA", "C", "A");
+	graph.addEdge("BD", "B", "D");
+	graph.addEdge("BE", "B", "E");
+	graph.addEdge("CE", "C", "E");
+	graph.addEdge("DC", "D", "C");
+	graph.addEdge("DE", "D", "E");
 	
 	// create a new internal frame to hold the graph
 	internalFrameDark graphContainerIFD = new internalFrameDark();
@@ -40,10 +48,23 @@ graphTest() {
 	// add graph variable to the interpreter shared hash table
 	bsh.shared.varHT.put("graphTest", graph);
 
-	// set background color of graph to something other than bright 
-	// fucking white	
+	// set background color of graph to something other than white	
 	String bkgColorAttribS = "graph { fill-color:" + GUI.charcoalHS + "; }";
-	bsGraphAttribHelper.addAttrib(graph,"ui.stylesheet", bkgColorAttribS);
+	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", bkgColorAttribS);
+
+	// set node and edge color
+	String nodeColorAttribS = "node { fill-color:" + GUI.mustardHS + "; }";
+	String edgeColorAttribS = "edge { fill-color:" + GUI.purpleHS + "; }";
+	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", nodeColorAttribS);
+	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", edgeColorAttribS);
+
+	// show node labels
+	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");
+	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.stylesheet", "node { text-color: #ffffff; }");
+
+	// make the graph render nicely
+	bsGraphAttribHelper.addAttrib(graph, "ui.quality", "");
+	bsGraphAttribHelper.addAttrib(graph, "ui.antialias", "");
 
 	// attach the frame to the desktop pane and give it focus
 	graphContainerIFD.attach();	
