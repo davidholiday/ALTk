@@ -1,5 +1,9 @@
 package com.projectvalis.altk.util;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
@@ -23,9 +27,27 @@ public class bsGraphAttribHelper {
 			
 			Object attribO = a2.contentEquals("LABEL") ? n.getId() : a2;
 			n.setAttribute(a1, attribO);
+			
+			
+			// load background image
+			InputStream inStream = 
+						Thread.currentThread().getContextClassLoader().
+						getResourceAsStream("images/valis_background_bp.png");
+			
+			
+			
+			
 		}
 		
-		
 	}
+	
+	// for locating CSS files for the graph object -- the API seems to only accept URLs
+	public static String fileName2URL(String fileName) {
+		URL url = Thread.currentThread().getContextClassLoader().getResource("lib/" + fileName);
+		return url.toString();
+	}
+	
+	
+	
 	
 }

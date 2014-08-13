@@ -1,0 +1,44 @@
+graph {
+	/*canvas-color: #2E0927;*/
+	/*fill-mode: gradient-vertical;*/
+	fill-color: #222222;
+	padding: 20px;
+}
+
+node {
+	shape: circle;
+	size-mode: dyn-size;
+	size: 10px;
+	fill-mode: gradient-radial;
+	fill-color: #FF8C00, #FF2D00;
+	stroke-mode: plain;
+	shadow-mode: gradient-radial;
+	shadow-color: #FFF5, #FFF0;
+	shadow-width: 5px;
+	shadow-offset: 0px, 0px;
+}
+
+/*
+node:clicked {
+	fill-color: #F00A, #F000;
+}
+*/
+
+	
+node:selected {
+	fill-color: #00FA, #00F0;
+}
+
+edge {
+	shape: L-square-line;
+	size: 2px;
+	fill-color: #666666;
+	fill-mode: plain;
+	arrow-shape: none;
+}
+	
+sprite {
+	shape: circle;
+	fill-mode: gradient-radial;
+	fill-color: #FFF8, #FFF0;
+}

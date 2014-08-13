@@ -49,22 +49,27 @@ graphTest() {
 	bsh.shared.varHT.put("graphTest", graph);
 
 	// set background color of graph to something other than white	
-	String bkgColorAttribS = "graph { fill-color:" + GUI.charcoalHS + "; }";
-	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", bkgColorAttribS);
+	//String bkgColorAttribS = "graph { fill-color:" + GUI.charcoalHS + "; }";
+	//bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", bkgColorAttribS);
 
 	// set node and edge color
-	String nodeColorAttribS = "node { fill-color:" + GUI.mustardHS + "; }";
-	String edgeColorAttribS = "edge { fill-color:" + GUI.purpleHS + "; }";
-	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", nodeColorAttribS);
-	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", edgeColorAttribS);
+	//String nodeColorAttribS = "node { fill-color:" + GUI.mustardHS + "; }";
+	//String edgeColorAttribS = "edge { fill-color:" + GUI.purpleHS + "; }";
+	//bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", nodeColorAttribS);
+	//bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", edgeColorAttribS);
 
 	// show node labels
-	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");
-	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.stylesheet", "node { text-color: #ffffff; }");
+	//bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");
+	//bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.stylesheet", "node { text-color: #ffffff; }");
 
 	// make the graph render nicely
 	bsGraphAttribHelper.addAttrib(graph, "ui.quality", "");
 	bsGraphAttribHelper.addAttrib(graph, "ui.antialias", "");
+
+	// attach stylesheet to graph
+	fileURL = bsGraphAttribHelper.fileName2URL("graphTest.css");
+	print("loading stylesheet from: " + fileURL);
+	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", "url('" + fileURL + "')" );
 
 	// attach the frame to the desktop pane and give it focus
 	graphContainerIFD.attach();	
