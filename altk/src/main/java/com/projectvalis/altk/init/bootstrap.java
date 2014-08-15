@@ -31,6 +31,11 @@ public class bootstrap {
 
 			@Override
 			public void run() {
+				
+				// sets graphstream renderer to one that supports the entire 
+				// CSS ref sheet
+				System.setProperty("org.graphstream.ui.renderer",
+		                "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 				gui.buildGUI();	
 			}
 			

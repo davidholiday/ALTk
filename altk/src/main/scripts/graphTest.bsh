@@ -25,6 +25,20 @@ graphTest() {
 	graph.addEdge("CE", "C", "E");
 	graph.addEdge("DC", "D", "C");
 	graph.addEdge("DE", "D", "E");
+
+	// add edge weights and labels
+	//
+	// !! WTF AREN'T YOU USING A LOOP FOR THIS?? 
+	bsGraphAttribHelper.addAttrib(graph.getEdge("AB"), "layout.weight", 10);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("AB"), "ui.label", "10");
+
+	bsGraphAttribHelper.addAttrib(graph.getEdge("AC"), "layout.weight", 25);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BC"), "layout.weight", 10);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BD"), "layout.weight", 15);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BE"), "layout.weight", 5);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("CE"), "layout.weight", 15);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("DC"), "layout.weight", 20);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("DE"), "layout.weight", 20);
 	
 	// create a new internal frame to hold the graph
 	internalFrameDark graphContainerIFD = new internalFrameDark();
@@ -37,7 +51,10 @@ graphTest() {
 	viewer.enableAutoLayout();
 
 	// create new view and ensure a JFrame doesn't get spawned
-	View view = viewer.addDefaultView(false);   
+	View view = viewer.addDefaultView(false);  
+
+	// kill the auto-fit (may cause other UX issues)
+	//view.getCamera().setAutoFitView(false); 
 
 	// add the 'view' (which is really a JPanel of sorts) to the internal frame
 	graphContainerIFD.add(view);
@@ -59,8 +76,7 @@ graphTest() {
 	//bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", edgeColorAttribS);
 
 	// show node labels
-	//bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");
-	//bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.stylesheet", "node { text-color: #ffffff; }");
+	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");
 
 	// make the graph render nicely
 	bsGraphAttribHelper.addAttrib(graph, "ui.quality", "");
@@ -68,7 +84,6 @@ graphTest() {
 
 	// attach stylesheet to graph
 	fileURL = bsGraphAttribHelper.fileName2URL("graphTest.css");
-	print("loading stylesheet from: " + fileURL);
 	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", "url('" + fileURL + "')" );
 
 	// attach the frame to the desktop pane and give it focus
