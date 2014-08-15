@@ -27,19 +27,31 @@ graphTest() {
 	graph.addEdge("DE", "D", "E");
 
 	// add edge weights and labels
-	//
-	// !! WTF AREN'T YOU USING A LOOP FOR THIS?? 
 	bsGraphAttribHelper.addAttrib(graph.getEdge("AB"), "layout.weight", 10);
 	bsGraphAttribHelper.setAttrib(graph.getEdge("AB"), "ui.label", "10");
 
 	bsGraphAttribHelper.addAttrib(graph.getEdge("AC"), "layout.weight", 25);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("AC"), "ui.label", "25");
+
 	bsGraphAttribHelper.addAttrib(graph.getEdge("BC"), "layout.weight", 10);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("BC"), "ui.label", "10");
+
 	bsGraphAttribHelper.addAttrib(graph.getEdge("BD"), "layout.weight", 15);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("BD"), "ui.label", "15");
+
 	bsGraphAttribHelper.addAttrib(graph.getEdge("BE"), "layout.weight", 5);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("BE"), "ui.label", "5");
+
 	bsGraphAttribHelper.addAttrib(graph.getEdge("CE"), "layout.weight", 15);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("CE"), "ui.label", "15");
+
 	bsGraphAttribHelper.addAttrib(graph.getEdge("DC"), "layout.weight", 20);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("DC"), "ui.label", "20");
+
 	bsGraphAttribHelper.addAttrib(graph.getEdge("DE"), "layout.weight", 20);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("DE"), "ui.label", "20");
 	
+
 	// create a new internal frame to hold the graph
 	internalFrameDark graphContainerIFD = new internalFrameDark();
 
@@ -65,15 +77,6 @@ graphTest() {
 	// add graph variable to the interpreter shared hash table
 	bsh.shared.varHT.put("graphTest", graph);
 
-	// set background color of graph to something other than white	
-	//String bkgColorAttribS = "graph { fill-color:" + GUI.charcoalHS + "; }";
-	//bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", bkgColorAttribS);
-
-	// set node and edge color
-	//String nodeColorAttribS = "node { fill-color:" + GUI.mustardHS + "; }";
-	//String edgeColorAttribS = "edge { fill-color:" + GUI.purpleHS + "; }";
-	//bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", nodeColorAttribS);
-	//bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", edgeColorAttribS);
 
 	// show node labels
 	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");

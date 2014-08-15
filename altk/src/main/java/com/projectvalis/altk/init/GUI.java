@@ -124,6 +124,7 @@ public class GUI extends JFrame {
 		this.setMinimumSize(new Dimension(800, 600));
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setTitle("ALTk");
 		
 		// load background image
 		InputStream inStream = 
