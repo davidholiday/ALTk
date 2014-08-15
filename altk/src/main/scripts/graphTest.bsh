@@ -74,8 +74,9 @@ graphTest() {
 	// give the internal frame a title
 	graphContainerIFD.setTitle("graphTest");
 
-	// add graph variable to the interpreter shared hash table
+	// add graph variables to the interpreter shared hash table
 	bsh.shared.varHT.put("graphTest", graph);
+	bsh.shared.varHT.put("view", view);
 
 
 	// show node labels
@@ -91,6 +92,20 @@ graphTest() {
 
 	// attach the frame to the desktop pane and give it focus
 	graphContainerIFD.attach();	
+
+
+//
+// left in so you'll read this later (ie - the error should annoy you enough 
+// later to bring you back here to read this. get the 'slow rotate' effect you 
+// want by picking one of the nodes at random and having it bounce around the 
+// edges of the frame ala pong. this will cause the graph to seemingly randomly 
+// rotate about, showing you all it's fascets. this, of course, will be all 
+// manner of awesome.
+// 
+//
+bsGraphAttributeHelper.moveElement( graph,  view, "A", 4.0, 4.0);
+
+
 
 
 }

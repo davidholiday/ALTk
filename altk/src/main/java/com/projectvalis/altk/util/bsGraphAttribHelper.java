@@ -7,6 +7,8 @@ import java.net.URL;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swingViewer.DefaultView;
+import org.graphstream.ui.swingViewer.View;
 
 public class bsGraphAttribHelper {
 	
@@ -31,6 +33,13 @@ public class bsGraphAttribHelper {
 	public static void setAttrib (SingleGraph graph, String a1, String a2 ) {
 		graph.setAttribute(a1, a2);
 	}
+	
+	
+	// for moving graph elements
+	public static void moveElement(SingleGraph graph, DefaultView view, String node, double x, double y) {
+		view.moveElementAtPx(graph.getNode(node), x, y);
+	}
+	
 	
 	/*
 	 * there's probably a better way to do this...
