@@ -1,0 +1,36 @@
+//File: reset.bsh
+
+
+// reset the beanshell interpreter to reflect a change in the 
+// script directory 
+reset() {
+
+	// import scripts and set classpath
+	String importCmdS = "importCommands(" + "\"" + "/" + "\"" + ")";
+	String importPkg1S = "import com.projectvalis.altk.init.*";
+	String importPkg2S = "import com.projectvalis.altk.util.*";
+	
+	bsInterp = this.interpreter;
+	
+	try {
+		// clear out variables and namespace
+		bsInterp.eval("clear()");
+		bsInterp.eval("this.namespace.clear()");
+
+		// import commands and packages
+		bsInterp.eval(importCmdS);
+		bsInterp.eval(importPkg1S);
+		bsInterp.eval(importPkg2S);
+			
+		// setup the beanshell shared hashtable if it isn't already initialized.
+		// this will enable sharing of variables accross shell instances.
+		if (bsInterp.get("bsh.shared.varHT") == null) {
+			bsInterp.set("bsh.shared.varHT", new Hashtable());
+		}
+	
+	} catch (EvalError e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+
+}

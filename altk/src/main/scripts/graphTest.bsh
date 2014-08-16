@@ -5,51 +5,13 @@ import org.graphstream.graph.implementations.*;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
  
+
+// load and render the test TSP graph
 graphTest() {
 
 	// create a graph object
 	Graph graph = new SingleGraph("Tutorial 1");
 
-	 
-	// add some nodes and edges to the graph
-	graph.addNode("A");
-	graph.addNode("B");
-	graph.addNode("C");
-	graph.addNode("D");
-	graph.addNode("E");
-	graph.addEdge("AB", "A", "B");
-	graph.addEdge("AC", "A", "C");
-	graph.addEdge("BC", "B", "C");
-	graph.addEdge("BD", "B", "D");
-	graph.addEdge("BE", "B", "E");
-	graph.addEdge("CE", "C", "E");
-	graph.addEdge("DC", "D", "C");
-	graph.addEdge("DE", "D", "E");
-
-	// add edge weights and labels
-	bsGraphAttribHelper.addAttrib(graph.getEdge("AB"), "layout.weight", 10);
-	bsGraphAttribHelper.setAttrib(graph.getEdge("AB"), "ui.label", "10");
-
-	bsGraphAttribHelper.addAttrib(graph.getEdge("AC"), "layout.weight", 25);
-	bsGraphAttribHelper.setAttrib(graph.getEdge("AC"), "ui.label", "25");
-
-	bsGraphAttribHelper.addAttrib(graph.getEdge("BC"), "layout.weight", 10);
-	bsGraphAttribHelper.setAttrib(graph.getEdge("BC"), "ui.label", "10");
-
-	bsGraphAttribHelper.addAttrib(graph.getEdge("BD"), "layout.weight", 15);
-	bsGraphAttribHelper.setAttrib(graph.getEdge("BD"), "ui.label", "15");
-
-	bsGraphAttribHelper.addAttrib(graph.getEdge("BE"), "layout.weight", 5);
-	bsGraphAttribHelper.setAttrib(graph.getEdge("BE"), "ui.label", "5");
-
-	bsGraphAttribHelper.addAttrib(graph.getEdge("CE"), "layout.weight", 15);
-	bsGraphAttribHelper.setAttrib(graph.getEdge("CE"), "ui.label", "15");
-
-	bsGraphAttribHelper.addAttrib(graph.getEdge("DC"), "layout.weight", 20);
-	bsGraphAttribHelper.setAttrib(graph.getEdge("DC"), "ui.label", "20");
-
-	bsGraphAttribHelper.addAttrib(graph.getEdge("DE"), "layout.weight", 20);
-	bsGraphAttribHelper.setAttrib(graph.getEdge("DE"), "ui.label", "20");
 	
 
 	// create a new internal frame to hold the graph
@@ -75,12 +37,15 @@ graphTest() {
 	graphContainerIFD.setTitle("graphTest");
 
 	// add graph variables to the interpreter shared hash table
-	bsh.shared.varHT.put("graphTest", graph);
+	bsh.shared.varHT.put("graph", graph);
 	bsh.shared.varHT.put("view", view);
+	bsh.shared.varHT.put("camera", view.getCamera());
 
+	// give currently running interpreter window access to graph vars
+	this.interpreter.set("graph", graph);
+	this.interpreter.set("view", view);
+	this.interpreter.set("camera", view.getCamera());
 
-	// show node labels
-	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");
 
 	// make the graph render nicely
 	bsGraphAttribHelper.addAttrib(graph, "ui.quality", "");
@@ -93,17 +58,54 @@ graphTest() {
 	// attach the frame to the desktop pane and give it focus
 	graphContainerIFD.attach();	
 
+	 
+	// add some nodes and edges to the graph
+	graph.addNode("A");
+	// useful for creating an 'animated' effect
+	//try { Thread.sleep(1000); } catch (Exception e) {}
+	graph.addNode("B");
+	graph.addNode("C");
+	graph.addNode("D");
+	graph.addNode("E");
+	graph.addEdge("AB", "A", "B");
+	graph.addEdge("AC", "A", "C");
+	graph.addEdge("BC", "B", "C");
+	graph.addEdge("BD", "B", "D");
+	graph.addEdge("BE", "B", "E");
+	graph.addEdge("CE", "C", "E");
+	graph.addEdge("DC", "D", "C");
+	graph.addEdge("DE", "D", "E");
 
-//
-// left in so you'll read this later (ie - the error should annoy you enough 
-// later to bring you back here to read this. get the 'slow rotate' effect you 
-// want by picking one of the nodes at random and having it bounce around the 
-// edges of the frame ala pong. this will cause the graph to seemingly randomly 
-// rotate about, showing you all it's fascets. this, of course, will be all 
-// manner of awesome.
-// 
-//
-bsGraphAttributeHelper.moveElement( graph,  view, "A", 4.0, 4.0);
+	// show node labels
+	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");
+
+	// add edge weights and labels
+	bsGraphAttribHelper.addAttrib(graph.getEdge("AB"), "layout.weight", 10);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("AB"), "ui.label", "10");
+
+	bsGraphAttribHelper.addAttrib(graph.getEdge("AC"), "layout.weight", 25); //25
+	bsGraphAttribHelper.setAttrib(graph.getEdge("AC"), "ui.label", "25");
+
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BC"), "layout.weight", 10);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("BC"), "ui.label", "10");
+
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BD"), "layout.weight", 15);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("BD"), "ui.label", "15");
+
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BE"), "layout.weight", 5);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("BE"), "ui.label", "5");
+
+	bsGraphAttribHelper.addAttrib(graph.getEdge("CE"), "layout.weight", 15);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("CE"), "ui.label", "15");
+
+	bsGraphAttribHelper.addAttrib(graph.getEdge("DC"), "layout.weight", 20);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("DC"), "ui.label", "20");
+
+	bsGraphAttribHelper.addAttrib(graph.getEdge("DE"), "layout.weight", 20);
+	bsGraphAttribHelper.setAttrib(graph.getEdge("DE"), "ui.label", "20");
+
+
+
 
 
 

@@ -35,12 +35,6 @@ public class bsGraphAttribHelper {
 	}
 	
 	
-	// for moving graph elements
-	public static void moveElement(SingleGraph graph, DefaultView view, String node, double x, double y) {
-		view.moveElementAtPx(graph.getNode(node), x, y);
-	}
-	
-	
 	/*
 	 * there's probably a better way to do this...
 	 */
