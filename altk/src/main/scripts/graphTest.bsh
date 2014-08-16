@@ -16,6 +16,7 @@ graphTest() {
 
 	// create a new internal frame to hold the graph
 	internalFrameDark graphContainerIFD = new internalFrameDark();
+	graphContainerIFD.setSize(400, 400);
 
 	// create a viewer for the graph (might want to figure out
 	// what exactly this does)
