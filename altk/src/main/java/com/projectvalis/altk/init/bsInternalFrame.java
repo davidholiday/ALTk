@@ -40,11 +40,13 @@ public class bsInternalFrame extends internalFrameDark {
 		String importCmdS = "importCommands(" + "\"" + "/" + "\"" + ")";
 		String importPkg1S = "import com.projectvalis.altk.init.*";
 		String importPkg2S = "import com.projectvalis.altk.util.*";
+		String importPkg3S = "import com.projectvalis.altk.algorithm.*";
 		
 		try {
 			bsInterp.eval(importCmdS);
 			bsInterp.eval(importPkg1S);
 			bsInterp.eval(importPkg2S);
+			bsInterp.eval(importPkg3S);
 			
 			// setup the beanshell shared hashtable if it isn't already initialized.
 			// this will enable sharing of variables accross shell instances.
