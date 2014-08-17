@@ -67,9 +67,13 @@ public class GUI extends JFrame {
 	public static final String charcoalHS = "#222222";
 	public static final String charcoalLightHS = "#666666";
 	
+	// root pane for all the internal frames
+	public static WebDesktopPane rootPaneWDP = null;
 	
-	public static  WebDesktopPane rootPaneWDP = null;
-	
+	// global position index variable used by the internal frames
+	// so new ones don't accidentally plop themselves down atop
+	// ones that are already there. 
+	public static int internalFramePosIndexI = 1;
 	
 	/**
 	 * constructor that sets Nimbus as the default l/f

@@ -1,0 +1,13 @@
+// File: rotateGraph.bsh
+
+rotateGraph() {
+	
+	rotationI = 0;
+
+	while(true) {
+		camera.setViewRotation(rotationI);
+		rotationI++;
+		rotationI = (rotationI > 360) ? (0) : (rotationI);
+		try { Thread.sleep(500); } catch (Exception e) {}
+	}
+}

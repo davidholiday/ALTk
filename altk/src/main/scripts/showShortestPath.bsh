@@ -1,0 +1,12 @@
+//File: showShortestPath.bsh
+
+import org.graphstream.algorithm.Dijkstra;
+import org.graphstream.graph.Graph;
+
+showShortestPath(String fromNode, String toNode) {
+	resetView();
+	holidayTSP1.showShortestPath(graph, this.interpreter, fromNode, toNode);
+
+}
+
+

@@ -35,4 +35,16 @@ reset() {
 		e1.printStackTrace();
 	}
 
+	
+	// kill off any windows that might be open other than the currently 
+	// active shell window
+	internalFrameArr = GUI.rootPaneWDP.getAllFrames();
+	
+	for (int i = 1; i < internalFrameArr.length; i ++) {
+		internalFrameArr[i].dispose();
+	}
+
+
+
+
 }

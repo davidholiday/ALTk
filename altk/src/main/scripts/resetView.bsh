@@ -1,0 +1,12 @@
+//File: resetView()
+
+// endeavors to reset the graph presentation to that dictated by the css file
+resetView() {
+	
+	// remove current stylesheet
+	graph.removeAttribute("ui.stylesheet");
+
+	// attach stylesheet to graph
+	fileURL = bsGraphAttribHelper.fileName2URL("graphTest.css");
+	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", "url('" + fileURL + "')" );
+}

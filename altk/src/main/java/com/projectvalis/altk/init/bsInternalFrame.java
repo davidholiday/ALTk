@@ -1,18 +1,13 @@
 package com.projectvalis.altk.init;
 
-import java.awt.Dimension;
-import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JInternalFrame;
-
 import bsh.EvalError;
 import bsh.Interpreter;
-import bsh.util.JConsole;
 
 
 public class bsInternalFrame extends internalFrameDark {
@@ -70,8 +65,8 @@ public class bsInternalFrame extends internalFrameDark {
 		setFrameIcon(imgIcon1);
 		setTitle("terminal");
 		
-		// add to desktop pane and give it focus
-		attach();
+		// add to desktop pane
+		attach(true);
 		
 	}
 	

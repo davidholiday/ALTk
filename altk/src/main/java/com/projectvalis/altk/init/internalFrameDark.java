@@ -12,7 +12,8 @@ public class internalFrameDark extends JInternalFrame {
 				
 		// set up internal frame
 		setClosable(true);
-		setLocation(50, 50);	
+		//setLocation(50, 50);	
+		setDropLocation();
 		setIconifiable(true);
 		setMaximizable(true);
 		setResizable(true);
@@ -23,19 +24,35 @@ public class internalFrameDark extends JInternalFrame {
 	}
 	
 	// adds this to the desktop pane and gives it focus
-	public void attach() {
+	public void attach(boolean giveFocus) {
 		
 		// add this to the desktop
 		GUI.rootPaneWDP.add(this);	
 		
 		// give focus to this frame
 		try {
-			setSelected(true);
+			setSelected(giveFocus);
 		} catch (PropertyVetoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+	}
+	
+	// checks GUI.internalFramePosIndexI to get the position multiplier
+	// that will dictate where to put this frame so it doesn't completely
+	// block one that's already there.
+	private void setDropLocation() {
+		
+		int offsetI = 25 * GUI.internalFramePosIndexI;
+		int positionI = offsetI + 50;
+		
+		// update position indexing variable
+		int newIndexI = GUI.internalFramePosIndexI + 1;
+		GUI.internalFramePosIndexI = (positionI == 550) ? (0) : (newIndexI);
+
+		// set drop location
+		setLocation(positionI, positionI);		
 	}
 	
 	
