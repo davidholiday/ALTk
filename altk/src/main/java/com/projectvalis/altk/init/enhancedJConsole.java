@@ -290,7 +290,8 @@ public class enhancedJConsole extends JScrollPane
 			case ( KeyEvent.VK_TAB ):
 			    if (e.getID() == KeyEvent.KEY_RELEASED) {
 					String part = text.getText().substring( cmdStart );
-					doCommandCompletion( part );
+					//doCommandCompletion( part );
+					doCommandCompletionHack(part);
 				}
 				e.consume();
 				break;
@@ -321,6 +322,19 @@ public class enhancedJConsole extends JScrollPane
 		}
 	}
 
+    /*
+     * dirty hack to get basic tab-to-complete functionality up and running. 
+     * ideally this will be replaced with something more elegant that uses
+     * the existing interface. 
+     */
+    private void doCommandCompletionHack (String part) {
+    	
+		//replaceRange( showline,	cmdStart, textLength() );
+		text.setCaretPosition(textLength());
+		text.repaint();
+    }
+    
+    
 	private void doCommandCompletion( String part ) {
 		if ( nameCompletion == null )
 			return;

@@ -19,10 +19,10 @@ public class holidayTSP1 {
 		// setup return arraylist
 		ArrayList<String> returnAL = new ArrayList<String>();
 		
-		// Edge lengths are stored in an attribute called "length" //weight//
+		// Edge lengths are stored in an attribute called "length" //layout.weight//
 		// The length of a path is the sum of the lengths of its edges
 		// The algorithm will store its results in attribute called "result"
-		Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result", "layout.weight");
+		Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result", "length");
 		        
 		// initialize dijkstra algo on graph
 		dijkstra.init(graph);

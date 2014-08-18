@@ -2,10 +2,13 @@ package com.projectvalis.altk.init;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+
 import bsh.EvalError;
 import bsh.Interpreter;
 
@@ -30,8 +33,9 @@ public class bsInternalFrame extends internalFrameDark {
 		// create a beanshell instance	
 		enhancedJConsole bsConsole = new enhancedJConsole();
 		Interpreter bsInterp = new Interpreter(bsConsole);	
+
 		
-		// import scripts and set classpath
+		//import scripts and set classpath
 		String importCmdS = "importCommands(" + "\"" + "/" + "\"" + ")";
 		String importPkg1S = "import com.projectvalis.altk.init.*";
 		String importPkg2S = "import com.projectvalis.altk.util.*";
