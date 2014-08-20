@@ -21,7 +21,11 @@ public class bsGraphAttribHelper {
 	}
 
 	
-	public static void addAttrib (Edge edge, String a1, Integer a2) {
+	public static void addAttrib (Edge edge, String a1, int a2) {
+		edge.addAttribute(a1, a2);
+	}
+	
+	public static void addAttrib (Edge edge, String a1, double a2) {
 		edge.addAttribute(a1, a2);
 	}
 	

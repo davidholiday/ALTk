@@ -34,28 +34,28 @@ graphTest() {
 	bsGraphAttribHelper.setGlobalNodeAttrib(graph, "ui.label", "LABEL");
 
 	// add edge weights and labels
-	bsGraphAttribHelper.addAttrib(graph.getEdge("AB"), /*"layout.weight"*/ "length", 10);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("AB"), /*"layout.weight"*/ "length", 10.0);
 	bsGraphAttribHelper.setAttrib(graph.getEdge("AB"), "ui.label", "10");
 
-	bsGraphAttribHelper.addAttrib(graph.getEdge("AC"), /*"layout.weight"*/ "length", 25); //25
+	bsGraphAttribHelper.addAttrib(graph.getEdge("AC"), /*"layout.weight"*/ "length", 25.0); //25
 	bsGraphAttribHelper.setAttrib(graph.getEdge("AC"), "ui.label", "25");
 
-	bsGraphAttribHelper.addAttrib(graph.getEdge("BC"), /*"layout.weight"*/ "length", 10);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BC"), /*"layout.weight"*/ "length", 10.0);
 	bsGraphAttribHelper.setAttrib(graph.getEdge("BC"), "ui.label", "10");
 
-	bsGraphAttribHelper.addAttrib(graph.getEdge("BD"), /*"layout.weight"*/ "length", 15);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BD"), /*"layout.weight"*/ "length", 15.0);
 	bsGraphAttribHelper.setAttrib(graph.getEdge("BD"), "ui.label", "15");
 
-	bsGraphAttribHelper.addAttrib(graph.getEdge("BE"), /*"layout.weight"*/ "length", 5);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("BE"), /*"layout.weight"*/ "length", 5.0);
 	bsGraphAttribHelper.setAttrib(graph.getEdge("BE"), "ui.label", "5");
 
-	bsGraphAttribHelper.addAttrib(graph.getEdge("CE"), /*"layout.weight"*/ "length", 15);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("CE"), /*"layout.weight"*/ "length", 15.0);
 	bsGraphAttribHelper.setAttrib(graph.getEdge("CE"), "ui.label", "15");
 
-	bsGraphAttribHelper.addAttrib(graph.getEdge("DC"), /*"layout.weight"*/ "length", 5);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("DC"), /*"layout.weight"*/ "length", 5.0);
 	bsGraphAttribHelper.setAttrib(graph.getEdge("DC"), "ui.label", "5");
 
-	bsGraphAttribHelper.addAttrib(graph.getEdge("DE"), /*"layout.weight"*/ "length", 20);
+	bsGraphAttribHelper.addAttrib(graph.getEdge("DE"), /*"layout.weight"*/ "length", 20.0);
 	bsGraphAttribHelper.setAttrib(graph.getEdge("DE"), "ui.label", "20");
 
 	// create a new internal frame to hold the graph

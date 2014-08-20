@@ -1,0 +1,40 @@
+// File: setupNameCompletion.bsh
+
+
+
+import bsh.Interpreter;
+import bsh.BshClassManager;
+import bsh.ClassPathException;
+import bsh.util.NameCompletionTable;
+
+setupNameCompletion() {
+
+	// Access to read classpath is protected 
+	try {
+		this.nct = new NameCompletionTable();
+		nct.add( this.interpreter.getNameSpace() );
+			
+		try {
+			this.bcm = this.caller.namespace.getClassManager();
+			
+			if ( bcm != null ) {
+				classNamesSource = bcm.getClassPath();
+				nct.add( classNamesSource );
+			}
+				
+		} catch ( ClassPathException e ) {
+			error("classpath exception in name compl:"+e);
+		}
+			
+		this.interpreter.set("nct", nct);
+		//console.setNameCompletion( nct );
+		// end setup name completion
+	} catch ( SecurityException e ) { }
+
+
+
+	super.haveSysIO = true; // old scoping rules
+	System.setIn( console.getInputStream() );
+	System.setOut( console.getOut() );
+	System.setErr( console.getErr() );
+}

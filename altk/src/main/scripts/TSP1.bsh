@@ -1,0 +1,13 @@
+//File: TSP1.bsh
+
+/*
+runs the TSP1 algo against the target graph
+*/
+
+bsh.help.TSP1 = "poop";
+TSP1() {
+	
+	holidayTSP1.TSP1(graph, this.interpreter);
+	
+
+}

@@ -1,0 +1,11 @@
+// File: help.bsh
+
+/*
+an easy way to access help text
+*/
+bsh.help.help = "help( -->what you need help with<-- )";
+
+
+help(command) {
+	print(eval("bsh.help." + command));
+}

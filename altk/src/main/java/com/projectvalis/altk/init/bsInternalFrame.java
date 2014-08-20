@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+import bsh.util.JConsole;
+import bsh.util.NameCompletionTable;
 
 
 public class bsInternalFrame extends internalFrameDark {
@@ -53,11 +55,15 @@ public class bsInternalFrame extends internalFrameDark {
 				bsInterp.set("bsh.shared.varHT", new Hashtable());
 			}
 			
+//			// setup tab-to-complete (doesn't work - womp womp)
+//			bsInterp.eval("setupNameCompletion()");
+//			bsConsole.setNameCompletion(
+//					(NameCompletionTable) bsInterp.get("nct"));
 		} catch (EvalError e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+				
 		
 		// give interpreter its own thread and add console to internal frame
 		new Thread(bsInterp).start();	
