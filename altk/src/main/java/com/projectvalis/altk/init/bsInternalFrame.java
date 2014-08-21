@@ -34,6 +34,7 @@ public class bsInternalFrame extends internalFrameDark {
 
 		// create a beanshell instance	
 		enhancedJConsole bsConsole = new enhancedJConsole();
+		
 		Interpreter bsInterp = new Interpreter(bsConsole);	
 
 		
@@ -55,8 +56,13 @@ public class bsInternalFrame extends internalFrameDark {
 				bsInterp.set("bsh.shared.varHT", new Hashtable());
 			}
 			
-//			// setup tab-to-complete (doesn't work - womp womp)
-//			bsInterp.eval("setupNameCompletion()");
+			bsInterp.set("console", bsConsole);
+			
+			
+			// setup tab-to-complete (doesn't work - womp womp)
+			
+			bsInterp.eval("setupNameCompletion()");
+	//System.out.println(bsConsole.nameCompletion);
 //			bsConsole.setNameCompletion(
 //					(NameCompletionTable) bsInterp.get("nct"));
 		} catch (EvalError e1) {

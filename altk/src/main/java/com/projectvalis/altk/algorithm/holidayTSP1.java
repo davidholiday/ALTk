@@ -95,6 +95,14 @@ public class holidayTSP1 {
 		// populate graph lookup tables
 		populateTables(graph);
 		
+//		bsInterp.println("node count to score list:: ");
+//		for (int i = 0; i < nodeNumScoreAL.size(); i ++) {
+//			bsInterp.println(i + " " + nodeNumScoreAL.get(i));
+//		}
+		
+		
+		
+		
 		// compute shortest path data for all nodes in graph
 		for (int i = 0; i < graph.getNodeCount(); i ++) {
 			
@@ -113,7 +121,7 @@ public class holidayTSP1 {
 			}
 
 			// add confidence score data to each node
-bsInterp.println("confidence :: path :: pathweight");
+//bsInterp.println("confidence :: path :: pathweight");
 			for (int k = 0; k < graph.getNodeCount(); k ++) {
 				
 				// get the shortest path object
@@ -150,7 +158,7 @@ bsInterp.println("confidence :: path :: pathweight");
 				// calculate confidence score 
 				double edgeConfidenceScoreD = calculateConfidenceScore(edgeCountI, pathWeightD);
 
-bsInterp.println(edgeConfidenceScoreD + " " + shortestPathP.getNodePath() + " " + pathWeightD);
+//bsInterp.println(edgeConfidenceScoreD + " " + shortestPathP.getNodePath() + " " + pathWeightD);
 				// populate confidence table
 				// remove edge from edgeList
 				if (shortestPathP.getNodeCount() > 1) {
@@ -207,8 +215,11 @@ bsInterp.println(edgeConfidenceScoreD + " " + shortestPathP.getNodePath() + " " 
 		
 		// populate node list
 		int nodeCountI = graph.getNodeCount();
+//System.out.println(nodeCountI + " " + graph);
+		
 		for (int i = 1; i <= nodeCountI; i ++) {
-			double scoreI = ((i - 1) / (nodeCountI - 1)) * 100;
+			double scoreI = (((double)i - 1.0) / ((double)nodeCountI - 1.0)) * 100;
+//System.out.println(scoreI + " - " + i + " - " + nodeCountI);
 			nodeNumScoreAL.add(scoreI);
 		}
 		

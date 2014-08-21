@@ -26,13 +26,15 @@ setupNameCompletion() {
 			error("classpath exception in name compl:"+e);
 		}
 			
-		this.interpreter.set("nct", nct);
-		//console.setNameCompletion( nct );
+		//this.interpreter.set("nct", nct);
+		console = this.console;
+		console.setNameCompletion( nct );
 		// end setup name completion
 	} catch ( SecurityException e ) { }
 
 
 
+	// captures sysIn and sysOut and displays it in the bean shell window
 	super.haveSysIO = true; // old scoping rules
 	System.setIn( console.getInputStream() );
 	System.setOut( console.getOut() );
