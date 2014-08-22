@@ -20,6 +20,13 @@ public class bsGraphAttribHelper {
 		graph.addAttribute(a1, a2);
 	}
 
+	public static void addAttrib (Node node, String a1, String a2) {
+		node.addAttribute(a1, a2);
+	}
+	
+	public static void addAttrib (Edge edge, String a1, String a2) {
+		edge.addAttribute(a1, a2);
+	}
 	
 	public static void addAttrib (Edge edge, String a1, int a2) {
 		edge.addAttribute(a1, a2);

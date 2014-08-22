@@ -21,17 +21,39 @@ node {
 	*/
 }
 
-/*
-node:clicked {
-	fill-color: #F00A, #F000;
-}
-*/
 
-/*	
-node:selected {
-	fill-color: #00FA, #00F0;
-}
+/*
+state F
 */
+node.F {
+	shape: box;
+	size: 25px;
+	fill-color: MidnightBlue;
+	stroke-color: DarkCyan;
+}
+
+/*
+state I
+*/
+node.I {
+	shape: diamond;
+	size: 35px;
+	fill-color: #D90000;
+	stroke-color: #FF8C00;
+}
+
+
+/*
+state V
+*/
+node.V {
+	shape: circle;
+	size: 25px;
+	fill-color: ForestGreen;
+	stroke-color: Green;
+}
+
+
 
 edge {
 	/*shape: cubic-curve;*/
@@ -40,11 +62,18 @@ edge {
 	fill-mode: plain;
 	arrow-shape: none;
 	text-color: #ffffff;
+	text-alignment: above;
 	text-padding: 15px;
 }
 	
-sprite {
-	shape: circle;
-	fill-mode: gradient-radial;
-	fill-color: #FFF8, #FFF0;
+
+/*
+activated edge
+*/
+edge.A {
+	size: 6px;
+	fill-color: GoldenRod;
+	stroke-color: Gold;
 }
+
+

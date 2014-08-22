@@ -6,6 +6,7 @@ import java.util.EmptyStackException;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +17,8 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
+
+import com.projectvalis.altk.util.mapSortUtils;
 
 import bsh.Interpreter;
 
@@ -111,8 +114,8 @@ public class holidayTSP1 {
 			dijkstra.compute();
 			
 			// setup node edge confidence score table
-			Hashtable <String, Double> edgeConfidenceHT = new Hashtable<String, Double>();
-			
+			LinkedHashMap <String, Double> edgeConfidenceLHM = new LinkedHashMap<String, Double>();
+ 
 			// populate edge name set
 			HashSet<String> edgeNameSet = new HashSet<String>();
 			
@@ -169,12 +172,12 @@ public class holidayTSP1 {
 					// for this edge, add it. 
 					// else, check to see if the new score is higher than
 					// what's in the table. if it is, add it to the table. 
-					if (!edgeConfidenceHT.containsKey(edgeNameS)) {
-						edgeConfidenceHT.put(edgeNameS, edgeConfidenceScoreD);			
+					if (!edgeConfidenceLHM.containsKey(edgeNameS)) {
+						edgeConfidenceLHM.put(edgeNameS, edgeConfidenceScoreD);			
 					}
-					else if (edgeConfidenceScoreD > edgeConfidenceHT.get(edgeNameS)) {
-						edgeConfidenceHT.remove(edgeNameS);
-						edgeConfidenceHT.put(edgeNameS, edgeConfidenceScoreD);
+					else if (edgeConfidenceScoreD > edgeConfidenceLHM.get(edgeNameS)) {
+						edgeConfidenceLHM.remove(edgeNameS);
+						edgeConfidenceLHM.put(edgeNameS, edgeConfidenceScoreD);
 					}
 									
 					edgeNameSet.remove(shortestPathP.peekEdge().getId());		
@@ -189,16 +192,24 @@ public class holidayTSP1 {
 				Edge edge = graph.getEdge(edgeNameS);		
 				double edgeConfidenceScoreD = 
 						calculateConfidenceScore(1, edge.getAttribute("length"));	
-				edgeConfidenceHT.put(edgeNameS, edgeConfidenceScoreD);
+				edgeConfidenceLHM.put(edgeNameS, edgeConfidenceScoreD);
 			}
 			
+			
+			// sort table by value in descending order
+			edgeConfidenceLHM = 
+					(LinkedHashMap<String, Double>) mapSortUtils.
+						sortByValuesDescending(edgeConfidenceLHM);
+			
+			
+			
 			// add table to node object
-			graph.getNode(i).setAttribute("edgeConfidenceTable", edgeConfidenceHT);
+			graph.getNode(i).setAttribute("edgeConfidenceTable", edgeConfidenceLHM);
 			
 			
 			bsInterp.println("\nedge confidence numbers for: " + graph.getNode(i).getId());
-			for (String keyS : edgeConfidenceHT.keySet()) {
-				bsInterp.println(keyS + " " + edgeConfidenceHT.get(keyS));
+			for (String keyS : edgeConfidenceLHM.keySet()) {
+				bsInterp.println(keyS + " " + edgeConfidenceLHM.get(keyS));
 			}
 					
 			bsInterp.println("*  *  *  *  *\n");

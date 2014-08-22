@@ -62,9 +62,10 @@ public class bsInternalFrame extends internalFrameDark {
 			// setup tab-to-complete (doesn't work - womp womp)
 			
 			bsInterp.eval("setupNameCompletion()");
-	//System.out.println(bsConsole.nameCompletion);
-//			bsConsole.setNameCompletion(
-//					(NameCompletionTable) bsInterp.get("nct"));
+System.out.println(bsConsole.nameCompletion);
+			bsConsole.setNameCompletion(bsConsole.nameCompletion);
+System.out.println(bsConsole.nameCompletion);			
+			
 		} catch (EvalError e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -4,7 +4,9 @@
 runs the TSP1 algo against the target graph
 */
 
-bsh.help.TSP1 = "poop";
+bsh.help.TSP1 = 
+	"executes the TSP1 algorithm against the currently loaded graph.";
+
 TSP1() {
 	
 	holidayTSP1.TSP1(graph, this.interpreter);

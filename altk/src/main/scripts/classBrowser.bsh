@@ -1,0 +1,36 @@
+//File: classBrowser.bsh
+
+/*
+implementation of the classBrowser made to work with ALTk
+*/
+import bsh.util.ClassBrowser;
+
+bsh.help.classBrowser = "classBrowser()";
+
+classBrowser() {
+
+	// create browser
+	this.manager = this.interpreter.getClassManager();
+	this.browser = new ClassBrowser( this.manager );
+	
+	// populate 
+	browser.init();
+
+	// Ignore unhandled method invocations from listeners.
+	invoke( name, args ) {
+		if ( !name.startsWith("internalFrame") )
+			throw new Error("method: "+name);
+	}
+	internalFrameClosing( e ) {
+		// really need foo=void;...  
+		bsh.system.desktop.classbrowser = null;
+	}
+
+	// create container
+	internalFrameDark browserContainerIFD = new internalFrameDark();
+
+	// attach browser to frame and display
+	browserContainerIFD.add(browser);
+	browserContainerIFD.attach(true);
+
+} 
