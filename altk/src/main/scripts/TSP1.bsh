@@ -9,7 +9,11 @@ bsh.help.TSP1 =
 
 TSP1() {
 	
-	holidayTSP1.TSP1(graph, this.interpreter);
+	reset();
+	graphTest();
+	TSP = new holidayTSP1();
+	TSP.init(graph);
+	TSP.compute();
 	
 
 }

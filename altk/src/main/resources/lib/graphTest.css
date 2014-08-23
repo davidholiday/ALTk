@@ -23,17 +23,7 @@ node {
 
 
 /*
-state F
-*/
-node.F {
-	shape: box;
-	size: 25px;
-	fill-color: MidnightBlue;
-	stroke-color: DarkCyan;
-}
-
-/*
-state I
+state I (invalid)
 */
 node.I {
 	shape: diamond;
@@ -44,7 +34,18 @@ node.I {
 
 
 /*
-state V
+state F (frozen)
+*/
+node.F {
+	shape: box;
+	size: 25px;
+	fill-color: MidnightBlue;
+	stroke-color: DarkCyan;
+}
+
+
+/*
+state V (valid)
 */
 node.V {
 	shape: circle;
@@ -52,6 +53,20 @@ node.V {
 	fill-color: ForestGreen;
 	stroke-color: Green;
 }
+
+
+
+/*
+state N (new)
+*/
+node.N {
+	shape: circle;
+	size: 25px;
+	fill-color: #FF8C00;
+	stroke-color: #FF2D00;
+}
+
+
 
 
 

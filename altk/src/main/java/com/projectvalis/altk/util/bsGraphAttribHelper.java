@@ -19,6 +19,15 @@ public class bsGraphAttribHelper {
 	public static void addAttrib (SingleGraph graph, String a1, String a2) {
 		graph.addAttribute(a1, a2);
 	}
+	
+	public static void addAttrib (SingleGraph graph, String a1, int a2) {
+		graph.addAttribute(a1, a2);
+	}
+	
+	public static void addAttrib (SingleGraph graph, String a1, double a2) {
+		graph.addAttribute(a1, a2);
+	}
+	
 
 	public static void addAttrib (Node node, String a1, String a2) {
 		node.addAttribute(a1, a2);
