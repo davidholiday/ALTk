@@ -39,7 +39,7 @@ public class bsInternalFrame extends internalFrameDark {
 
 		
 		//import scripts and set classpath
-		String importCmdS = "importCommands(" + "\"" + "/" + "\"" + ")";
+		String importCmdS = "importCommands(" + "\"" + "/scripts" + "\"" + ")";
 		String importPkg1S = "import com.projectvalis.altk.init.*";
 		String importPkg2S = "import com.projectvalis.altk.util.*";
 		String importPkg3S = "import com.projectvalis.altk.algorithm.*";

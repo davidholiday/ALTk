@@ -1,0 +1,36 @@
+// File: makeAlive();
+
+
+
+bsh.makeAlive.help = "agitates the graph to make it appear more lifelike";
+
+makeAlive() {
+
+	bsGraphAttribHelper.addAttrib(graph, "layout.force", 0.01);
+	
+	r = new Runnable() {
+
+		public void run() {
+
+			while (true) {
+				edge = org.graphstream.algorithm.Toolkit.randomEdge(graph);
+				bsGraphAttribHelper.addAttrib(edge, "layout.weight", 1.1);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				bsGraphAttribHelper.addAttrib(edge, "layout.weight", 1.0);
+			}
+
+		}
+
+	};
+
+new Thread(r).start();
+
+
+}
+
