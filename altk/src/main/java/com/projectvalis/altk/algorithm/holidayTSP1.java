@@ -15,6 +15,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
+import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.stream.SinkAdapter;
 
 import static org.graphstream.algorithm.Toolkit.*;
@@ -47,8 +48,11 @@ public class holidayTSP1 extends SinkAdapter implements DynamicAlgorithm{
 	// for running dijkstra against the graph
 	Dijkstra dijkstra;
 	
+	// for keeping track of what edges are activated
+	private static HashSet<String> activeEdgesHS;
+	
 	// for keeping track of time steps
-	private static Integer stepCounterI = 0;
+	private Integer stepCounterI = 0;
 	public static final String STEP_COUNTER = "step";
 		
 	// for element attribute keys
@@ -86,8 +90,7 @@ public class holidayTSP1 extends SinkAdapter implements DynamicAlgorithm{
 	
 	// keeps track of nodes who are haven't made their two connections 
 	// in a given cycle
-	private HashSet<String> potentialInvalidNodeTableHS = new HashSet<String>();
-	
+	private HashSet<String> potentialInvalidNodeTableHS = new HashSet<String>();	
 		
 	// reason variables for algorithm termination
 	// used by terminate() to report back to operator	
@@ -440,57 +443,164 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 	public void terminate() {
 		
 		// stage a reference to the cycle path
-		Path cyclePath = new Path();
-		Node rootNode = graphRef.getNode(0);
-		
-		// get path data if run was successful 
-		if (reasonForTerminationS.contentEquals(SUCCESS)) {
-			
-//			ArrayList<String> rootActiveEdgeAL = 
-//					rootNode.getAttribute(ACTIVE_ADJACENT_EDGE_LIST);
-//			
-//			String nextEdgeS = rootActiveEdgeAL.get(0);
-//			cyclePath.add(graphRef.getEdge(nextEdgeS));
-//			Node oppositeNode = graphRef.getEdge(nextEdgeS).getOpposite(rootNode);
-//			boolean stopB = false;
-//			
-//			
-//			while (!stopB) {
-//				ArrayList<String> activeEdgeAL = 
-//						oppositeNode.getAttribute(ACTIVE_ADJACENT_EDGE_LIST);
-//				
-//				if (!cyclePath.getEdgeSet().contains(activeEdgeAL.get(0))) {
-//					cyclePath.add(graphRef.getEdge(activeEdgeAL.get(0)));
-//				}
-//				else {
-//					cyclePath.add(graphRef.getEdge(activeEdgeAL.get(1)));
-//				}
-//				
-//				if (rootNode.getId().contentEquals(oppositeNode.getId())) {
-//					stopB = true;
-//				}
-//				
-//			}
-			
-			
-			
-			
-		}
-		
+		//Path cyclePath = buildCyclePath();
+				
 		LOGGER.info(
-				"reponse from algorith.compute() is: \n" + 
+				"reponse from algorith.compute() is: \n\n" + 
 						reasonForTerminationS + "\n" +
 						"number of cycles was: " + stepCounterI + "\n" +
-						"number of edges in path is: " + cyclePath.getEdgeCount() + "\n" + 
-						"total path length is: " + cyclePath.getPathWeight("length") + "\n");
+						buildReportString());
 	}
 	
 	
+	// for metric reporting after algorithm termination
+	private String buildReportString() {
+		
+		// report string we'll be returning to caller
+		String reportS;
+		
+		// flag indicating whether or not we have a complete cycle 
+		boolean completeCycleB = false;
+		
+		// counter indicating how many nodes have been traversed
+		int nodeCountI = 0;
+		
+		// index variable for the next node in the list
+		int nodeIndexI = 0;
+		
+		// aggregate edge weight
+		Double aggregateEdgeWeightD = 0.0;
+		
+		// list of edges we've already traversed
+		ArrayList<String> traversedEdgesAL = new ArrayList<String>();
+				
+		// flag to terminate path traversal
+		boolean stopB = false;
+		
+		// traverse path to see if we've got a cycle
+		while (!stopB) {
+			Node node = graphRef.getNode(nodeIndexI);
+			ArrayList<String> activeAdjacentEdgeAL = 
+					node.getAttribute(ACTIVE_ADJACENT_EDGE_LIST);
+			
+			String edgeOneS = activeAdjacentEdgeAL.get(0);
+			String edgeTwoS = activeAdjacentEdgeAL.get(1);
+			
+			// figure out which edge is the one we didn't use to arrive at
+			// this node
+			if (!traversedEdgesAL.contains(edgeOneS)) {
+				// figure out weight
+				double weight = graphRef.getEdge(edgeOneS).getAttribute("length");
+				aggregateEdgeWeightD += weight;
+				
+				// add edge to traversed edge list
+				traversedEdgesAL.add(edgeOneS);
+				
+				// figure out what the next node is
+				Node oppositeNode = graphRef.getEdge(edgeOneS).getOpposite(node);
+				nodeIndexI = graphRef.getNode(oppositeNode.getId()).getIndex();
+				
+				// if we've reached the node we've started at, stop
+				if (nodeIndexI == 0) {
+					stopB = true;
+				}
+				// else update node count and iterate
+				//else {
+				//	nodeCountI++;
+				//}
+							
+			}
+			else {
+				// figure out weight
+				double weight = graphRef.getEdge(edgeTwoS).getAttribute("length");
+				aggregateEdgeWeightD += weight;
+				
+				// add edge to traversed edge list
+				traversedEdgesAL.add(edgeTwoS);
+				
+				// figure out what the next node is
+				Node oppositeNode = graphRef.getEdge(edgeTwoS).getOpposite(node);
+				nodeIndexI = graphRef.getNode(oppositeNode.getId()).getIndex();
+				
+				// if we've reached the node we've started at, stop
+				if (nodeIndexI == 0) {
+					stopB = true;
+				}
+				// else update node count and iterate
+				//else {
+				//	nodeCountI++;
+				//}
+				
+			}
+			
+			nodeCountI++;
+			
+			// figure out if we've made a complete cycle
+			completeCycleB = (nodeCountI == graphRef.getNodeCount()) ? (true) : (false);
+			
+		}
+		
+		reportS = new String("complete circuit flag:= " + completeCycleB +
+						 "\npath weight:= " + aggregateEdgeWeightD + 
+						 "\nnumber of activated edges:= " + 
+						 	traversedEdgesAL.size() + " / " + 
+						 	graphRef.getEdgeCount());
+		
+		return reportS;
+	}
+	
+	
+//	// for metric reporting after algorithm termination
+//	private Path buildCyclePath() {
+//		Graph graphWithOnlyCycle = new SingleGraph("cycle graph");
+//		Path cyclePath = null;
+//		
+//		// add copies of each node to the new graph
+//		for (Node node : graphRef.getNodeSet()) {
+//			graphWithOnlyCycle.addNode(node.getId());
+//		}
+//		
+//		// add copies of the members of the active edges set
+//		for (String edgeS : activeEdgesHS) {
+//			Edge edge = graphRef.getEdge(edgeS);
+//			String node0 = edge.getNode0().getId();
+//			String node1 = edge.getNode1().getId();
+//			edge.setAttribute("length", edge.getAttribute("length"));
+//			graphWithOnlyCycle.addEdge(edge.getId(), node0, node1);
+//		}
+//		
+//		// use dijkstra to get path data
+//		Node sourceNode = graphWithOnlyCycle.getNode(0);
+//		Node targetNode = sourceNode.getEdge(0).getOpposite(sourceNode);
+//		
+//		dijkstra.init(graphWithOnlyCycle);
+//		dijkstra.setSource(sourceNode);
+//		dijkstra.compute();
+//System.out.println(sourceNode + " " + targetNode);
+//System.out.println(graphWithOnlyCycle.getEdgeCount() + " " + graphWithOnlyCycle.getNodeCount());	
+//		
+//		cyclePath = dijkstra.getPath(targetNode);
+//
+//		// there should only be two
+//
+////	for (Path path : dijkstra.getAllPaths(targetNode)) {
+////System.out.println(path.getEdgeCount() + " " + sourceNode + " " + targetNode);
+////			if (path.getEdgeCount() > 1) {
+////				cyclePath = path;
+////			}
+////			
+////		}
+//		
+//		return cyclePath;
+//	}
 	
 	
 	
 	// populates the lookup tables necessary for the algo to work its magic
 	private static void populateTables() {
+		
+		// initialize active edge list
+		activeEdgesHS = new HashSet<String>();
 		
 		// populate node list
 		int nodeCountI = graphRef.getNodeCount();
@@ -973,6 +1083,10 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 				node1_AL.add(edge);
 				noChangeFlagB = false;
 			}
+			
+			// update activeEdgesList
+			activeEdgesHS.add(edge);
+			
 		}
 		else {
 			// deactivate the edges
@@ -994,6 +1108,9 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 			// operation and make it happen. 
 			if (node0_AL.size() != 2) { setNodeState(node0, STATE_I); }
 			if (node1_AL.size() != 2) { setNodeState(node1, STATE_I); }
+			
+			// update activeEdgesList
+			activeEdgesHS.remove(edge);
 			
 		}
 			
