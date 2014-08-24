@@ -1,10 +1,12 @@
 package com.projectvalis.altk.algorithm;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.graphstream.algorithm.Dijkstra;
@@ -13,6 +15,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.Path;
+import org.graphstream.stream.SinkAdapter;
 
 import static org.graphstream.algorithm.Toolkit.*;
 
@@ -26,16 +29,20 @@ import bsh.Interpreter;
  * @author funktapuss
  *
  */
-public class holidayTSP1 implements DynamicAlgorithm{
+public class holidayTSP1 extends SinkAdapter implements DynamicAlgorithm{
 	
 	// setup logger 
-	private static final Logger LOGGER = Logger.getLogger(bootstrap.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(holidayTSP1.class.getSimpleName());
 	
 	// reference to the graph
 	private static Graph graphRef;
 	
 	// flag to ensure termination happens
-	private boolean terminateB = false;
+	private boolean terminateRequestB = false;
+	
+	// for keeping track of time steps
+	private static Integer stepCounterI = 0;
+	public static final String STEP_COUNTER = "step";
 		
 	// for element attribute keys
 	public static final String STATE = "state";
@@ -44,9 +51,13 @@ public class holidayTSP1 implements DynamicAlgorithm{
 	// for node attribute keys
 	public static final String CHOICE_NUM = "choiceNum";
 	public static final String CHOICE_ARR = "choiceARR";
+	public static final String SUCCESS_NUM = "successNum";
 	public static final String NEIGHBOR_STATE_LIST = "neighborStateList";
 	public static final String NEIGHBOR_STATE_F_LIST = "neighborStateFList";
 	public static final String NEIGHBOR_STATE_I_LIST = "neighborStateIList";
+	public static final String NEIGHBOR_STATE_I_EDGE_TABLE = "neighborStateIEdgeTable";
+	public static final String EDGE_CONFIDENCE_TABLE = "edgeConfidenceTable";
+	public static final String ACTIVE_ADJACENT_EDGE_LIST = "activeAdjacentEdgeList";
 	
 	
 	// for node state values
@@ -63,6 +74,10 @@ public class holidayTSP1 implements DynamicAlgorithm{
 	// processed in a cycle by virtue of the state of another node. usually,
 	// this means an adjacent node is in state [F]
 	private HashSet<String> processedLookupTableHS = new HashSet<String>();
+	
+	// keeps track of nodes who are haven't made their two connections 
+	// in a given cycle
+	private HashSet<String> potentialInvalidNodeTableHS = new HashSet<String>();
 	
 		
 	// reason variables for algorithm termination
@@ -129,8 +144,16 @@ public class holidayTSP1 implements DynamicAlgorithm{
 //			
 //		}
 //		
-	
+		
+		// store reference to graph object
 		graphRef = graph;
+		
+		// set step counter
+		graphRef.addAttribute(STEP_COUNTER, 0);
+		
+		// make it so the this algo acts as a recipient of events and will 
+		// compute accordingly (?)
+		graphRef.addSink(this);
 		
 		// Edge lengths are stored in an attribute called "length" //layout.weight//
 		// The length of a path is the sum of the lengths of its edges
@@ -147,8 +170,9 @@ public class holidayTSP1 implements DynamicAlgorithm{
 		// compute shortest path data for all nodes in graph
 		for (int i = 0; i < graphRef.getNodeCount(); i ++) {
 			
-			// set node state to I (initial)
-			graphRef.getNode(i).addAttribute(STATE, STATE_I);
+			// set node state to N (new)
+			setNodeState(graphRef.getNode(i), STATE_N);
+			//graphRef.getNode(i).addAttribute(STATE, STATE_N);
 			
 			// compute dijkstra on the node
 			dijkstra.setSource(graphRef.getNode(i));
@@ -244,7 +268,7 @@ public class holidayTSP1 implements DynamicAlgorithm{
 			
 				
 			// add table to node object
-			graphRef.getNode(i).setAttribute("edgeConfidenceTable", edgeConfidenceLHM);
+			graphRef.getNode(i).setAttribute(EDGE_CONFIDENCE_TABLE, edgeConfidenceLHM);
 					
 			LOGGER.finer("\nedge confidence numbers for: " + graphRef.getNode(i).getId());
 			
@@ -259,91 +283,122 @@ public class holidayTSP1 implements DynamicAlgorithm{
 	}
 	
 
-	
-	// adjudicates the actions of the vertices 
-	// updates the graph view
-	// checks to see if the graph is in a stable state
-	// if not, iterate. if so, terminate. 
+	/*
+	 * adjudicates the actions of the vertices 
+	 * updates the graph view
+	 * checks to see if the graph is in a stable state
+	 * if not, iterate. if so, terminate. 
+	 * 
+	 * *NOTE* the cycle algorithm is purposefully written to compute node
+	 * states for every node, every cycle. this way, if a need should arise 
+	 * too change the graph while this algorithm is running, the algo can 
+	 * handle it accordingly. 
+	 */
 	@SuppressWarnings("unchecked")
-	@Override 
-	public void compute() {
-		
-		while(!terminateB) {
-			
-			// reset processed table
-			processedLookupTableHS.clear();
-			
-			// update step counter
+	public void cycle() {
+	
+		// reset cycle tracking tables
+		processedLookupTableHS.clear();
+		potentialInvalidNodeTableHS.clear();
+
+		// loop through node list and adjudicate orders
+		for (Node node : graphRef.getNodeSet()) {
+LOGGER.info("\n processing node: " + node.getId() + "\n");
+			// figure out the state of this node
+			String nodeStateS = node.getAttribute(STATE);
+
+			// figure out whether or not this node has already been partially
+			// or fully processed. 
+			// if it hasn't, reset choice variables
+			if (!processedLookupTableHS.contains(node.getId())) {
+				resetNodeChoiceVars(node);		
+			}
+			// if it has, and this node is in state [F], it has already 
+			// been processed, so iterate
+			else if (nodeStateS.contentEquals(STATE_F)) {
+				continue;
+			}
+
+			// figure out the state of this node's neighbors
+			populateNodeNeighborTables(node);
+
+
 			/*
-			 * 
-			 * 
-			 * 
+			 * check to see if this node is in a frozen state
+			 * if it is, set state and iterate
 			 */
-		
-			// loop through node list and adjudicate orders
-			for (Node node : graphRef.getNodeSet()) {
-				
-				// figure out the state of this node
-				String nodeStateS = node.getAttribute(STATE);
-				
-				// figure out whether or not this node has already been partially
-				// or fully processed. 
-				// if it hasn't, reset choice variables
-				if (!processedLookupTableHS.contains(node.getId())) {
-					resetNodeChoiceVars(node);		
-				}
-					
-		
-				// figure out the state of this node's neighbors
-				populateNodeNeighborTables(node);
-	
-							
-				/*
-				 * check to see if this node is in a frozen state
-				 * if it is, set state and iterate
-				 */
-				if (node.getDegree() == 2) {
-					setNodeState(node, STATE_F);
-					continue;
-				}
-					
-	
-				/*
-				 * check to see if any of this node's neighbors are in 
-				 * state [F].
-				 * if found, it forces this node to vote for the adjoining edge 
-				 * (thus activating it). 
-				 * if more than two edges are activated in this way, terminate.
-				 */
-//				node.addAttribute(CHOICE_NUM, (2 - adjacentStateF_AL.size()));
-//				
-//				if ((Integer)node.getAttribute(CHOICE_NUM) < 0) {
-//					reasonForTerminationS = TOO_MANY_ADJACENT_FROZEN_NODES;
-//					break;
-//				}
-				
-				
-				
-				/*
-				 * check to see if any of this node's neighbors are in state [I].
-				 * if they are, pick the highest one and offer to connect.
-				 * 
-				 */
-				
-	
+			if (node.getDegree() == 2) {
+				setNodeState(node, STATE_F);
+				continue;
+			}
+
+			
+LOGGER.info("this node is in state: " + nodeStateS + "\n");		
+			// check to see if this node is in state [I] and process
+			// accordingly
+			if (nodeStateS.contentEquals(STATE_I)) {
 				
 			}
-			
-			// kills the algo if we get here prior to the natural termination 
-			// of the loop
-			terminate();
-		
+			// else process normally 
+			else {
+				makeNodeChoice(node);
+			}
+
+
+
 		}
 		
 	}
 	
 	
+	// called after init()
+	// drives the algorithm.
+	public void compute() {
+		
+		// run algo until terminate is requested
+		while ((stepCounterI < 1) && (!terminateRequestB)) {
+			
+			// iterate step counter
+			stepCounterI ++;
+			graphRef.setAttribute(STEP_COUNTER, stepCounterI);
+			
+			// cycle the system by one time step
+			cycle();
+			
+			// pause before cycling again
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		// end processing
+		terminate();
+		
+	}
 	
+	
+	// for receiving events from the graph and marking time (?)
+//	public void stepBegins(String sourceId, long timeId, double step) {
+//		
+//	}
+	
+	
+	
+	/*
+	 * processes termination requests 
+	 * sets termination flag and reason variable
+	 * 
+	 * *NOTE* caller needs to employ a 'continue' statement after making
+	 * this call if she wants the termination to happen immediately (as 
+	 * opposed to waiting until the algo is finished processing this node).
+	 */
+	public void requestTermination(String reason) {
+		terminateRequestB = true;
+		reasonForTerminationS = reason;
+	}
 	
 	/*
 	 * terminates the algorithm
@@ -354,7 +409,6 @@ public class holidayTSP1 implements DynamicAlgorithm{
 		LOGGER.info(
 				"reponse from algorith.compute() is: \n" + 
 						reasonForTerminationS);
-		terminateB = true;
 	}
 	
 	
@@ -429,8 +483,8 @@ public class holidayTSP1 implements DynamicAlgorithm{
 	public static void printConfidenceData(Graph graph, Interpreter bsInterp) {
 		
 		for (Node node : graph.getEachNode()) {
-			Hashtable <String, Integer> confidenceTable = 
-					node.getAttribute("edgeConfidenceTable");
+			LinkedHashMap <String, Double> confidenceTable = 
+					node.getAttribute(EDGE_CONFIDENCE_TABLE);
 			
 			bsInterp.println(node.getId());
 			
@@ -443,19 +497,110 @@ public class holidayTSP1 implements DynamicAlgorithm{
 		
 	}
 
-
-
-	// utility method to handle node choice action
-	private void makeNodeChoice(Node node, Edge edgeChoice) {
+	
+	// utility method to handle node decision computation
+	private void makeNodeChoice(Node node) {
 		
-		// add edge to adjacent node's list of choices
-		ArrayList<String> adjacentNodeChoiceARR = 
+		// create local references to node attributes
+		LinkedHashMap<String, String> adjacentNodeStateLHM = 
+				node.getAttribute(NEIGHBOR_STATE_LIST);
+		
+		ArrayList<Node> adjacentStateI_AL = 
+				node.getAttribute(NEIGHBOR_STATE_I_LIST);
+		
+		LinkedHashMap <String, Integer> confidenceTable = 
+				node.getAttribute(EDGE_CONFIDENCE_TABLE);
+		
+		LinkedHashMap <String, Double> neighborStateIEdgeTable = 
+				node.getAttribute(NEIGHBOR_STATE_I_EDGE_TABLE);
+		
+		int choiceNum = node.getAttribute(CHOICE_NUM);
+LOGGER.info("choiceNum is: " + choiceNum + "\n");	
+
+		// if it's not already there, add this to the table of potential
+		// invalids
+		potentialInvalidNodeTableHS.add(node.getId());
+
+		// select the two edges with the highest edge confidence scores
+		Iterator<String> keyITR = confidenceTable.keySet().iterator();
+		ArrayList<String> edgeChoiceAL = new ArrayList<String>();
+		edgeChoiceAL.add(graphRef.getEdge(keyITR.next()).getId());
+		edgeChoiceAL.add(graphRef.getEdge(keyITR.next()).getId());
+				
+		// if there aren't any adjacent nodes in state [I] we can proceed 
+		// normally
+		if (adjacentStateI_AL.isEmpty()) {		
+			
+			// set node choices
+			for (int i = 0; i < choiceNum; i ++) {
+				setNodeChoice(node, edgeChoiceAL.get(i));
+			}
+			
+		}
+		// otherwise offer to connect to the adjacent state [I] node which 
+		// has the edge this node is most confident in.
+		// *NOTE* we know the first entry is the edge we have the most 
+		// confidence in because we sorted the table by value prior to 
+		// attaching it to the node.
+		else {
+			
+			// of the set of edges leading to this node's neighbors that are in
+			// state [I], grab the one we're most confident in.
+			Iterator<String> tableITR = neighborStateIEdgeTable.keySet().iterator();
+			String newSecondChoiceEdgeS = tableITR.next();
+			
+			// replace the current second choice with the new one
+			edgeChoiceAL.set(1, newSecondChoiceEdgeS);
+			
+			// set node choices
+			for (int i = 0; i < choiceNum; i ++) {
+				setNodeChoice(node, edgeChoiceAL.get(i));
+			}
+			
+		}
+		
+		
+		
+	}
+	
+	
+
+
+	// utility method to handle node choice action.
+	//
+	// performs check to sees if node has been processed this
+	// cycle prior to doing anything else. this because this 
+	// method may be called upon explicitly by a node adjacent 
+	// to the target node - meaning the target node (the one 
+	// being sent to this method) may not have been processed
+	// by the cycle() loop yet. 
+	private void setNodeChoice(Node node, String edgeChoice) {
+LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n");
+		// figure out whether or not this node has already been partially
+		// or fully processed. 
+		// if it hasn't, reset choice variables
+		if (!processedLookupTableHS.contains(node.getId())) {
+			resetNodeChoiceVars(node);		
+		}
+		
+		// pre stage some variables
+		int choiceNum = node.getAttribute(CHOICE_NUM);
+		int successNum = node.getAttribute(SUCCESS_NUM);
+		ArrayList<String> edgeChoiceAL = 
 				node.getAttribute(CHOICE_ARR);
-		adjacentNodeChoiceARR.add(edgeChoice.getId());
+		
+		// make sure this node hasn't already processed this choice
+		// usually happens when adjacent nodes are in state [F]
+		if (edgeChoiceAL.contains(edgeChoice)) {
+			return;
+		}
+		
+		// add edge to node's list of choices
+		edgeChoiceAL.add(edgeChoice);
 	
 		// update choice counter
-		int choiceNum = node.getAttribute(CHOICE_NUM);
-		node.setAttribute(CHOICE_NUM, choiceNum--); 
+		choiceNum--;
+		node.setAttribute(CHOICE_NUM, choiceNum); 
 		
 		// update lookup table
 		processedLookupTableHS.add(node.getId());
@@ -463,7 +608,59 @@ public class holidayTSP1 implements DynamicAlgorithm{
 		// check for case where node makes too many choices
 		if (choiceNum < 0) {
 			reasonForTerminationS = TOO_MANY_CHOICES_MADE;
-			terminate();
+			terminateRequestB = true;
+		}
+	
+		
+		
+		// check to see if this choice can be adjudicated do so by checking 
+		// to see if the adjacent node (the one that also shares this edge) 
+		// has already been processed. 
+		String adjacentNodeS = graphRef.getEdge(edgeChoice).getOpposite(node).getId();		
+LOGGER.info(node.getId() + " " + adjacentNodeS + " " + processedLookupTableHS.contains(adjacentNodeS) + "\n");	
+		
+		if (processedLookupTableHS.contains(adjacentNodeS)) {
+			ArrayList<String> adjacentNodeChoiceAL = 
+					graphRef.getNode(adjacentNodeS).getAttribute(CHOICE_ARR);
+			
+			int adjacentNodeSuccessNumI = 
+				graphRef.getNode(adjacentNodeS).getAttribute(SUCCESS_NUM);
+			
+			// activate edge
+			// update success num counter and do the same for the neighbor
+			// node. 
+			if (adjacentNodeChoiceAL.contains(edgeChoice)) {
+				setEdgeState(edgeChoice, true);
+				
+				successNum++;
+				node.setAttribute(SUCCESS_NUM, successNum);
+								
+				adjacentNodeSuccessNumI ++;
+				graphRef.getNode(adjacentNodeS).setAttribute(
+						SUCCESS_NUM, adjacentNodeSuccessNumI);
+			}
+			
+			// check to see if this node can be removed from the potential 
+			// invalid table. if so, remove it, set it to state [v].
+			if ( (potentialInvalidNodeTableHS.contains(node.toString())) 
+					&& (successNum == 2) ) {
+				
+				// remove this node from the potential invalids table
+				// and set state to [V]
+				potentialInvalidNodeTableHS.remove(node.toString());
+				setNodeState(node, STATE_V);						
+			}
+			
+			// check to see if we can do the same for the adjacent node.
+			if ( (potentialInvalidNodeTableHS.contains(adjacentNodeS)) 
+					&& (adjacentNodeSuccessNumI == 2) ) {
+				
+				// remove this node from the potential invalids table
+				// and set state to [V]
+				potentialInvalidNodeTableHS.remove(adjacentNodeS);
+				setNodeState(graphRef.getNode(adjacentNodeS), STATE_V);						
+			}
+			
 		}
 		
 	}
@@ -482,7 +679,36 @@ public class holidayTSP1 implements DynamicAlgorithm{
 		ArrayList<Node> adjacentStateF_AL = node.getAttribute(NEIGHBOR_STATE_F_LIST);
 		
 		switch(state) {
-			
+		
+
+			case STATE_I: 
+				
+				// set state [I] for this node
+				node.addAttribute(STATE, STATE_I);
+				node.addAttribute(UI_CLASS, STATE_I);
+				break;
+		
+				
+				
+			case STATE_V: 
+				
+				// set state [V] for this node
+				node.addAttribute(STATE, STATE_V);
+				node.addAttribute(UI_CLASS, STATE_V);
+				break;
+				
+				
+				
+			case STATE_N:
+				
+				// set state [N] for this node
+				node.addAttribute(STATE, STATE_N);
+				node.addAttribute(UI_CLASS, STATE_N);
+				node.addAttribute(CHOICE_NUM, 2);
+				break;
+				
+				
+		
 			case STATE_F:
 				
 				// set state [F] for this node
@@ -490,12 +716,9 @@ public class holidayTSP1 implements DynamicAlgorithm{
 				node.addAttribute(UI_CLASS, STATE_F);
 				node.addAttribute(CHOICE_NUM, 0);
 				
-				
 				/*
 				 * activate edges between frozen node and neighbors.
-				 * update graph CSS
 				 * update adjacent node's choice variables
-				 * 
 				 */
 				for (String adjacentNodeS : adjacentNodeStateLHM.keySet()) {
 					
@@ -503,18 +726,11 @@ public class holidayTSP1 implements DynamicAlgorithm{
 					Node adjacentNodeN = graphRef.getNode(adjacentNodeS);
 					Edge adjacentEdgeE = node.getEdgeToward(adjacentNodeS);
 					
-					// figure out whether or not this node has already been partially
-					// or fully processed. 
-					// if it hasn't, reset choice variables
-					if (!processedLookupTableHS.contains(node.getId())) {
-						resetNodeChoiceVars(adjacentNodeN);		
-					}
-					
-					// update edge presentation
-					adjacentEdgeE.addAttribute(UI_CLASS, STATE_A);
+					// set node choices
+					setNodeChoice(node, adjacentEdgeE.getId());					
 					
 					// direct neighbor node to also select this edge
-					makeNodeChoice(adjacentNodeN, adjacentEdgeE);	
+					setNodeChoice(adjacentNodeN, adjacentEdgeE.getId());	
 					
 					// check to see if this has caused the adjacent node to
 					// change state
@@ -552,7 +768,39 @@ public class holidayTSP1 implements DynamicAlgorithm{
 	}
 
 
+	// for activating/deactivating edges
+	private void setEdgeState(String edge, boolean activate) {
 
+		if (activate) {
+			graphRef.getEdge(edge).setAttribute(STATE, STATE_A);
+			graphRef.getEdge(edge).setAttribute(UI_CLASS, STATE_A);			
+		}
+		else {
+			graphRef.getEdge(edge).setAttribute(STATE, STATE_D);
+			graphRef.getEdge(edge).setAttribute(UI_CLASS, STATE_D);
+		}
+			
+	}
+	
+	
+	// for adjudicating the state of the nodes in the potentially invalid 
+	// table
+	private void adjudicateRemainingNodes(){
+		
+		// check each member of the list to see if they have two adjacent
+		// active edges. if so, set it to state [V]. else, set to state [I].
+		for (String nodeNameS : potentialInvalidNodeTableHS) {
+			Node node = graphRef.getNode(nodeNameS);
+			
+			
+			
+		}
+		
+		
+	}
+	
+	
+	
 
 	// for populating a node's tables with info about the state of its 
 	// neighbors
@@ -560,8 +808,13 @@ public class holidayTSP1 implements DynamicAlgorithm{
 		
 		// setup lookup table and lists for the states adjacent nodes.
 		LinkedHashMap<String, String> adjacentNodeStateLHM = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, Double> adjacentState_I_EdgesLHM = new LinkedHashMap<String, Double>();
 		ArrayList<Node> adjacentStateI_AL = new ArrayList<Node>();
 		ArrayList<Node> adjacentStateF_AL = new ArrayList<Node>();
+		
+		// create reference to this node's edge confidence table
+		LinkedHashMap <String, Double> confidenceTable = 
+				node.getAttribute(EDGE_CONFIDENCE_TABLE);
 		
 		// figure out the state of this node's neighbors
 		for (Edge adjacentEdge : node.getEdgeSet()) {
@@ -571,7 +824,11 @@ public class holidayTSP1 implements DynamicAlgorithm{
 			// put nodes in state [I] and [F] in their own tables for easy 
 			// access
 			if (adjacentNode.getAttribute(STATE) == STATE_I) {
+				String adjacentEdgeNameS = node.getEdgeToward(adjacentNode).getId();
+				Double edgeConfidenceD = confidenceTable.get(adjacentEdgeNameS);
+				adjacentState_I_EdgesLHM.put(adjacentEdgeNameS, edgeConfidenceD);
 				adjacentStateI_AL.add(adjacentNode);
+				
 			}
 			else if (adjacentNode.getAttribute(STATE) == STATE_F) {
 				adjacentStateF_AL.add(adjacentNode);
@@ -579,7 +836,15 @@ public class holidayTSP1 implements DynamicAlgorithm{
 			
 		}
 		
+		// sort the state [I] table
+		adjacentState_I_EdgesLHM = 
+				(LinkedHashMap<String, Double>) 
+					mapSortUtils.
+						sortByValuesDescending(adjacentState_I_EdgesLHM);
+		
+		// add tables to the node
 		node.addAttribute(NEIGHBOR_STATE_LIST, adjacentNodeStateLHM);
+		node.addAttribute(NEIGHBOR_STATE_I_EDGE_TABLE, adjacentState_I_EdgesLHM);
 		node.addAttribute(NEIGHBOR_STATE_I_LIST, adjacentStateI_AL);
 		node.addAttribute(NEIGHBOR_STATE_F_LIST, adjacentStateF_AL);
 		
@@ -589,6 +854,7 @@ public class holidayTSP1 implements DynamicAlgorithm{
 
 	// resets the node choice variables
 	private void resetNodeChoiceVars(Node node) {
+		node.addAttribute(SUCCESS_NUM, 0);
 		node.addAttribute(CHOICE_NUM, 2);
 		node.addAttribute(CHOICE_ARR, new ArrayList<String>());
 	}
