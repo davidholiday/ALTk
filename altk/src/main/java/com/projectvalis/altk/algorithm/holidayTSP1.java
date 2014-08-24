@@ -40,6 +40,13 @@ public class holidayTSP1 extends SinkAdapter implements DynamicAlgorithm{
 	// flag to ensure termination happens
 	private boolean terminateRequestB = false;
 	
+	// flag to determine whether or not a change has occured in the current 
+	// cycle
+	private boolean noChangeFlagB = true;
+	
+	// for running dijkstra against the graph
+	Dijkstra dijkstra;
+	
 	// for keeping track of time steps
 	private static Integer stepCounterI = 0;
 	public static final String STEP_COUNTER = "step";
@@ -160,7 +167,7 @@ public class holidayTSP1 extends SinkAdapter implements DynamicAlgorithm{
 		// Edge lengths are stored in an attribute called "length" //layout.weight//
 		// The length of a path is the sum of the lengths of its edges
 		// The algorithm will store its results in attribute called "result"
-		Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result", "length");
+		dijkstra = new Dijkstra(Dijkstra.Element.EDGE, "result", "length");
 		        
 		// initialize dijkstra algo on graph
 		dijkstra.init(graphRef);
@@ -298,9 +305,10 @@ public class holidayTSP1 extends SinkAdapter implements DynamicAlgorithm{
 	@SuppressWarnings("unchecked")
 	public void cycle() {
 	
-		// reset cycle tracking tables
+		// reset cycle tracking tables and change flag
 		processedLookupTableHS.clear();
 		potentialInvalidNodeTableHS.clear();
+		noChangeFlagB = true;
 
 		// loop through node list and adjudicate orders
 		for (Node node : graphRef.getNodeSet()) {
@@ -366,6 +374,11 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 		
 		// set state on any nodes that haven't been fully processed yet. 
 		adjudicateRemainingNodes();
+
+		// terminate if the graph hasn't changed this cycle
+		LOGGER.info("\n\nend of cycle: " + stepCounterI + ". noChangeFlag is: " + noChangeFlagB);
+		LOGGER.info("************************\n\n");
+		if (noChangeFlagB) { requestTermination(SUCCESS); }
 		
 	}
 	
@@ -375,7 +388,7 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 	public void compute() {
 		
 		// run algo until terminate is requested
-		while ((stepCounterI < 3) && (!terminateRequestB)) {
+		while ((stepCounterI < 5) && (!terminateRequestB)) {
 			
 			// iterate step counter
 			stepCounterI ++;
@@ -386,7 +399,7 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 			
 			// pause before cycling again
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -425,9 +438,51 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 	 */
 	@Override
 	public void terminate() {
+		
+		// stage a reference to the cycle path
+		Path cyclePath = new Path();
+		Node rootNode = graphRef.getNode(0);
+		
+		// get path data if run was successful 
+		if (reasonForTerminationS.contentEquals(SUCCESS)) {
+			
+//			ArrayList<String> rootActiveEdgeAL = 
+//					rootNode.getAttribute(ACTIVE_ADJACENT_EDGE_LIST);
+//			
+//			String nextEdgeS = rootActiveEdgeAL.get(0);
+//			cyclePath.add(graphRef.getEdge(nextEdgeS));
+//			Node oppositeNode = graphRef.getEdge(nextEdgeS).getOpposite(rootNode);
+//			boolean stopB = false;
+//			
+//			
+//			while (!stopB) {
+//				ArrayList<String> activeEdgeAL = 
+//						oppositeNode.getAttribute(ACTIVE_ADJACENT_EDGE_LIST);
+//				
+//				if (!cyclePath.getEdgeSet().contains(activeEdgeAL.get(0))) {
+//					cyclePath.add(graphRef.getEdge(activeEdgeAL.get(0)));
+//				}
+//				else {
+//					cyclePath.add(graphRef.getEdge(activeEdgeAL.get(1)));
+//				}
+//				
+//				if (rootNode.getId().contentEquals(oppositeNode.getId())) {
+//					stopB = true;
+//				}
+//				
+//			}
+			
+			
+			
+			
+		}
+		
 		LOGGER.info(
 				"reponse from algorith.compute() is: \n" + 
-						reasonForTerminationS);
+						reasonForTerminationS + "\n" +
+						"number of cycles was: " + stepCounterI + "\n" +
+						"number of edges in path is: " + cyclePath.getEdgeCount() + "\n" + 
+						"total path length is: " + cyclePath.getPathWeight("length") + "\n");
 	}
 	
 	
@@ -540,6 +595,10 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 				node.getAttribute(NEIGHBOR_STATE_I_EDGE_TABLE);
 		
 			
+		// figure out the state of this node
+		String nodeStateS = node.getAttribute(STATE);
+		
+		// figure out how many options for choosing this node has
 		int choiceNum = node.getAttribute(CHOICE_NUM);
 LOGGER.info("choiceNum is: " + choiceNum + "\n");	
 
@@ -579,10 +638,13 @@ LOGGER.info("activeAdjacentEdgeAL is: " + activeAdjacentEdgeAL);
 				
 		}
 
-	
-		// if there aren't any adjacent nodes in state [I] we can proceed 
-		// normally
-		if (adjacentStateI_AL.isEmpty()) {		
+		// if this node is in a valid state, as are its neighbors, return. 
+		if ( (adjacentStateI_AL.isEmpty()) && (nodeStateS.contains(STATE_V)) ) {		
+			return;
+		}
+		// if there aren't any adjacent nodes in state [I] and this node is not in 
+		// a valid state, proceed. 
+		else if ( (adjacentStateI_AL.isEmpty()) && (!nodeStateS.contains(STATE_V)) ) {		
 			
 			// set node choices
 			for (int i = 0; i < choiceNum; i ++) {
@@ -886,8 +948,9 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 
 	// for activating/deactivating edges
 	// updates the activatedEdgesList for the nodes conjoined by this edge.
+	// updates cycle change flag.
 	private void setEdgeState(String edge, boolean activate) {
-		
+				
 		// grab references to the nodes conjoined by this edge.
 		Node node0 = graphRef.getEdge(edge).getNode0();
 		ArrayList<String> node0_AL= node0.getAttribute(ACTIVE_ADJACENT_EDGE_LIST);
@@ -900,18 +963,32 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 			graphRef.getEdge(edge).setAttribute(STATE, STATE_A);
 			graphRef.getEdge(edge).setAttribute(UI_CLASS, STATE_A);		
 			
-			// update the node lists accordingly
-			if (!node0_AL.contains(edge)) {node0_AL.add(edge);}
-			if (!node1_AL.contains(edge)) {node1_AL.add(edge);}
+			// update the node lists and cycle change flag
+			if (!node0_AL.contains(edge)) {
+				node0_AL.add(edge);
+				noChangeFlagB = false;
+			}
+			
+			if (!node1_AL.contains(edge)) {
+				node1_AL.add(edge);
+				noChangeFlagB = false;
+			}
 		}
 		else {
 			// deactivate the edges
 			graphRef.getEdge(edge).setAttribute(STATE, STATE_D);
 			graphRef.getEdge(edge).setAttribute(UI_CLASS, STATE_D);		
 			
-			// update the node lists accordingly
-			node0_AL.remove(edge);
-			node1_AL.remove(edge);
+			// update the node lists and cycle change flag
+			if (node0_AL.contains(edge)) {
+				node0_AL.remove(edge);
+				noChangeFlagB = false;
+			}
+			
+			if (node1_AL.contains(edge)) {
+				node1_AL.remove(edge);
+				noChangeFlagB = false;
+			}
 			
 			// figure out which node is put in state [I] as a result of this
 			// operation and make it happen. 
