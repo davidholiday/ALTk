@@ -475,10 +475,10 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 		ArrayList<String> traversedEdgesAL = new ArrayList<String>();
 				
 		// flag to terminate path traversal
-		boolean stopB = false;
+		//boolean stopB = false;
 		
 		// traverse path to see if we've got a cycle
-		while (!stopB) {
+		for (int i = 0; i < graphRef.getNodeCount(); i ++) {
 			Node node = graphRef.getNode(nodeIndexI);
 			ArrayList<String> activeAdjacentEdgeAL = 
 					node.getAttribute(ACTIVE_ADJACENT_EDGE_LIST);
@@ -501,16 +501,17 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 				nodeIndexI = graphRef.getNode(oppositeNode.getId()).getIndex();
 				
 				// if we've reached the node we've started at, stop
-				if (nodeIndexI == 0) {
-					stopB = true;
-				}
+				//if (nodeIndexI == 0) {
+					//stopB = true;
+				//	break;
+				//}
 				// else update node count and iterate
 				//else {
 				//	nodeCountI++;
 				//}
 							
 			}
-			else {
+			else if (!traversedEdgesAL.contains(edgeTwoS)){
 				// figure out weight
 				double weight = graphRef.getEdge(edgeTwoS).getAttribute("length");
 				aggregateEdgeWeightD += weight;
@@ -523,9 +524,10 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 				nodeIndexI = graphRef.getNode(oppositeNode.getId()).getIndex();
 				
 				// if we've reached the node we've started at, stop
-				if (nodeIndexI == 0) {
-					stopB = true;
-				}
+				//if (nodeIndexI == 0) {
+				//	//stopB = true;
+				//	break;
+				//}
 				// else update node count and iterate
 				//else {
 				//	nodeCountI++;
@@ -535,8 +537,14 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 			
 			nodeCountI++;
 			
-			// figure out if we've made a complete cycle
-			completeCycleB = (nodeCountI == graphRef.getNodeCount()) ? (true) : (false);
+			// if we've reached the node we've started at, stop
+			if (nodeIndexI == 0) {
+				// figure out if we've made a complete cycle
+				completeCycleB = (nodeCountI == graphRef.getNodeCount()) ? (true) : (false);
+				break;
+			}
+			
+			
 			
 		}
 		
