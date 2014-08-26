@@ -1,0 +1,63 @@
+//File: loadGraph.bsh
+
+import org.graphstream.graph.*;
+import org.graphstream.graph.implementations.*;
+import org.graphstream.ui.swingViewer.View;
+import org.graphstream.ui.swingViewer.Viewer;
+
+bsh.loadGraph.help = "loadGraph([filename])";
+
+loadGraph (fileName) {
+	graph = TSPLIBUtils.loadFile(fileName);
+
+	// create a new internal frame to hold the graph
+	internalFrameDark graphContainerIFD = new internalFrameDark();
+	//graphContainerIFD.setSize(400, 400);
+
+	// create a viewer for the graph (might want to figure out
+	// what exactly this does)
+	Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+	
+	// allows the viewer to lay things out and provide basic mouse support
+	viewer.enableAutoLayout();
+
+	// create new view and ensure a JFrame doesn't get spawned
+	View view = viewer.addDefaultView(false);  
+
+	// kill the auto-fit (may cause other UX issues)
+	//view.getCamera().setAutoFitView(false); 
+
+	// add the 'view' (which is really a JPanel of sorts) to the internal frame
+	graphContainerIFD.add(view);
+
+	// give the internal frame a title
+	graphContainerIFD.setTitle("graphTest");
+
+	// add graph variables to the interpreter shared hash table
+	bsh.shared.varHT.put("graph", graph);
+	bsh.shared.varHT.put("view", view);
+	bsh.shared.varHT.put("camera", view.getCamera());
+
+	// give currently running interpreter window access to graph vars
+	this.interpreter.set("graph", graph);
+	this.interpreter.set("view", view);
+	this.interpreter.set("camera", view.getCamera());
+
+
+	// make the graph render nicely
+	bsGraphAttribHelper.addAttrib(graph, "ui.quality", "");
+	bsGraphAttribHelper.addAttrib(graph, "ui.antialias", "");
+
+	// attach stylesheet to graph
+	fileURL = bsGraphAttribHelper.fileName2URL("graphTest.css");
+	bsGraphAttribHelper.addAttrib(graph, "ui.stylesheet", "url('" + fileURL + "')" );
+
+	// attach the frame to the desktop pane 
+	graphContainerIFD.attach(false);	
+
+	// change default position of graphContainerIFD
+	graphContainerIFD.setLocation(800, 75);
+
+}
+
+

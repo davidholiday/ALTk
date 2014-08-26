@@ -7,11 +7,11 @@ graph {
 
 node {
 	shape: circle;
-	size: 25px;
+	/*size: 25px;*/
 	fill-color: #FF8C00;
 	stroke-mode: plain;
 	stroke-color: #FF2D00;
-	stroke-width: 2;
+	/*stroke-width: 2;*/
 	text-color: #ffffff;
 	/*
 	shadow-mode: gradient-radial;
@@ -72,7 +72,7 @@ node.N {
 
 edge {
 	/*shape: cubic-curve;*/
-	size: 2px;
+	/*size: 2px;*/
 	fill-color: #666666;
 	fill-mode: plain;
 	arrow-shape: none;
@@ -86,7 +86,7 @@ edge {
 activated edge
 */
 edge.A {
-	size: 6px;
+	/*size: 6px;*/
 	fill-color: GoldenRod;
 	stroke-color: Gold;
 }

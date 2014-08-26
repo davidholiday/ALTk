@@ -100,6 +100,9 @@ public class holidayTSP1 extends SinkAdapter implements DynamicAlgorithm{
 					"Node has too many adjacent nodes in state [F].";
 	public static final String TOO_MANY_CHOICES_MADE = 
 					"Node has made more than two choices!";
+	public static final String TOO_MANY_ACTIVE_EDGES = 
+			"Node has more than two active edges!";
+	
 	
 	private String reasonForTerminationS = SUCCESS;
 	
@@ -317,6 +320,15 @@ public class holidayTSP1 extends SinkAdapter implements DynamicAlgorithm{
 		for (Node node : graphRef.getNodeSet()) {
 LOGGER.info("\n processing node: " + node.getId() + "\n");
 
+			// check to ensure this node doesn't have more than two
+			// active edges
+			int numActiveEdgesI = ((ArrayList<String>)node.
+					getAttribute(ACTIVE_ADJACENT_EDGE_LIST)).size();
+			
+			if (numActiveEdgesI > 2) {
+				requestTermination(TOO_MANY_ACTIVE_EDGES + " for node: " + node);
+			}
+
 			// figure out the state of this node
 			String nodeStateS = node.getAttribute(STATE);
 
@@ -391,7 +403,7 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 	public void compute() {
 		
 		// run algo until terminate is requested
-		while ((stepCounterI < 5) && (!terminateRequestB)) {
+		while ((stepCounterI < 9999) && (!terminateRequestB)) {
 			
 			// iterate step counter
 			stepCounterI ++;
@@ -448,7 +460,7 @@ LOGGER.info("this node is in state: " + nodeStateS + "\n");
 		LOGGER.info(
 				"reponse from algorith.compute() is: \n\n" + 
 						reasonForTerminationS + "\n" +
-						"number of cycles was: " + stepCounterI + "\n" +
+						"number of cycles was:= " + stepCounterI + "\n" +
 						buildReportString());
 	}
 	
@@ -743,6 +755,8 @@ LOGGER.info("choiceNum is: " + choiceNum + "\n");
 				node.getAttribute(EDGE_DISCONNECT_CANDIDATE_LIST);
 LOGGER.info("disconnectedCandidatesAL should be empty here!: " + disconnectCandidatesAL);	
 LOGGER.info("activeAdjacentEdgeAL is: " + activeAdjacentEdgeAL);
+LOGGER.info("adjacentStateF_AL is: " + adjacentStateF_AL);
+LOGGER.info("adjacentStateI_AL is: " + adjacentStateI_AL);
 		for (int i = 0; i < activeAdjacentEdgeAL.size(); i ++) {
 			Node connectedNode = 
 					graphRef.getEdge(
@@ -755,11 +769,15 @@ LOGGER.info("activeAdjacentEdgeAL is: " + activeAdjacentEdgeAL);
 			}	
 				
 		}
-
+LOGGER.info("disconnectedCandidatesAL is now: " + disconnectCandidatesAL);
 		// if this node is in a valid state, as are its neighbors, return. 
 		if ( (adjacentStateI_AL.isEmpty()) && (nodeStateS.contains(STATE_V)) ) {		
 			return;
 		}
+		// if this node is in state [I] but it's neighbors aren't, return
+		else if ( (adjacentStateI_AL.isEmpty()) && (nodeStateS.contains(STATE_I)) ) {		
+			return;
+		}		
 		// if there aren't any adjacent nodes in state [I] and this node is not in 
 		// a valid state, proceed. 
 		else if ( (adjacentStateI_AL.isEmpty()) && (!nodeStateS.contains(STATE_V)) ) {		
@@ -894,8 +912,7 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 		
 		// check for case where node makes too many choices
 		if (choiceNum < 0) {
-			reasonForTerminationS = TOO_MANY_CHOICES_MADE;
-			terminateRequestB = true;
+			requestTermination(TOO_MANY_CHOICES_MADE);
 		}
 	
 		
@@ -947,6 +964,39 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 				setNodeState(graphRef.getNode(adjacentNodeS), STATE_V);						
 			}
 			
+			
+			
+			/*
+			 * 
+			 * if (activeEdgeList > 2) ...
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * if applicable, deactivate top candidate on edgeDeactivationList for both nodes
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 */
+			
+			
 		}
 		
 	}
@@ -964,6 +1014,19 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 		ArrayList<Node> adjacentStateI_AL = node.getAttribute(NEIGHBOR_STATE_I_LIST);
 		ArrayList<Node> adjacentStateF_AL = node.getAttribute(NEIGHBOR_STATE_F_LIST);
 		
+		// get node state
+//		String nodeStateS = node.getAttribute(STATE);
+		
+		// check for state change before proceeding.
+		// if state didn't change, no need to re-set it.
+//		if (nodeStateS != null && state.contentEquals(nodeStateS)) {
+//			return;
+//		}
+//		// otherwise, note that the graph state has changed ad proceed. 
+//		else {
+//			noChangeFlagB = false;
+//		}
+		
 		switch(state) {
 		
 
@@ -971,7 +1034,7 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 				
 				// set state [I] for this node
 				node.addAttribute(STATE, STATE_I);
-				node.addAttribute(UI_CLASS, STATE_I);			
+				node.addAttribute(UI_CLASS, STATE_I);	
 				break;
 		
 				
@@ -1080,7 +1143,7 @@ LOGGER.info("setting choice: " + edgeChoice + " for node: " + node.getId() + "\n
 			// activate the edges
 			graphRef.getEdge(edge).setAttribute(STATE, STATE_A);
 			graphRef.getEdge(edge).setAttribute(UI_CLASS, STATE_A);		
-			
+						
 			// update the node lists and cycle change flag
 			if (!node0_AL.contains(edge)) {
 				node0_AL.add(edge);
@@ -1157,6 +1220,13 @@ LOGGER.info("adjudicating: " + choiceNumI + " choices for node: " + node.getId()
 					(LinkedHashMap<String, Double>) 
 						mapSortUtils.sortByValuesDescending(offersTableLHM);
 				
+				// cycles the loop in case this node has no offers to connect
+				// (nobody choo choo chose this node...) 
+				//if (offersTableLHM.size() == 0) {
+					// should we be falling in here this often???
+				//	continue;
+				//}
+				
 				LinkedHashMap <String, Double> confidenceTableLHM = 
 						node.getAttribute(EDGE_CONFIDENCE_TABLE);
 				
@@ -1189,11 +1259,20 @@ LOGGER.info("offers table size is: " + offersTableLHM.size());
 					makeNodeChoice(node, topEdgeS, true);
 					
 					// grab the disconnect list from the node connected to the 
-					// winning edge so we can deactivate it. 
+					// winning edge so if need be we can deactivate 
+					// the activated edge it has the least confidence in. 
 					Node adjacentNode = graphRef.getEdge(topEdgeS).getOpposite(node);
 					ArrayList<String> disconnectAL = adjacentNode.getAttribute(EDGE_DISCONNECT_CANDIDATE_LIST);
-					String edgeS = disconnectAL.get(0);
-					setEdgeState(edgeS, false);
+					@SuppressWarnings("unchecked")
+					int adjNodeActiveEdgeListSizeI = 
+							((ArrayList<String>)
+									adjacentNode.
+									getAttribute(ACTIVE_ADJACENT_EDGE_LIST)).
+									size();
+					if (!disconnectAL.isEmpty() && adjNodeActiveEdgeListSizeI == 3) {
+						String edgeS = disconnectAL.get(0);
+						setEdgeState(edgeS, false);
+					}
 					
 					// reset offer table
 					resetOfferTable(node);
