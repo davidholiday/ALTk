@@ -1,0 +1,8 @@
+//File: TSP2.bsh
+
+TSP2() {
+	algo = new holidayTSP1();
+	loadGraph("berlin10.tsp");
+	algo.init(graph);
+	algo.compute();
+}
