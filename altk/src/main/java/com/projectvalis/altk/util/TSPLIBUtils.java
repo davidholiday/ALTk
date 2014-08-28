@@ -14,6 +14,8 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
+import com.projectvalis.altk.algorithm.holidayTSP1;
+
 
 public class TSPLIBUtils {
 	
@@ -98,6 +100,7 @@ public class TSPLIBUtils {
 						
 						double lengthD = distance(node.getId(), otherNode.getId(), graph, 2);
 						graph.getEdge(edgeID).setAttribute("length", lengthD);
+						//graph.getEdge(edgeID).setAttribute(holidayTSP1.STATE, holidayTSP1.STATE_D);
 					}
 					
 				} catch (Exception e) {
