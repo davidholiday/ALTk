@@ -596,7 +596,7 @@ LOGGER.info("active edge count is: " + edgeCountI);
 	// called after init()
 	// drives the algorithm.
 	public void compute() {
-		int maxStepsI = 25;
+		int maxStepsI = 100;
 		
 		// run algo until terminate is requested
 		while ((stepCounterI < maxStepsI) && (!terminateRequestB)) {
@@ -1032,27 +1032,79 @@ LOGGER.info("neighbor state [I] edge table for node: " + node + " is: " + neighb
 				|| ( activeAdjacentEdgeAL.size()== 0 
 					&& nodeStateS.contentEquals(STATE_I)) ) {
 			
-			// of the set of edges leading to this node's neighbors that are in
-			// state [I], grab the one we're most confident in.
-			Iterator<String> tableITR = neighborStateIEdgeTable.keySet().iterator();
-			String edgeChoiceS = tableITR.next();		
-			edgeChoiceAL.add(edgeChoiceS);
-			
-			// decrease choiceNum
-			lowerAndCheckChoiceNum(node);
+				// of the set of edges leading to this node's neighbors that are in
+				// state [I], grab the one we're most confident in.
+				// check to ensure this won't get buried in an already crowded 
+				// offer table. if it will, go to the next node in the list. 
+				Node chosenNode = null;
+				String chosenEdgeS = null;
+				double edgeChoiceConfidenceD = 0.0;
 				
-			// add this to the target node's offer table so it can make an informed
-			// decision later on		
-			Double edgeChoiceConfidenceD = neighborStateIEdgeTable.get(edgeChoiceS);
-			Node chosenNode = graphRef.getEdge(edgeChoiceS).getOpposite(node);
+//				for (String edgeS : neighborStateIEdgeTable.keySet()) {
+String edgeS = neighborStateIEdgeTable.keySet().iterator().next();					
+				// grab the neighbor's offer table. if it's got more than three entries
+				// and confidence in this edge is not greater than the confidence in
+				// the top three entries in the table, then grab the next state [I] 
+				// node and attempt to add to that list. *NOTE* this is done to prevent
+				// blinker-graphs		
+				edgeChoiceConfidenceD = neighborStateIEdgeTable.get(edgeS);
+				chosenNode = graphRef.getEdge(edgeS).getOpposite(node);
+				chosenEdgeS = edgeS;
+				
+				LinkedHashMap<String, Double> targetOffersTableLHM = 
+						chosenNode.getAttribute(OFFERS_TABLE);
+				
+				targetOffersTableLHM = (LinkedHashMap<String, Double>) 
+						mapSortUtils.sortByValuesDescending(targetOffersTableLHM);
+				
+//				Set<String> keySet = targetOffersTableLHM.keySet();
+//				int counterI = 3;
+//				boolean noGoB = false;
+//				
+//				for (String keyS : keySet) {
+//					
+//					if (counterI == 0) {
+//						break;
+//					}
+//					
+//					if (edgeChoiceConfidenceD > targetOffersTableLHM.get(keyS)) {
+//						noGoB = true;
+//						break;
+//					}
+//					
+//					counterI--;
+//				}
+//				
+//				// go to the next edge in the list if adding to this target's offerlist
+//				// will likely do no good
+//				if (noGoB) {
+//					continue;
+//				}
+//				
+//			}
+		
 			
+			if (chosenNode != null) {
+				// add this choice to the list of choices
+				edgeChoiceAL.add(chosenEdgeS);
+				
+				// decrease choiceNum
+				lowerAndCheckChoiceNum(node);
+					
+				// add this to the target node's offer table so it can make an informed
+				// decision later on					
 LOGGER.info("attempting to add key/val pair to node: " + chosenNode + 
 		"'s offers table: " + 
-		edgeChoiceS + " " + 
+		chosenEdgeS + " " + 
 		edgeChoiceConfidenceD);
+	
+				addToOfferTable(chosenNode, chosenEdgeS, edgeChoiceConfidenceD);
+LOGGER.info("choiceNum is: " + node.getAttribute(CHOICE_NUM) + "\n");
+	
+			}
 
-			addToOfferTable(chosenNode, edgeChoiceS, edgeChoiceConfidenceD);
-LOGGER.info("choiceNum is: " + node.getAttribute(CHOICE_NUM) + "\n");			
+
+
 		}	
 		// else if this node is not in state[I], make edge choices
 		else if (!nodeStateS.contentEquals(STATE_I)) {

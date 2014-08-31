@@ -11,8 +11,16 @@ TSP1() {
 	
 	reset();
 	graphTest();
-	TSP = new holidayTSP1();
+	TSP = new holidayTSP2();
 	TSP.init(graph);
+
+	try {
+		Thread.sleep(1000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
 	TSP.compute();
 	
 
