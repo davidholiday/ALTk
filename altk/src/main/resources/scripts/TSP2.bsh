@@ -1,8 +1,16 @@
 //File: TSP2.bsh
 
 TSP2() {
-	algo = new holidayTSP1();
+	algo = new holidayTSP2();
 	loadGraph("berlin10.tsp");
 	algo.init(graph);
+
+	try {
+		Thread.sleep(1000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
 	algo.compute();
 }
