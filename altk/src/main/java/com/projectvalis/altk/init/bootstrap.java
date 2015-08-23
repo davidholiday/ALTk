@@ -21,7 +21,8 @@ import javax.swing.SwingUtilities;
  *
  */
 public class bootstrap {
-	private static final Logger LOGGER = Logger.getLogger(bootstrap.class.getName());
+	private static final Logger LOGGER = 
+			Logger.getLogger(bootstrap.class.getName());
 	public static GUI gui = new GUI();
 	
 	public static void main (String args[]) {

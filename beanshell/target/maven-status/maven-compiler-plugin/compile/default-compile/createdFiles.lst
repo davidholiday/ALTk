@@ -8,8 +8,8 @@ bsh/Reflect.class
 bsh/BSHTypedVariableDeclaration.class
 bsh/classpath/BshClassPath$DirClassSource.class
 bsh/CollectionManager$BasicBshIterator$1.class
-bsh/XThis.class
 bsh/util/AWTConsole.class
+bsh/XThis.class
 bsh/util/Sessiond.class
 bsh/ReflectError.class
 bsh/ClassPathException.class
@@ -58,8 +58,8 @@ bsh/classpath/BshClassPath$JarClassSource.class
 bsh/Interpreter.class
 bsh/SimpleNode$1.class
 bsh/ConsoleInterface.class
-bsh/BSHTernaryExpression.class
 bsh/BSHReturnStatement.class
+bsh/BSHTernaryExpression.class
 bsh/ReflectManager.class
 bsh/util/JConsole$2.class
 bsh/BSHPackageDeclaration.class
@@ -87,8 +87,8 @@ bsh/BSHClassDeclaration.class
 bsh/classpath/BshClassPath.class
 bsh/BSHImportDeclaration.class
 bsh/BSHAmbiguousName.class
-bsh/ClassIdentifier.class
 bsh/classpath/ClassPathListener.class
+bsh/ClassIdentifier.class
 bsh/TargetError.class
 bsh/UtilTargetError.class
 bsh/Modifiers.class
@@ -110,8 +110,8 @@ bsh/util/GUIConsoleInterface.class
 bsh/ExternalNameSpace.class
 bsh/Parser$JJCalls.class
 bsh/Console.class
-bsh/NameSource.class
 bsh/ClassGeneratorImpl.class
+bsh/NameSource.class
 bsh/BSHIfStatement.class
 bsh/Interpreter$1.class
 bsh/BSHSwitchStatement.class

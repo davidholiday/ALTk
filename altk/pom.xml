@@ -44,6 +44,37 @@
 		    </descriptorRefs>
 		</configuration>
 		</plugin>
+		
+		<plugin>
+        	<groupId>org.jbehave</groupId>
+        	<artifactId>jbehave-maven-plugin</artifactId>
+        	<version>4.0.2</version>
+            	<executions>  
+                	<execution>  
+                    	<id>run-stories-as-embeddables</id>  
+                    	<phase>integration-test</phase>  
+                    	<configuration>  
+                    		<includes>  
+                        		<include>**/*Test.java</include>  
+                    		</includes>  
+                    		<ignoreFailureInStories>
+                    			false
+                    		</ignoreFailureInStories>  
+                    		<ignoreFailureInView>false</ignoreFailureInView>  
+                        	<systemProperties>
+                            	<property>
+                                	<name>java.awt.headless</name>
+                                	<value>true</value>
+                            	</property>
+                        	</systemProperties>
+                    	</configuration>  
+                    	<goals>  
+                    		<goal>run-stories-as-embeddables</goal>  
+                    	</goals>  
+            	</execution>  
+             </executions>
+       </plugin>
+		
     </plugins>
 
   </build>
@@ -92,6 +123,12 @@
     	<artifactId>gs-ui</artifactId>
     	<version>1.2</version>
 	</dependency>
+	
+	<dependency>
+        <groupId>org.jbehave</groupId>
+        <artifactId>jbehave-core</artifactId>
+        <version>4.0.2</version>
+    </dependency>
 	
   </dependencies>
   
