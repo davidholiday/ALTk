@@ -14,6 +14,13 @@ them.
 
 * presentation is simply the view presented to the user of that object. 
 
+* the world itself is an element 
+
+* crowd wisdom -- the phenomena where a large group of people can be asked a 
+question like 'how many beans in this jar?' or 'how much does this cow weigh?'
+and have the average of all the answers be pretty close to the actual answer. 
+--this thing could potentially solve problems that way. 
+
 
 
 // create an element
