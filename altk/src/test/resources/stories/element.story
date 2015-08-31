@@ -21,6 +21,7 @@ question like 'how many beans in this jar?' or 'how much does this cow weigh?'
 and have the average of all the answers be pretty close to the actual answer. 
 --this thing could potentially solve problems that way. 
 
+** protocols can dicate what happens to the presentation of an elemment!
 
 
 // create an element
@@ -32,8 +33,13 @@ and have the average of all the answers be pretty close to the actual answer.
 // update protocol ** not applicable to non-creatures ** 
  
 					 
-Scenario: create an element
-Given step represents a precondition to an event
-When step represents the occurrence of the event
-Then step represents the outcome of the event
+Scenario: Environment with bouncing ball
+Given An environment that is initialized with basic physics as protocol, a 
+simple line around the edges as presentation, and solid edges as presence with 
+size of 200x200
+And an element that is initialized with no protocol, a presence of a circle of
+a diameter of 20, and a presentation of a solid red ball
+When the ball is placed in the environment and a force is applied to it
+Then the ball bounces according to the physics protocol the environment 
+was initialized with.
 
