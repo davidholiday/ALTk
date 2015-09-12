@@ -37,18 +37,23 @@ public class bsInternalFrame extends internalFrameDark {
 		
 		Interpreter bsInterp = new Interpreter(bsConsole);	
 
+		//
+		// probably there is a better way to do this
+		//
 		
 		//import scripts and set classpath
 		String importCmdS = "importCommands(" + "\"" + "/scripts" + "\"" + ")";
 		String importPkg1S = "import com.projectvalis.altk.init.*";
 		String importPkg2S = "import com.projectvalis.altk.util.*";
 		String importPkg3S = "import com.projectvalis.altk.algorithm.*";
+		String importPkg4S = "import com.projectvalis.altk.noc.ch1.*";
 		
 		try {
 			bsInterp.eval(importCmdS);
 			bsInterp.eval(importPkg1S);
 			bsInterp.eval(importPkg2S);
 			bsInterp.eval(importPkg3S);
+			bsInterp.eval(importPkg4S);
 			
 			// setup the beanshell shared hashtable if it isn't already initialized.
 			// this will enable sharing of variables accross shell instances.
