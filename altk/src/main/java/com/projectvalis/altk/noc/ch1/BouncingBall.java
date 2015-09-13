@@ -12,17 +12,7 @@ import com.projectvalis.altk.util.Pair;
  * @author snerd
  *
  */
-public class BouncingBall {
-
-	private Vector locationV = new Vector(100, 100);
-	private Vector velocityV = new Vector(0, 0);
-	public Vector accelerationV = new Vector(0, 0);
-	public Color strokeColorC = GUI.redC;
-	public Color fillColorC = GUI.mustardC;
-	public double widthD = 50;
-	public double heightD = 50;
-	public double velocityLimitD = 1;
-	
+public class BouncingBall extends Ball {
 
 	// placeholder
 	public BouncingBall() {}
@@ -47,44 +37,16 @@ public class BouncingBall {
 	public BouncingBall(Vector location, Vector velocity, Vector acceleration, 
 			Color strokeColor, Color fillColor, double width, double height) {
 		
-		locationV = location;
-		velocityV = velocity;
-		accelerationV = acceleration;
-		strokeColorC = strokeColor;
-		fillColorC = fillColor;
-		widthD = width;
-		heightD = height;
+		this.locationV = location;
+		this.velocityV = velocity;
+		this.accelerationV = acceleration;
+		this.strokeColorC = strokeColor;
+		this.fillColorC = fillColor;
+		this.widthD = width;
+		this.heightD = height;
 	}
-	
 	
 
-	/**
-	 * returns location w/o granting access to this object's location
-	 * vector. 
-	 * 
-	 * @return
-	 * 		Pair(x, y)
-	 */
-	public Pair<Double, Double> getLocation() {
-		return new Pair<Double, Double>(locationV.xD, locationV.yD);
-	}
-	
-	
-	
-	/**
-	 * returns velocity w/o granting access to this object's velocity
-	 * vector
-	 * 
-	 * @return
-	 * 		Pair(x, y)
-	 */
-	public Pair<Double, Double> getVelocity() {
-		return new Pair<Double, Double>(velocityV.xD, velocityV.yD);
-	}
-	
-	
-	
-	
 	/**
 	 * call this after you manipulate the acceleration vector directly. 
 	 */
@@ -96,13 +58,12 @@ public class BouncingBall {
 	}
 	
 	
-	
 	/**
 	 * makes the ball appear to bounce when it reaches a window edge
 	 * @param panelWidth
 	 * @param panelHeight
 	 */
-	private void checkEdges(int panelWidth, int panelHeight) {
+	protected void checkEdges(int panelWidth, int panelHeight) {
 		
 		if ((locationV.xD > panelWidth) || locationV.xD < 0) {
 			accelerationV.xD = accelerationV.xD * -1;	
@@ -114,24 +75,6 @@ public class BouncingBall {
 			velocityV.yD = velocityV.yD * -1;
 		}
 	}
-	
-	
-	
-	
-	/**
-	 * ensures velocity doe not exceed limit
-	 */
-	private void applyVelocityLimit() {
-		
-		if (Math.abs(velocityV.xD) > velocityLimitD) {
-			velocityV.xD = velocityLimitD * Math.signum(velocityV.xD);
-		}
-		
-		if (Math.abs(velocityV.yD) > velocityLimitD) {
-			velocityV.yD = velocityLimitD * Math.signum(velocityV.yD);
-		}
-		
-	}
-	
+
 	
 }

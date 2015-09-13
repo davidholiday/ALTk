@@ -18,37 +18,37 @@ public class Vector {
 	
 	
 	
-	void add(Vector v) {
+	public void add(Vector v) {
 		xD += v.xD;
 		yD += v.yD;
 	}
 	
 	
-	void subtract(Vector v) {
+	public void subtract(Vector v) {
 		xD -= v.xD;
 		yD -= v.yD;
 	}
 	
 	
 	// tee hee
-	void multiply(double d) {
+	public void multiply(double d) {
 		xD *= d;
 		yD *= d;
 	}
 	
 	
-	void divide(double d) {
+	public void divide(double d) {
 		xD /= d;
 		yD /= d;
 	}
 	
 	
-	double getMagnitude() {
+	public double getMagnitude() {
 		return Math.sqrt(xD*xD + yD*yD);
 	}
 
 	
-	void normalize() {
+	public void normalize() {
 		Double magnitudeD = getMagnitude();
 		
 		if (magnitudeD != 0) {
