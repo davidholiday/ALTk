@@ -27,15 +27,18 @@ public class BouncingBallPanel extends JPanel {
 		setBackground(GUI.charcoalC);
 	}
 	
-	
+		
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		Ellipse2D ballE2D = new Ellipse2D.Double(bouncingBall.locationV.xD, 
-											  bouncingBall.locationV.yD, 
-											  bouncingBall.widthD,
-											  bouncingBall.heightD);
+		double ballLocationX_D = bouncingBall.getLocation().getLeft();
+		double ballLocationY_D = bouncingBall.getLocation().getRight();
+		
+		Ellipse2D ballE2D = new Ellipse2D.Double(ballLocationX_D, 
+												 ballLocationY_D,
+												 bouncingBall.widthD,
+											     bouncingBall.heightD);
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setColor(bouncingBall.strokeColorC);
