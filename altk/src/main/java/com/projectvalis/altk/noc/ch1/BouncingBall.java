@@ -14,13 +14,14 @@ import com.projectvalis.altk.util.Pair;
  */
 public class BouncingBall {
 
-	private Vector locationV = new Vector(100, 100);
-	private Vector velocityV = new Vector(0, 0);
+	public Vector locationV = new Vector(100, 100);
+	public Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	public Color strokeColorC = GUI.redC;
 	public Color fillColorC = GUI.mustardC;
 	public double widthD = 50;
 	public double heightD = 50;
+	public double velocityLimitD = 1;
 	
 
 	// placeholder
@@ -100,7 +101,9 @@ public class BouncingBall {
 	 * call this after you manipulate the acceleration vector directly. 
 	 */
 	public void update() {
-		setAcceleration(accelerationV);
+		velocityV.add(accelerationV);
+		applyVelocityLimit();
+		locationV.add(velocityV);	
 	}
 	
 	
@@ -116,13 +119,42 @@ public class BouncingBall {
 	public void setAcceleration(Vector acceleration) {
 		accelerationV = acceleration;
 		velocityV.add(accelerationV);
+		applyVelocityLimit();
 		locationV.add(velocityV);
-System.out.println("** velocityV is now: " + velocityV.xD + " " + velocityV.yD);
-System.out.println("** locationV is now: " + locationV.xD + " " + locationV.yD);
-System.out.println("** acceleration is now: " + accelerationV.xD + " " + accelerationV.yD);
 	}
 	
 	
+	
+	public void checkEdges(int panelWidth, int panelHeight) {
+		
+		if ((locationV.xD > panelWidth) || locationV.xD < 0) {
+			accelerationV.xD = accelerationV.xD * -1;	
+			velocityV.xD = velocityV.xD * -1;
+		}
+		
+		if ((locationV.yD > panelHeight) || locationV.yD < 0) {
+			accelerationV.yD = accelerationV.yD * -1;	
+			velocityV.yD = velocityV.yD * -1;
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * ensures velocity doe not exceed limit
+	 */
+	private void applyVelocityLimit() {
+		
+		if (Math.abs(velocityV.xD) > velocityLimitD) {
+			velocityV.xD = velocityLimitD * Math.signum(velocityV.xD);
+		}
+		
+		if (Math.abs(velocityV.yD) > velocityLimitD) {
+			velocityV.yD = velocityLimitD * Math.signum(velocityV.yD);
+		}
+		
+	}
 	
 	
 }

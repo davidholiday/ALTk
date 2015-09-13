@@ -43,31 +43,16 @@ public class BouncingBallRunner extends internalFrameDark {
 	private void animate() {
 		
 		boolean keepOnTrucknB = true;
-		Vector accelerationV = new Vector(0.1, 0.3);
+		Vector accelerationV = new Vector(0.01, 0.03);
+		bouncingBall.setAcceleration(accelerationV);
 		
 		while (keepOnTrucknB) {					
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();
 			
-			try {
-				bouncingBall.setAcceleration(accelerationV);
-				Pair<Double, Double> ballPosP = bouncingBall.getLocation();
-				
-				if ((ballPosP.getLeft() > panelWidthI) || 
-						ballPosP.getLeft() < 0) {
-					
-					bouncingBall.accelerationV.xD = 
-							bouncingBall.accelerationV.xD * -1;						
-				}
-				
-				if ((ballPosP.getRight() > panelHeightI) || 
-						(ballPosP.getRight() < 0)) {
-					bouncingBall.accelerationV.yD = 
-							bouncingBall.accelerationV.yD * -1;	
-				}
-				
+			try {							
 				bouncingBall.update();
-				
+				bouncingBall.checkEdges(panelWidthI, panelHeightI);
 				repaint();
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
