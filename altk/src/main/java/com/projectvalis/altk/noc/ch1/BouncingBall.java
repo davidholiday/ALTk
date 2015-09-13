@@ -14,8 +14,8 @@ import com.projectvalis.altk.util.Pair;
  */
 public class BouncingBall {
 
-	public Vector locationV = new Vector(100, 100);
-	public Vector velocityV = new Vector(0, 0);
+	private Vector locationV = new Vector(100, 100);
+	private Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	public Color strokeColorC = GUI.redC;
 	public Color fillColorC = GUI.mustardC;
@@ -72,7 +72,7 @@ public class BouncingBall {
 	
 	
 	/**
-	 * returns velocity w/o granting access to this object's location
+	 * returns velocity w/o granting access to this object's velocity
 	 * vector
 	 * 
 	 * @return
@@ -84,48 +84,25 @@ public class BouncingBall {
 	
 	
 	
-	/**
-	 * returns velocity w/o granting access to this object's location
-	 * vector
-	 * 
-	 * @return
-	 * 		Pair(x, y)
-	 */
-	public Pair<Double, Double> getAcceleration() {
-		return new Pair<Double, Double>(accelerationV.xD, accelerationV.yD);
-	}
-	
-	
 	
 	/**
 	 * call this after you manipulate the acceleration vector directly. 
 	 */
-	public void update() {
+	public void update(int panelWidth, int panelHeight) {
 		velocityV.add(accelerationV);
 		applyVelocityLimit();
-		locationV.add(velocityV);	
+		locationV.add(velocityV);
+		checkEdges(panelWidth, panelHeight);
 	}
 	
 	
 	
 	/**
-	 * acceleration is rate of change of velocity. velocity is rate of change 
-	 * of location. by setting acceleration, you're also setting velocity and
-	 * location.
-	 * 
-	 * @param acceleration
-	 * 		what you want the new acceleration to be
+	 * makes the ball appear to bounce when it reaches a window edge
+	 * @param panelWidth
+	 * @param panelHeight
 	 */
-	public void setAcceleration(Vector acceleration) {
-		accelerationV = acceleration;
-		velocityV.add(accelerationV);
-		applyVelocityLimit();
-		locationV.add(velocityV);
-	}
-	
-	
-	
-	public void checkEdges(int panelWidth, int panelHeight) {
+	private void checkEdges(int panelWidth, int panelHeight) {
 		
 		if ((locationV.xD > panelWidth) || locationV.xD < 0) {
 			accelerationV.xD = accelerationV.xD * -1;	
