@@ -10,6 +10,7 @@ reset() {
 	String importPkg1S = "import com.projectvalis.altk.init.*";
 	String importPkg2S = "import com.projectvalis.altk.util.*";
 	String importPkg3S = "import com.projectvalis.altk.algorithm.*";
+	String importPkg4S = "import com.projectvalis.altk.noc.ch1.*";
 	
 	bsInterp = this.interpreter;
 	
@@ -23,6 +24,7 @@ reset() {
 		bsInterp.eval(importPkg1S);
 		bsInterp.eval(importPkg2S);
 		bsInterp.eval(importPkg3S);
+		bsInterp.eval(importPkg4S);
 			
 		// setup the beanshell shared hashtable if it isn't already initialized.
 		// this will enable sharing of variables accross shell instances.

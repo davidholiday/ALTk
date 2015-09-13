@@ -7,21 +7,21 @@ package com.projectvalis.altk.noc.ch1;
  */
 public class Vector {
 
-	public float xF;
-	public float yF;
+	public double xD;
+	public double yD;
 	
 	
 	// constructor
-	public Vector(float x, float y) {
-		xF = x;
-		yF = y;
+	public Vector(double x, double y) {
+		xD = x;
+		yD = y;
 	}
 	
 	
 	// vector addition
 	void add(Vector v) {
-		xF += v.xF;
-		yF += v.yF;
+		xD += v.xD;
+		yD += v.yD;
 	}
 	
 	
