@@ -7,7 +7,4 @@ bsh.vectorBall.help = "runs the vector driven bouncing ball routine.";
 vectorBall() {
 	BouncingBallRunner bouncingBall = 
 		new com.projectvalis.altk.noc.ch1.BouncingBallRunner();
-		
-	bouncingBall.makeItSo();
-
 }

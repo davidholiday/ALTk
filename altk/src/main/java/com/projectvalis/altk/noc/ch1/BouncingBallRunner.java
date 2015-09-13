@@ -13,87 +13,76 @@ import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.init.internalFrameDark;
 
 
+/**
+ * the 'controller' in the vector bouncy ball example in ch1 of nature of code
+ * @author snerd
+ *
+ */
 public class BouncingBallRunner extends internalFrameDark {
 	
-	// setup logger 
 	private static final Logger LOGGER = 
 			Logger.getLogger(BouncingBallRunner.class.getName());
 	
+	private BouncingBall bouncingBall;
 	
-	public void makeItSo() {
+	public BouncingBallRunner() {
 		setLocation(800, 200);
 		
 		Vector locationV = new Vector(100, 100);
 		Vector velocityV = new Vector(0.1, 0.8);
 		
+		bouncingBall = new BouncingBall(locationV, velocityV);
+		
 		BouncingBallPanel bouncingBallPanel = 
-				new BouncingBallPanel(locationV, velocityV);
+				new BouncingBallPanel(bouncingBall);
 		
 		add(bouncingBallPanel);	
 		attach(true);
 		
-		bouncingBallPanel.animate();
+		animate();
 	}
 	
 	
-	
-	
-	
-	public class BouncingBallPanel extends JPanel{
+	private void animate() {
 		
-		private Vector locationV;
-		private Vector velocityV;
-
+		boolean keepOnTrucknB = true;
 		
-		public BouncingBallPanel(Vector location, Vector velocity) {
-			locationV = location;
-			velocityV = velocity;
-			setBackground(GUI.charcoalC);
-		}
-		
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
+		while (keepOnTrucknB) {
+			int panelWidthI = this.getWidth();
+			int panelHeightI = this.getHeight();
 			
-			Ellipse2D ball = 
-					new Ellipse2D.Double(locationV.xD, locationV.yD, 50, 50);
 			
-			Graphics2D g2 = (Graphics2D)g;
-			g2.setColor(GUI.redC);
-			g2.setStroke(new BasicStroke(4));
-			g2.draw(ball);
-			g2.setColor(GUI.mustardC);
-			g2.fill(ball);	
-		}
-		
-		public void animate() {
-			
-			while (true) {
-				int panelWidthI = this.getWidth();
-				int panelHeightI = this.getHeight();
-								
-				try {
-					locationV.add(velocityV);
+							
+			try {
+				bouncingBall.locationV.add(bouncingBall.velocityV);
+				
+				if ((bouncingBall.locationV.xD > panelWidthI) || 
+						(bouncingBall.locationV.xD < 0)) {
 					
-					if ((locationV.xD > panelWidthI) || (locationV.xD < 0)) {
-						velocityV.xD = velocityV.xD * -1;
-					}
-					
-					if ((locationV.yD > panelHeightI) || (locationV.yD < 0)) {
-						velocityV.yD = velocityV.yD * -1;
-					}
-					
-					repaint();
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					bouncingBall.velocityV.xD = bouncingBall.velocityV.xD * -1;
 				}
 				
+				if ((bouncingBall.locationV.yD > panelHeightI) || 
+						(bouncingBall.locationV.yD < 0)) {
+					
+					bouncingBall.velocityV.yD = bouncingBall.velocityV.yD * -1;
+				}
+				
+				repaint();
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				LOGGER.severe("EXITING ON ERROR! ");
+				e.printStackTrace();
+				keepOnTrucknB = false;
 			}
 			
 		}
-	
+		
 	}
+	
+	
+	
+
 	
 	
 }
