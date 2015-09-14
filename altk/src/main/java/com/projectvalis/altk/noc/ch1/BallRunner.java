@@ -50,9 +50,11 @@ public class BallRunner extends internalFrameDark {
 			int panelHeightI = this.getHeight();
 			
 			try {	
+				// get mouse location
+				Point p = ballPanel.getMousePosition();
 				
-				if (ballPanel.isMouseInFrame())
-					ball.accelerationV = getMouseAccelerationVector();
+				if (p != null)
+					ball.accelerationV = getMouseAccelerationVector(p);
 				
 				ball.update(panelWidthI, panelHeightI);
 				repaint();
@@ -75,10 +77,9 @@ public class BallRunner extends internalFrameDark {
 	 * @return
 	 * 		new acceleration vector
 	 */
-	private Vector getMouseAccelerationVector() {
+	private Vector getMouseAccelerationVector(Point p) {
 		
-		// get mouse location
-		Point p = ballPanel.getMousePosition();		
+		// get mouse vector
 		Vector mouseV = new Vector(p.getX(), p.getY());
 		
 		// get current ball location
