@@ -33,30 +33,24 @@ public class BouncingBall extends Ball {
 	 * 		horizontal size of the circle
 	 * @param height
 	 * 		vertical size of the circle
+	 * @param mass
+	 * 		indicator of mass in the physics sense
 	 */
 	public BouncingBall(Vector location, Vector velocity, Vector acceleration, 
-			Color strokeColor, Color fillColor, double width, double height) {
+				Color strokeColor, Color fillColor, double width,
+				double height, double mass) {
 		
-		this.locationV = location;
-		this.velocityV = velocity;
-		this.accelerationV = acceleration;
-		this.strokeColorC = strokeColor;
-		this.fillColorC = fillColor;
-		this.widthD = width;
-		this.heightD = height;
+		locationV = location;
+		velocityV = velocity;
+		accelerationV = acceleration;
+		strokeColorC = strokeColor;
+		fillColorC = fillColor;
+		widthD = width;
+		heightD = height;
+		massD = mass;
 	}
 	
 
-	/**
-	 * call this after you manipulate the acceleration vector directly. 
-	 */
-	public void update(int panelWidth, int panelHeight) {
-		velocityV.add(accelerationV);
-		applyVelocityLimit();
-		locationV.add(velocityV);
-		checkEdges(panelWidth, panelHeight);
-	}
-	
 	
 	/**
 	 * makes the ball appear to bounce when it reaches a window edge
@@ -65,12 +59,16 @@ public class BouncingBall extends Ball {
 	 */
 	protected void checkEdges(int panelWidth, int panelHeight) {
 		
-		if ((locationV.xD > panelWidth) || locationV.xD < 0) {
+		if (( (locationV.xD + widthD) > (panelWidth)) || 
+				(locationV.xD + widthD) < 0) {
+			
 			accelerationV.xD = accelerationV.xD * -1;	
 			velocityV.xD = velocityV.xD * -1;
 		}
 		
-		if ((locationV.yD > panelHeight) || locationV.yD < 0) {
+		if (( (locationV.yD + heightD) > (panelHeight)) || 
+				(locationV.yD + heightD) < 0) {
+			
 			accelerationV.yD = accelerationV.yD * -1;	
 			velocityV.yD = velocityV.yD * -1;
 		}

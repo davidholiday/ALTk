@@ -5,6 +5,8 @@ import java.awt.Color;
 import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.util.Pair;
 
+import freemarker.log.Logger;
+
 /**
  * root class for ball elements. contains logic that specifies look, 
  * movement vectors, and window edge collision behavior. 
@@ -14,7 +16,10 @@ import com.projectvalis.altk.util.Pair;
  */
 public class Ball {
 
-	protected Vector locationV = new Vector(100, 100);
+	private static final Logger LOGGER = 
+			Logger.getLogger(Ball.class.getName());
+	
+	protected Vector locationV = new Vector(10, 300);
 	protected Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	
@@ -25,7 +30,7 @@ public class Ball {
 	// equal to the diameter of that circle 
 	public double widthD = 50;
 	public double heightD = widthD;
-	public double massD = widthD;
+	public double massD = widthD * 2;
 	
 	// ensure velocity doesn't get out of hand
 	public double velocityLimitD = 1;
@@ -50,6 +55,8 @@ public class Ball {
 	 * 		horizontal size of the circle
 	 * @param height
 	 * 		vertical size of the circle
+	 * @param mass
+	 * 		indicator of mass in the physics sense
 	 */
 	public Ball(Vector location, Vector velocity, Vector acceleration, 
 				Color strokeColor, Color fillColor, double width,

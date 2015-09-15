@@ -20,13 +20,13 @@ import com.projectvalis.altk.init.GUI;
  */
 public class BallPanel extends JPanel implements MouseListener {
 	
-	private Ball ball;
+	private Ball[] ballArr;
 	private boolean mouseInFrameB = false;
 
 	
 
-	public BallPanel(Ball ball) {
-		this.ball = ball;
+	public BallPanel(Ball[] ballArr) {
+		this.ballArr = ballArr;
 		addMouseListener(this);
 		setBackground(GUI.charcoalC);
 	}
@@ -36,20 +36,26 @@ public class BallPanel extends JPanel implements MouseListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		double ballLocationX_D = ball.getLocation().getLeft();
-		double ballLocationY_D = ball.getLocation().getRight();
+		for (int i = 0; i < ballArr.length; i ++) {
+			Ball ball = ballArr[i];
+			
+			double ballLocationX_D = ball.getLocation().getLeft();
+			double ballLocationY_D = ball.getLocation().getRight();
+			
+			Ellipse2D ballE2D = new Ellipse2D.Double(ballLocationX_D, 
+													 ballLocationY_D,
+													 ball.widthD,
+													 ball.heightD);
+			
+			Graphics2D g2 = (Graphics2D)g;
+			g2.setColor(ball.strokeColorC);
+			g2.setStroke(new BasicStroke(4));
+			g2.draw(ballE2D);
+			g2.setColor(ball.fillColorC);
+			g2.fill(ballE2D);						
+		}
 		
-		Ellipse2D ballE2D = new Ellipse2D.Double(ballLocationX_D, 
-												 ballLocationY_D,
-												 ball.widthD,
-												 ball.heightD);
-		
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setColor(ball.strokeColorC);
-		g2.setStroke(new BasicStroke(4));
-		g2.draw(ballE2D);
-		g2.setColor(ball.fillColorC);
-		g2.fill(ballE2D);	
+	
 	}
 
 	
