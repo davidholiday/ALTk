@@ -17,10 +17,17 @@ public class Ball {
 	protected Vector locationV = new Vector(100, 100);
 	protected Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
+	
 	public Color strokeColorC = GUI.orangeC;
 	public Color fillColorC = GUI.mustardC;
+	
+	// ensure default behavior is to create a circle, and to set mass
+	// equal to the diameter of that circle 
 	public double widthD = 50;
-	public double heightD = 50;
+	public double heightD = widthD;
+	public double massD = widthD;
+	
+	// ensure velocity doesn't get out of hand
 	public double velocityLimitD = 1;
 	
 
@@ -45,7 +52,8 @@ public class Ball {
 	 * 		vertical size of the circle
 	 */
 	public Ball(Vector location, Vector velocity, Vector acceleration, 
-			Color strokeColor, Color fillColor, double width, double height) {
+				Color strokeColor, Color fillColor, double width,
+				double height, double mass) {
 		
 		locationV = location;
 		velocityV = velocity;
@@ -54,6 +62,7 @@ public class Ball {
 		fillColorC = fillColor;
 		widthD = width;
 		heightD = height;
+		massD = mass;
 	}
 	
 	
@@ -89,11 +98,32 @@ public class Ball {
 	 * call this after you manipulate the acceleration vector directly. 
 	 */
 	public void update(int panelWidth, int panelHeight) {
+		
+		// apply the acceleration vector to the object
 		velocityV.add(accelerationV);
 		applyVelocityLimit();
 		locationV.add(velocityV);
+		
+		// handle case where ball reaches window edge
 		checkEdges(panelWidth, panelHeight);
+		
+		// reset the acceleration vector to zero because we're recalculating 
+		// it every time step
+		accelerationV.multiply(0);
 	}
+	
+	
+	/**
+	 * adds a force vector to the acceleration vector. remember - "a force is a
+	 * vector that causes an object with mass to accelerate"
+	 * @param force
+	 */
+	public void applyForce(Vector force) {
+		Vector forceLocalV = force.clone();
+		forceLocalV.divide(massD);
+		accelerationV.add(forceLocalV);
+	}
+	
 	
 	
 	

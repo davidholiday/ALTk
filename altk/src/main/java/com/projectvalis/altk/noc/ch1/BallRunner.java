@@ -28,7 +28,7 @@ public class BallRunner extends internalFrameDark {
 	 */
 	public BallRunner() {
 		setLocation(800, 200);		
-		ball = new Ball();		
+		ball = new BouncingBall();		
 		ballPanel = new BallPanel(ball);
 		add(ballPanel);	
 		attach(true);
@@ -43,19 +43,24 @@ public class BallRunner extends internalFrameDark {
 	private void animate() {
 		
 		boolean keepOnTrucknB = true;
-		ball.accelerationV= new Vector(0.001, 0.003);
+//		ball.accelerationV= new Vector(0.001, 0.003);
+		Vector windV = new Vector(0.0001, 0);
+		Vector gravityV = new Vector(0, 0.001);
+		
 		
 		while (keepOnTrucknB) {					
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();
 			
 			try {	
-				// get mouse location
-				Point p = ballPanel.getMousePosition();
+//				// get mouse location
+//				Point p = ballPanel.getMousePosition();
+//				
+//				if (p != null)
+//					ball.accelerationV = getMouseAccelerationVector(p);
 				
-				if (p != null)
-					ball.accelerationV = getMouseAccelerationVector(p);
-				
+				ball.applyForce(windV);
+				ball.applyForce(gravityV);
 				ball.update(panelWidthI, panelHeightI);
 				repaint();
 				Thread.sleep(1);

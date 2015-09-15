@@ -58,7 +58,9 @@ public class Vector {
 	}
 
 
-	
+	public Vector clone() {
+		return new Vector(xD, yD);
+	}
 	
 
 	
