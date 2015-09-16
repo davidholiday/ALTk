@@ -22,7 +22,7 @@ public class BallRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			Logger.getLogger(BallRunner.class.getName());
 	
-	private Ball[] ballArr = new Ball[25];
+	private Ball[] ballArr = new Ball[5];
 	private BallPanel ballPanel;
 	
 	
@@ -46,7 +46,7 @@ public class BallRunner extends internalFrameDark {
 			int colorIndexI = randy.nextInt(5);		
 			Color fillColor = colorArr[colorIndexI];
 			
-			Ball ball = new BouncingBall(new Vector(25, 25), 
+			Ball ball = new BouncingBall(new Vector(25, 200), 
 									new Vector(0, 0), 
 									new Vector(0, 0), 
 									Color.black, 
@@ -78,6 +78,27 @@ public class BallRunner extends internalFrameDark {
 //		ball.accelerationV= new Vector(0.001, 0.003);
 		Vector windV = new Vector(0.01, 0);
 		Vector gravityV = new Vector(0, 0.1);
+
+		/*
+		 * for calculating friction: 
+		 * friction vector = -1 * [mu] * N * v[vector]
+		 * 		- friction points in the opposite direction as velocity. this
+		 * 		is why we're multiplying the velocity vector by -1. this means
+		 * 		we need to take the velocity vector, normalize it, and then
+		 * 		multiply it by (-1).
+		 * 
+		 * 		- the magnitude of the friction vector is [mu] (pronounced 
+		 * 		"mew") multiplied by the normal force 'N'. [mu] is the 
+		 * 		coefficient of friction, which establishes the strength of a 
+		 * 		friction force of a particular surface. A 'normal force' is 
+		 * 		is a force that's perpendicular to an object's motion along
+		 * 		a surface. The direction of the normal force and that of 
+		 * 		gravity may be different, but the magnitude of the normal force
+		 * 		is proportional to that of gravity. 
+		 */
+		double muD = 0.01;
+		double normalForceD = 1;
+		double frictionMagnitudeD = muD * normalForceD;
 		
 		
 		while (keepOnTrucknB) {					
@@ -95,10 +116,20 @@ public class BallRunner extends internalFrameDark {
 //					if (p != null)
 //						ball.accelerationV = getMouseAccelerationVector(p);
 					
+					
+					// calculate friction
+					Vector frictionV = ballArr[i].velocityV.clone();
+					frictionV.multiply(-1);
+					frictionV.normalize();
+					frictionV.multiply(muD);
+					
+					// calculate gravity
 					Vector appliedGravityV = gravityV.clone();
 					appliedGravityV.multiply(ball.massD);
+					
 					ball.applyForce(windV);
 					ball.applyForce(appliedGravityV);
+					ball.applyForce(frictionV);
 					ball.update(panelWidthI, panelHeightI);
 				}
 				
