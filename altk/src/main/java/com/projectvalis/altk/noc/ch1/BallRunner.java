@@ -38,22 +38,22 @@ public class BallRunner extends internalFrameDark {
 		colorArr[2] = GUI.purpleC;
 		colorArr[3] = GUI.redC;
 		colorArr[4] = GUI.tealC;
-		
+	
 		Random randy = new Random();
 		
-		for (int i = 0; i < 25; i ++) {
+		for (int i = 0; i < ballArr.length; i ++) {
 			int diameterI = randy.nextInt(100);
 			int colorIndexI = randy.nextInt(5);		
 			Color fillColor = colorArr[colorIndexI];
 			
-			Ball ball = new BouncingBall(new Vector(10, 300), 
+			Ball ball = new BouncingBall(new Vector(25, 25), 
 									new Vector(0, 0), 
 									new Vector(0, 0), 
 									Color.black, 
 									fillColor, 
 									diameterI, 
 									diameterI,
-									diameterI * 2);		
+									diameterI);		
 
 			ballArr[i] = ball;
 			
@@ -95,13 +95,15 @@ public class BallRunner extends internalFrameDark {
 //					if (p != null)
 //						ball.accelerationV = getMouseAccelerationVector(p);
 					
+					Vector appliedGravityV = gravityV.clone();
+					appliedGravityV.multiply(ball.massD);
 					ball.applyForce(windV);
-					ball.applyForce(gravityV);
+					ball.applyForce(appliedGravityV);
 					ball.update(panelWidthI, panelHeightI);
 				}
 				
 				repaint();
-				Thread.sleep(5);
+				Thread.sleep(10);
 				
 			} catch (InterruptedException e) {
 				LOGGER.severe("EXITING ON ERROR! ");

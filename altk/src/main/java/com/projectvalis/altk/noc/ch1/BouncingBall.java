@@ -5,6 +5,8 @@ import java.awt.Color;
 import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.util.Pair;
 
+import freemarker.log.Logger;
+
 
 /**
  * the 'model' for the bouncing ball in the ch1 examples.
@@ -14,6 +16,9 @@ import com.projectvalis.altk.util.Pair;
  */
 public class BouncingBall extends Ball {
 
+	private static final Logger LOGGER = 
+			Logger.getLogger(BouncingBall.class.getName());
+	
 	// placeholder
 	public BouncingBall() {}
 
@@ -59,20 +64,52 @@ public class BouncingBall extends Ball {
 	 */
 	protected void checkEdges(int panelWidth, int panelHeight) {
 		
-		if (( (locationV.xD + widthD) > (panelWidth)) || 
-				(locationV.xD + widthD) < 0) {
-			
-			accelerationV.xD = accelerationV.xD * -1;	
-			velocityV.xD = velocityV.xD * -1;
+//		if (( (locationV.xD + widthD) > panelWidth) || 
+//				(locationV.xD + widthD) < 0) {
+//			
+//			accelerationV.xD *= -1;	
+//			velocityV.xD *= -1;
+//		}
+		
+//		if (( (locationV.yD + heightD) > panelHeight) || 
+//				(locationV.yD + heightD) < 0) {
+//			
+//			locationV.yD = heightD;	
+//			velocityV.yD *= -1;
+//		}
+		
+		// x axis
+		//
+		if ((locationV.xD + widthD) > panelWidth) {
+			velocityV.xD *= -1;
+			double locationDiffD = (locationV.xD + widthD) - panelWidth;
+			locationV.xD = panelWidth - locationDiffD - widthD;
+		}
+		else if ((locationV.xD + widthD) < 0) {
+			velocityV.xD *= -1;
+			locationV.xD = 0;
 		}
 		
-		if (( (locationV.yD + heightD) > (panelHeight)) || 
-				(locationV.yD + heightD) < 0) {
-			
-			accelerationV.yD = accelerationV.yD * -1;	
-			velocityV.yD = velocityV.yD * -1;
+		// y axis
+		//
+		if ((locationV.yD + heightD) > panelHeight) {
+			velocityV.yD *= -1;
+			double locationDiffD = (locationV.yD + heightD) - panelHeight;
+			locationV.yD = panelHeight - locationDiffD - heightD;
 		}
+		else if ((locationV.yD + heightD) < 0) {
+			velocityV.yD *= -1;
+			locationV.yD = 0;
+		}
+		
+		
 	}
 
 	
 }
+
+
+
+
+
+

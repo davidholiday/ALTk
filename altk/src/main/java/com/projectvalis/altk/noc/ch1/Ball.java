@@ -30,10 +30,10 @@ public class Ball {
 	// equal to the diameter of that circle 
 	public double widthD = 50;
 	public double heightD = widthD;
-	public double massD = widthD * 2;
+	public double massD = widthD;
 	
 	// ensure velocity doesn't get out of hand
-	public double velocityLimitD = 1;
+	public double velocityLimitD = 8;
 	
 
 	// placeholder
@@ -113,7 +113,7 @@ public class Ball {
 		
 		// handle case where ball reaches window edge
 		checkEdges(panelWidth, panelHeight);
-		
+
 		// reset the acceleration vector to zero because we're recalculating 
 		// it every time step
 		accelerationV.multiply(0);
@@ -126,14 +126,12 @@ public class Ball {
 	 * @param force
 	 */
 	public void applyForce(Vector force) {
-		Vector forceLocalV = force.clone();
+		Vector forceLocalV = force.clone();		
 		forceLocalV.divide(massD);
 		accelerationV.add(forceLocalV);
 	}
 	
-	
-	
-	
+		
 	/**
 	 * makes the ball appear to bounce when it reaches a window edge
 	 * @param panelWidth
