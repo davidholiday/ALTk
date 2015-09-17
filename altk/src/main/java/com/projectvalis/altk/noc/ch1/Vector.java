@@ -1,5 +1,9 @@
 package com.projectvalis.altk.noc.ch1;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * simple euclidean vector object
  * @author snerd
@@ -7,6 +11,9 @@ package com.projectvalis.altk.noc.ch1;
  */
 public class Vector {
 
+	private static final Logger LOGGER = 
+			LoggerFactory.getLogger(Vector.class.getName());
+	
 	public double xD;
 	public double yD;
 	

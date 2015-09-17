@@ -2,10 +2,10 @@ package com.projectvalis.altk.noc.ch1;
 
 import java.awt.Color;
 
-import com.projectvalis.altk.init.GUI;
-import com.projectvalis.altk.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import freemarker.log.Logger;
+
 
 
 /**
@@ -17,7 +17,7 @@ import freemarker.log.Logger;
 public class BouncingBall extends Ball {
 
 	private static final Logger LOGGER = 
-			Logger.getLogger(BouncingBall.class.getName());
+			LoggerFactory.getLogger(BouncingBall.class.getName());
 	
 	// placeholder
 	public BouncingBall() {}
@@ -45,14 +45,8 @@ public class BouncingBall extends Ball {
 				Color strokeColor, Color fillColor, double width,
 				double height, double mass) {
 		
-		locationV = location;
-		velocityV = velocity;
-		accelerationV = acceleration;
-		strokeColorC = strokeColor;
-		fillColorC = fillColor;
-		widthD = width;
-		heightD = height;
-		massD = mass;
+		super(location, velocity, acceleration, strokeColor, fillColor, width,
+				height, mass);
 	}
 	
 
@@ -64,20 +58,6 @@ public class BouncingBall extends Ball {
 	 */
 	protected void checkEdges(int panelWidth, int panelHeight) {
 		
-//		if (( (locationV.xD + widthD) > panelWidth) || 
-//				(locationV.xD + widthD) < 0) {
-//			
-//			accelerationV.xD *= -1;	
-//			velocityV.xD *= -1;
-//		}
-		
-//		if (( (locationV.yD + heightD) > panelHeight) || 
-//				(locationV.yD + heightD) < 0) {
-//			
-//			locationV.yD = heightD;	
-//			velocityV.yD *= -1;
-//		}
-		
 		// x axis
 		//
 		if ((locationV.xD + widthD) > panelWidth) {
@@ -85,7 +65,7 @@ public class BouncingBall extends Ball {
 			double locationDiffD = (locationV.xD + widthD) - panelWidth;
 			locationV.xD = panelWidth - locationDiffD - widthD;
 		}
-		else if ((locationV.xD + widthD) < 0) {
+		else if ((locationV.xD) < 0) {
 			velocityV.xD *= -1;
 			locationV.xD = 0;
 		}
@@ -100,11 +80,12 @@ public class BouncingBall extends Ball {
 		else if ((locationV.yD + heightD) < 0) {
 			velocityV.yD *= -1;
 			locationV.yD = 0;
-		}
-		
+		}	
 		
 	}
 
+	
+	
 	
 }
 

@@ -1,4 +1,4 @@
-package com.projectvalis.altk.noc.ch1;
+package com.projectvalis.altk.noc.ch2;
 
 import java.awt.Color;
 import java.awt.MouseInfo;
@@ -12,27 +12,46 @@ import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.init.internalFrameDark;
+import com.projectvalis.altk.noc.ch1.Ball;
+import com.projectvalis.altk.noc.ch1.BallPanel;
+import com.projectvalis.altk.noc.ch1.Vector;
 
 
 /**
- * the 'controller' in the vector bouncy ball example in ch1 of nature of code
+ * the 'controller' in the vector gravity example in ch2 of nature of code
  * @author snerd
  *
  */
-public class BallRunner extends internalFrameDark {
+public class GravityRunner extends internalFrameDark {
 	
 	private static final Logger LOGGER = 
-			LoggerFactory.getLogger(BallRunner.class.getName());
+			LoggerFactory.getLogger(GravityRunner.class.getName());
 	
-	private Ball[] ballArr = new Ball[10];
+	private Ball[] ballArr = new Ball[2];
 	private BallPanel ballPanel;
 	
 	
 	/**
-	 * position and create the window and get the ball rolling -er- bouncing
+	 * 
 	 */
-	public BallRunner() {
+	public GravityRunner() {
 		setLocation(800, 200);	
+		
+		
+		Vector gravityBallLocationV = 
+				new Vector(this.getWidth() / 2, this.getHeight() / 2);
+		
+		GravityBall gravityBall = new GravityBall(gravityBallLocationV, 
+												  new Vector(0, 0), 
+												  new Vector(0, 0), 
+												  Color.black, 
+												  GUI.mustardC, 
+												  50, 
+												  50,
+												  50);	
+		
+		
+		
 		
 		Color[] colorArr = new Color[5];
 		colorArr[0] = GUI.mustardC;
@@ -44,26 +63,32 @@ public class BallRunner extends internalFrameDark {
 		Random randy = new Random();
 		
 		for (int i = 0; i < ballArr.length; i ++) {
-			int diameterI = randy.nextInt(100);
+			//int diameterI = randy.nextInt(100);
+			int diameterI = 25;
 			int colorIndexI = randy.nextInt(5);		
-			Color fillColor = colorArr[colorIndexI];
+			//Color fillColor = colorArr[colorIndexI];
+			Color fillColor = GUI.orangeC;
 			
-			Ball ball = new BouncingBall(new Vector(25 + (i * 50), 25), 
-									new Vector(0, 0), 
-									new Vector(0, 0), 
-									Color.black, 
-									fillColor, 
-									diameterI, 
-									diameterI,
-									diameterI);		
+			Vector ballLocationV = gravityBallLocationV.clone();
+			ballLocationV.xD += 75;
+			ballLocationV.yD -= 25;
+			
+			Ball ball = new Ball(ballLocationV, 
+								 new Vector(0, 0), 
+								 new Vector(0.35, 1), 
+								 Color.black, 
+								 fillColor, 
+								 diameterI, 
+								 diameterI,
+								 diameterI);		
 
-			ballArr[i] = ball;
-			
+			ballArr[i] = ball;		
 		}
 		
-			ballPanel = new BallPanel(ballArr);
-			add(ballPanel);	
+		ballArr[ballArr.length - 1] = gravityBall;
 		
+		ballPanel = new BallPanel(ballArr);
+		add(ballPanel);	
 		
 		attach(true);
 		animate();
@@ -77,39 +102,18 @@ public class BallRunner extends internalFrameDark {
 	private void animate() {
 		
 		boolean keepOnTrucknB = true;
-//		ball.accelerationV= new Vector(0.001, 0.003);
-		Vector windV = new Vector(0.01, 0);
-		Vector gravityV = new Vector(0, 0.1);
-
-		/*
-		 * for calculating friction: 
-		 * friction vector = -1 * [mu] * N * v[vector]
-		 * 		- friction points in the opposite direction as velocity. this
-		 * 		is why we're multiplying the velocity vector by -1. this means
-		 * 		we need to take the velocity vector, normalize it, and then
-		 * 		multiply it by (-1).
-		 * 
-		 * 		- the magnitude of the friction vector is [mu] (pronounced 
-		 * 		"mew") multiplied by the normal force 'N'. [mu] is the 
-		 * 		coefficient of friction, which establishes the strength of a 
-		 * 		friction force of a particular surface. A 'normal force' is 
-		 * 		is a force that's perpendicular to an object's motion along
-		 * 		a surface. The direction of the normal force and that of 
-		 * 		gravity may be different, but the magnitude of the normal force
-		 * 		is proportional to that of gravity. 
-		 */
-		double muD = 0.5;
-		double normalForceD = 1;
-		double frictionMagnitudeD = muD * normalForceD;
-		
 		
 		while (keepOnTrucknB) {					
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();
 			
 			try {	
+				int gravityBallIndexI = ballArr.length -1;
 				
-				for (int i = 0; i < ballArr.length; i ++) {
+				GravityBall gravityBall = 
+						(GravityBall)ballArr[gravityBallIndexI];
+				
+				for (int i = 0; i < gravityBallIndexI; i ++) {
 					Ball ball = ballArr[i];
 					
 //					// get mouse location
@@ -119,20 +123,8 @@ public class BallRunner extends internalFrameDark {
 //						ball.accelerationV = getMouseAccelerationVector(p);
 					
 					
-					// calculate friction
-					Vector frictionV = ballArr[i].velocityV.clone();
-					frictionV.multiply(-1);
-					frictionV.normalize();
-					frictionV.multiply(muD);
-					
-					// calculate gravity
-					Vector appliedGravityV = gravityV.clone();
-					appliedGravityV.multiply(ball.massD);
-					
-					// apply force 
-					ball.applyForce(windV);
-					ball.applyForce(appliedGravityV);
-					//ball.applyForce(frictionV);
+					Vector attractionV = gravityBall.attract(ball);
+					ball.applyForce(attractionV);
 					ball.update(panelWidthI, panelHeightI);
 				}
 				

@@ -9,6 +9,9 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.projectvalis.altk.init.GUI;
 
 
@@ -19,6 +22,9 @@ import com.projectvalis.altk.init.GUI;
  *
  */
 public class BallPanel extends JPanel implements MouseListener {
+	
+	private static final Logger LOGGER = 
+			LoggerFactory.getLogger(BallPanel.class.getName());
 	
 	private Ball[] ballArr;
 	private boolean mouseInFrameB = false;

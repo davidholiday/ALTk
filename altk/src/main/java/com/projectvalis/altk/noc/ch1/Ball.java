@@ -2,10 +2,12 @@ package com.projectvalis.altk.noc.ch1;
 
 import java.awt.Color;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.util.Pair;
 
-import freemarker.log.Logger;
 
 /**
  * root class for ball elements. contains logic that specifies look, 
@@ -17,7 +19,7 @@ import freemarker.log.Logger;
 public class Ball {
 
 	private static final Logger LOGGER = 
-			Logger.getLogger(Ball.class.getName());
+			LoggerFactory.getLogger(Ball.class.getName());
 	
 	protected Vector locationV = new Vector(10, 300);
 	protected Vector velocityV = new Vector(0, 0);

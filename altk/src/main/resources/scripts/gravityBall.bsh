@@ -1,0 +1,10 @@
+// File: gravityBall.bsh
+
+bsh.gravityBall.help = "runs the vector driven gravity ball routine.";
+
+
+
+gravityBall() {
+	GravityRunner ballRunner = 
+		new com.projectvalis.altk.noc.ch2.GravityRunner();
+}
