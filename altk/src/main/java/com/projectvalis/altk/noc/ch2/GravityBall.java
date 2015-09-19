@@ -80,4 +80,8 @@ public class GravityBall extends Ball {
 	
 	
 	
+	public void setLocation(Vector newLocation) {
+		this.locationV = newLocation;
+	}
+	
 }

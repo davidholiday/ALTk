@@ -25,6 +25,9 @@ public class Ball {
 	protected Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	
+	// populated only when drawn
+	public Vector centerV;
+	
 	public Color strokeColorC = GUI.orangeC;
 	public Color fillColorC = GUI.mustardC;
 	

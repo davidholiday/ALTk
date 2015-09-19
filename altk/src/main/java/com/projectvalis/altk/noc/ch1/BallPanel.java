@@ -3,8 +3,10 @@ package com.projectvalis.altk.noc.ch1;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.init.GUI;
+import com.projectvalis.altk.noc.ch2.GravityBall;
 
 
 /**
@@ -21,7 +24,8 @@ import com.projectvalis.altk.init.GUI;
  * @author snerd
  *
  */
-public class BallPanel extends JPanel implements MouseListener {
+public class BallPanel 
+	extends JPanel implements MouseMotionListener, MouseListener {
 	
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(BallPanel.class.getName());
@@ -34,6 +38,7 @@ public class BallPanel extends JPanel implements MouseListener {
 	public BallPanel(Ball[] ballArr) {
 		this.ballArr = ballArr;
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		setBackground(GUI.charcoalC);
 	}
 	
@@ -52,6 +57,10 @@ public class BallPanel extends JPanel implements MouseListener {
 													 ballLocationY_D,
 													 ball.widthD,
 													 ball.heightD);
+			
+			// update center point variable
+			ball.centerV = 
+					new Vector(ballE2D.getCenterX(), ballE2D.getCenterY());
 			
 			Graphics2D g2 = (Graphics2D)g;
 			g2.setColor(ball.strokeColorC);
@@ -73,7 +82,9 @@ public class BallPanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
+		
+
 		
 	}
 
@@ -81,7 +92,7 @@ public class BallPanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
@@ -106,6 +117,33 @@ public class BallPanel extends JPanel implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		mouseInFrameB = false;
+		
+	}
+
+
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+
+		Ball ball = ballArr[ballArr.length -1];		
+		if (!ball.getClass().getName().contains("GravityBall")) return;
+		
+		
+		// if the ball color has changed, then we know the mouse is over
+		// the ball at click-time
+		if (ball.fillColorC == GUI.orangeC) {
+
+			Point p = this.getMousePosition();
+			Vector newLocationV = new Vector(p.getX(), p.getY());
+			((GravityBall)ball).setLocation(newLocationV);
+		}		
+	}
+
+
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 	

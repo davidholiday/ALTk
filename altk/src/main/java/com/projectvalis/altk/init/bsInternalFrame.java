@@ -14,41 +14,39 @@ import bsh.Interpreter;
 import bsh.util.JConsole;
 import bsh.util.NameCompletionTable;
 
-
 public class bsInternalFrame extends internalFrameDark {
-	
+
 	public bsInternalFrame() {
-		
+
 		// load image for use as internal frame icon
-		InputStream inStream1 = 
-				Thread.currentThread().getContextClassLoader().getResourceAsStream("images/console4a.png");	
-		
+		InputStream inStream1 = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("images/console4a.png");
+
 		ImageIcon imgIcon1 = null;
 		try {
 			imgIcon1 = new ImageIcon(ImageIO.read(inStream1));
 		} catch (IOException e) {
-			e.printStackTrace();		
+			e.printStackTrace();
 
 		}
-		
 
-		// create a beanshell instance	
+		// create a beanshell instance
 		enhancedJConsole bsConsole = new enhancedJConsole();
-		
-		Interpreter bsInterp = new Interpreter(bsConsole);	
+
+		Interpreter bsInterp = new Interpreter(bsConsole);
 
 		//
 		// probably there is a better way to do this
 		//
-		
-		//import scripts and set classpath
+
+		// import scripts and set classpath
 		String importCmdS = "importCommands(" + "\"" + "/scripts" + "\"" + ")";
 		String importPkg1S = "import com.projectvalis.altk.init.*";
 		String importPkg2S = "import com.projectvalis.altk.util.*";
 		String importPkg3S = "import com.projectvalis.altk.algorithm.*";
 		String importPkg4S = "import com.projectvalis.altk.noc.ch1.*";
 		String importPkg5S = "import com.projectvalis.altk.noc.ch2.*";
-		
+
 		try {
 			bsInterp.eval(importCmdS);
 			bsInterp.eval(importPkg1S);
@@ -56,42 +54,39 @@ public class bsInternalFrame extends internalFrameDark {
 			bsInterp.eval(importPkg3S);
 			bsInterp.eval(importPkg4S);
 			bsInterp.eval(importPkg5S);
-			
-			// setup the beanshell shared hashtable if it isn't already initialized.
+
+			// setup the beanshell shared hashtable if it isn't already
+			// initialized.
 			// this will enable sharing of variables accross shell instances.
 			if (bsInterp.get("bsh.shared.varHT") == null) {
 				bsInterp.set("bsh.shared.varHT", new Hashtable());
 			}
-			
+
 			bsInterp.set("console", bsConsole);
-			
-			
+
 			// setup tab-to-complete (doesn't work - womp womp)
-			
-//			bsInterp.eval("setupNameCompletion()");
-//System.out.println(bsConsole.nameCompletion);
-//			bsConsole.setNameCompletion(bsConsole.nameCompletion);
-//System.out.println(bsConsole.nameCompletion);			
-//			
+
+			// bsInterp.eval("setupNameCompletion()");
+			// System.out.println(bsConsole.nameCompletion);
+			// bsConsole.setNameCompletion(bsConsole.nameCompletion);
+			// System.out.println(bsConsole.nameCompletion);
+			//
 		} catch (EvalError e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-				
-		
+
 		// give interpreter its own thread and add console to internal frame
-		new Thread(bsInterp).start();	
+		new Thread(bsInterp).start();
 		this.getContentPane().add(bsConsole);
-		
-	
-		
+
 		// add icon and title to frame
 		setFrameIcon(imgIcon1);
 		setTitle("terminal");
-		
+
 		// add to desktop pane
 		attach(true);
-		
+
 	}
-	
+
 }
