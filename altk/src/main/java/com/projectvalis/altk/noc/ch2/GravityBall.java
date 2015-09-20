@@ -9,13 +9,24 @@ import com.projectvalis.altk.noc.ch1.Ball;
 import com.projectvalis.altk.noc.ch1.Vector;
 
 
+/**
+ * extension of ball class that is able to exert gravitational force on other
+ * ball objects.
+ * 
+ * @author snerd
+ *
+ */
 public class GravityBall extends Ball {
 
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityBall.class.getName());
 	
 
+	// the gravitational constant for this universe. totally arbitrary number, 
+	// but it seems to work here. 
 	double gravConstantD = 0.2;
+	
+	// keeps things from going nanners with respect to ball movement
 	double lowerDistanceConstraintD = 5.0;
 	double upperDistanceConstraintD = 25.0;
 	
@@ -47,13 +58,25 @@ public class GravityBall extends Ball {
 	
 	 
 	/**
-	 * TODO: comment this mother fucker -- make notes on how all this works
-	 * from the book. 
+	 * handles the gravitational pull from this object against a given ball 
+	 * target.
+	 * 
+	 * GRAVITY = 
+	 *   ( (gravitational constant) * (mass1) * (mass2) ) / (distance^2) ) *
+	 *   	 (unit vector between this and target)
+	 *   
 	 * @param ball
+	 * 		the ball against which gravity from this ball is to be applied. 
 	 * @return
+	 * 		vector representing the gravitational force against target ball.
 	 */
 	Vector attract(Ball ball) {
 		
+		// get unit vector telling us the direction of force.
+		// *remember* a vector is the difference between two points. it tells 
+		// you how many x-units and how many y-units from a given location to
+		// go to reach a given destination.
+		//
 		Vector ballLocationV = new Vector(
 				ball.getLocation().getLeft(), ball.getLocation().getRight());
 		
@@ -70,18 +93,17 @@ public class GravityBall extends Ball {
 		
 		forceV.normalize();
 		
+		// get magnitude of force vector
+		//
 		double strengthD = 
 				(gravConstantD * massD * ball.massD) / (distanceD * distanceD);
 		
 		forceV.multiply(strengthD);
 
+		// fin
+		//
 		return forceV;
 	}
 	
-	
-	
-	public void setLocation(Vector newLocation) {
-		this.locationV = newLocation;
-	}
 	
 }

@@ -32,28 +32,13 @@ public class GravityRunner extends internalFrameDark {
 	private GravityBall gravityBall;
 	
 	
+
 	/**
-	 * 
+	 * constructor bootstraps the whole demo
 	 */
 	public GravityRunner() {
-		setLocation(800, 200);	
-		
-		
-		Vector gravityBallLocationV = 
-				new Vector(this.getWidth() / 2, this.getHeight() / 2);
-		
-		gravityBall = new GravityBall(gravityBallLocationV, 
-												  new Vector(0, 0), 
-												  new Vector(0, 0), 
-												  Color.black, 
-												  GUI.mustardC, 
-												  50, 
-												  50,
-												  50);	
-		
-		
-		
-		
+		this.setLocation(800, 200);	
+			
 		Color[] colorArr = new Color[5];
 		colorArr[0] = GUI.mustardC;
 		colorArr[1] = GUI.orangeC;
@@ -61,8 +46,23 @@ public class GravityRunner extends internalFrameDark {
 		colorArr[3] = GUI.redC;
 		colorArr[4] = GUI.tealC;
 	
-		Random randy = new Random();
+			
+		// create the gravity ball first 
+		//
+		Vector gravityBallLocationV = 
+				new Vector(this.getWidth() / 2, this.getHeight() / 2);
 		
+		gravityBall = new GravityBall(gravityBallLocationV, 
+									  new Vector(0, 0), 
+									  new Vector(0, 0), 
+									  Color.black, 
+									  GUI.mustardC, 
+									  50, 
+									  50,
+									  50);	
+		
+
+		// create orbiting ball
 		Color fillColor = GUI.tealC;
 		int diameterI = 25;
 		Vector ballLocationV = gravityBallLocationV.clone();
@@ -80,6 +80,10 @@ public class GravityRunner extends internalFrameDark {
 		
 		ballArr[0] = ball;
 		
+		
+		// create balls at random locations of random ontologies 
+		//
+		Random randy = new Random();
 		for (int i = 1; i < ballArr.length; i ++) {
 			diameterI = randy.nextInt(100);
 			
@@ -101,12 +105,15 @@ public class GravityRunner extends internalFrameDark {
 			ballArr[i] = ball;		
 		}
 		
+		// append gravity ball to tail of array
 		ballArr[ballArr.length - 1] = gravityBall;
 		
+		// put it all together
 		ballPanel = new BallPanel(ballArr);
-		add(ballPanel);	
+		this.add(ballPanel);		
+		this.attach(true);
 		
-		attach(true);
+		// showtime!
 		animate();
 	}
 	
@@ -128,24 +135,21 @@ public class GravityRunner extends internalFrameDark {
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();
 			
-			// get mouse location
 			Point p = ballPanel.getMousePosition();
 		
+			// check if mouse is over gravity ball
+			//
 			if (p != null && getMouseOver(p, gravityBall)) {
 				gravityBall.fillColorC = GUI.orangeC;
 			} else {
 				gravityBall.fillColorC = GUI.mustardC;
 			}			
 			
-			
+			// go through ball array and update their positions 
 			try {	
 
 				for (int i = 0; i < gravityBallIndexI; i ++) {
-					Ball ball = ballArr[i];
-				
-
-					
-					
+					Ball ball = ballArr[i];				
 					Vector attractionV = gravityBall.attract(ball);
 					ball.applyForce(attractionV);
 					ball.update(panelWidthI, panelHeightI);
@@ -164,35 +168,21 @@ public class GravityRunner extends internalFrameDark {
 		
 	}
 	
-	
+
 	/**
-	 * calculates an acceleration vector based on current ball position and
-	 * location of mouse pointer
+	 * tells us whether or not the mouse pointer is currently over a ball - only
+	 * used to detect whether or not the mouse is over the gravity ball.
 	 * 
+	 * works by calculating distance from center of ball for mouse pointer and
+	 * checks that against the radius of the ball.
+	 * 
+	 * @param p
+	 * 		current mouse point
+	 * @param ball
+	 * 		ball to be checked for colocation
 	 * @return
-	 * 		new acceleration vector
+	 * 		true if mouse is atop ball -- else false.
 	 */
-	private Vector getMouseAccelerationVector(Point p, Ball ball) {
-		
-		// get mouse vector
-		Vector mouseV = new Vector(p.getX(), p.getY());
-		
-		// get current ball location
-		double locationX_D = ball.getLocation().getLeft();
-		double locationY_D = ball.getLocation().getRight();
-		Vector locationV = new Vector(locationX_D, locationY_D);
-		
-		// calculate new acceleration vector
-		Vector newAccelerationV = new Vector(mouseV.xD, mouseV.yD);
-		newAccelerationV.subtract(locationV);
-		newAccelerationV.normalize();
-		newAccelerationV.multiply(0.5);
-		
-		return newAccelerationV;
-	}
-
-
-	
 	private boolean getMouseOver(Point p, Ball ball) {		
 		double centerX_D = ball.centerV.xD;
 		double centerY_D = ball.centerV.yD;
@@ -201,23 +191,11 @@ public class GravityRunner extends internalFrameDark {
 		double xDistanceD = Math.pow(centerX_D - p.getX(), 2);
 		double yDistanceD = Math.pow(centerY_D - p.getY(), 2);
 		double distanceD = Math.sqrt(xDistanceD + yDistanceD);
+		
 		return (distanceD <= radiusD) ? (true) : (false);
 		
 	}
-	
-	
-	
-
-
-	
+		
 }
-
-
-
-
-
-
-
-
 
 
