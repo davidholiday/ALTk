@@ -158,6 +158,9 @@ public class GravityRunner extends internalFrameDark {
 				repaint();
 				Thread.sleep(10);
 				
+				// ensure the window is still open
+				keepOnTrucknB = (this.isClosed) ? (false) : (true);
+				
 			} catch (InterruptedException e) {
 				LOGGER.error("EXITING ON ERROR! ");
 				e.printStackTrace();
