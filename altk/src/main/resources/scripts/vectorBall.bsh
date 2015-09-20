@@ -3,8 +3,13 @@
 bsh.vectorBall.help = "runs the vector driven bouncing ball routine.";
 
 
-
 vectorBall() {
-	BallRunner ballRunner = 
-		new com.projectvalis.altk.noc.ch1.BallRunner();
+	Thread t1 = new Thread(new Runnable() {
+		public void run() {
+			BallRunner ballRunner = 
+				new com.projectvalis.altk.noc.ch1.BallRunner();
+		}
+	});
+	  
+	t1.start();
 }

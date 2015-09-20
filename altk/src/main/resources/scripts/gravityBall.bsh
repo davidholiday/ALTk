@@ -3,8 +3,13 @@
 bsh.gravityBall.help = "runs the vector driven gravity ball routine.";
 
 
-
 gravityBall() {
-	GravityRunner ballRunner = 
-		new com.projectvalis.altk.noc.ch2.GravityRunner();
+	Thread t1 = new Thread(new Runnable() {
+		public void run() {
+			GravityRunner ballRunner = 
+				new com.projectvalis.altk.noc.ch2.GravityRunner();
+		}
+	});
+	  
+	t1.start();
 }
