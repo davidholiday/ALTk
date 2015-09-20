@@ -32,7 +32,7 @@ public class BallPanel
 	
 	private Ball[] ballArr;
 	private boolean mouseInFrameB = false;
-
+	private Vector mousePressPositionV; 
 	
 
 	public BallPanel(Ball[] ballArr) {
@@ -82,18 +82,15 @@ public class BallPanel
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
-		
 
-		
 	}
 
 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
-		
+		Point p = this.getMousePosition();
+		mousePressPositionV = new Vector(p.getX(), p.getY());
 	}
 
 
@@ -132,10 +129,25 @@ public class BallPanel
 		// if the ball color has changed, then we know the mouse is over
 		// the ball at click-time
 		if (ball.fillColorC == GUI.orangeC) {
+			GravityBall gravityBall = (GravityBall)ball;
 
+			// get the vector betwixt the point at which the mouse was pressed
+			// and the current mouse position
 			Point p = this.getMousePosition();
-			Vector newLocationV = new Vector(p.getX(), p.getY());
-			((GravityBall)ball).setLocation(newLocationV);
+			
+			if (p == null) return;
+			
+			Vector currentMousePositionV = new Vector(p.getX(), p.getY());
+			
+			Vector newBallPositionV = currentMousePositionV.clone();
+			newBallPositionV.subtract(mousePressPositionV);
+			//newBallPositionV.normalize();
+			//newBallPositionV.multiply(0.5);
+			
+			
+			gravityBall.locationV.add(newBallPositionV);
+			mousePressPositionV = currentMousePositionV;
+			
 		}		
 	}
 
