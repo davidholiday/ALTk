@@ -27,7 +27,7 @@ public class GravityRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityRunner.class.getName());
 	
-	private Ball[] ballArr = new Ball[2];
+	private Ball[] ballArr = new Ball[15];
 	private BallPanel ballPanel;
 	private GravityBall gravityBall;
 	
@@ -63,25 +63,40 @@ public class GravityRunner extends internalFrameDark {
 	
 		Random randy = new Random();
 		
-		for (int i = 0; i < ballArr.length; i ++) {
-			//int diameterI = randy.nextInt(100);
-			int diameterI = 25;
+		Color fillColor = GUI.tealC;
+		int diameterI = 25;
+		Vector ballLocationV = gravityBallLocationV.clone();
+		ballLocationV.xD += 75;
+		ballLocationV.yD -= 25;
+		
+		Ball ball = new Ball(ballLocationV, 
+							 new Vector(0, 0), 
+							 new Vector(0.35, 1), 
+							 Color.black, 
+							 fillColor, 
+							 diameterI, 
+							 diameterI,
+							 diameterI);
+		
+		ballArr[0] = ball;
+		
+		for (int i = 1; i < ballArr.length; i ++) {
+			diameterI = randy.nextInt(100);
+			
 			int colorIndexI = randy.nextInt(5);		
-			//Color fillColor = colorArr[colorIndexI];
-			Color fillColor = GUI.tealC;
-			
-			Vector ballLocationV = gravityBallLocationV.clone();
-			ballLocationV.xD += 75;
-			ballLocationV.yD -= 25;
-			
-			Ball ball = new Ball(ballLocationV, 
-								 new Vector(0, 0), 
-								 new Vector(0.35, 1), 
-								 Color.black, 
-								 fillColor, 
-								 diameterI, 
-								 diameterI,
-								 diameterI);		
+			fillColor = colorArr[colorIndexI];
+			double locationX_D = randy.nextInt(this.getWidth());
+			double locationY_D = randy.nextInt(this.getHeight());
+			Vector locationV = new Vector(locationX_D, locationY_D);
+						
+			ball = new Ball(locationV, 
+							new Vector(0, 0), 
+							new Vector(0, 0), 
+							Color.black, 
+							fillColor, 
+							diameterI, 
+							diameterI,
+							diameterI);		
 
 			ballArr[i] = ball;		
 		}
