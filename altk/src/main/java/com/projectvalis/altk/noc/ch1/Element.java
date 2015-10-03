@@ -23,9 +23,7 @@ public abstract class Element {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(Element.class.getName());
 	
-	
-	protected Shape shapeGeometry;
-	
+		
 	protected Vector locationV = new Vector(10, 300);
 	protected Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
@@ -36,6 +34,8 @@ public abstract class Element {
 	public Color strokeColorC = GUI.orangeC;
 	public Color fillColorC = GUI.mustardC;
 	
+	public double widthD;
+	public double heightD;
 	public double massD;
 	
 	// ensure velocity doesn't get out of hand
@@ -130,31 +130,7 @@ public abstract class Element {
 	 */
 	protected abstract void checkEdges(int panelWidth, int panelHeight);
 	
-	
-	/**
-	 * gets the java geometry shape object associated with this shape
-	 * 
-	 * @return
-	 */
-	public abstract Shape getShapeObject();
-	
-	
-	/**
-	 * returns the center point for the java geometry shape object associated
-	 * with this shape 
-	 * 
-	 * @return
-	 */
-	protected abstract Point getShapeObjectCenterPoint();
-	
-	
-	/**
-	 * updates the shape objects center vector, which represents the center
-	 * point for the presentation on screen (ie - the actual shape drawn 
-	 * in the panel)
-	 */
-	public abstract void updateCenterVector();
-	
+
 	
 }
 

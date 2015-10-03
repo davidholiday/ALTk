@@ -23,18 +23,11 @@ public class BouncingBall extends Element {
 			LoggerFactory.getLogger(BouncingBall.class.getName());
 	
 	
-	// ensure default behavior is to create a circle, and to set mass
-	// equal to the diameter of that circle 
-	public double widthD = 50;
-	public double heightD = widthD;
-	
-	
+
 	public BouncingBall() {
 		this.massD = widthD;
-		this.shapeGeometry = new Ellipse2D.Double(locationV.xD, 
-												  locationV.yD,
-												  widthD,
-												  heightD);
+		this.heightD = widthD;		
+		this.widthD = 50;
 	}
 
 	
@@ -72,12 +65,7 @@ public class BouncingBall extends Element {
 		fillColorC = fillColor;
 		widthD = width;
 		heightD = height;
-		massD = mass;
-		
-		this.shapeGeometry = new Ellipse2D.Double(locationV.xD, 
-				  								  locationV.yD,
-				  								  widthD,
-				  								  heightD);
+		massD = mass;		
 	}
 	
 
@@ -115,27 +103,6 @@ public class BouncingBall extends Element {
 		
 	}
 
-
-	@Override
-	public Shape getShapeObject() {	
-		return shapeGeometry;
-	}
-
-
-	@Override
-	protected Point getShapeObjectCenterPoint() {		
-		Double centerX_D = ((Ellipse2D.Double)shapeGeometry).getCenterX();
-		Double centerY_D = ((Ellipse2D.Double)shapeGeometry).getCenterY();
-		Point point = new Point();
-		point.setLocation(centerX_D, centerY_D);
-		return point;
-	}
-
-
-	@Override
-	public void updateCenterVector() {
-		this.centerV = new Vector( getShapeObjectCenterPoint() );		
-	}
 
 
 }

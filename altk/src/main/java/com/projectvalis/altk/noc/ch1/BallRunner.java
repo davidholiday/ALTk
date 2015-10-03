@@ -61,7 +61,7 @@ public class BallRunner extends internalFrameDark {
 			
 		}
 		
-			ballPanel = new ElementPanel(ballArr);
+			ballPanel = new BallPanel(ballArr);
 			add(ballPanel);	
 		
 		

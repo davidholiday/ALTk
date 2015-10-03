@@ -1,13 +1,10 @@
 package com.projectvalis.altk.noc.ch1;
 
-import java.awt.BasicStroke;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 
@@ -24,19 +21,19 @@ import com.projectvalis.altk.noc.ch2.GravityBall;
  * @author snerd
  *
  */
-public class ElementPanel 
+public abstract class ElementPanel 
 	extends JPanel implements MouseMotionListener, MouseListener {
 	
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(ElementPanel.class.getName());
 	
-	private Element[] shapeARR;
-	private boolean mouseInFrameB = false;
-	private Vector mousePressPositionV; 
+	protected Element[] elementARR;
+	protected boolean mouseInFrameB = false;
+	protected Vector mousePressPositionV; 
 	
 
 	public ElementPanel(Element[] shapeARR) {
-		this.shapeARR = shapeARR;
+		this.elementARR = shapeARR;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(GUI.charcoalC);
@@ -44,27 +41,7 @@ public class ElementPanel
 	
 		
 	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
-		for (int i = 0; i < shapeARR.length; i ++) {
-			Element element = shapeARR[i];	
-			
-			double ballLocationX_D = element.getLocation().getLeft();
-			double ballLocationY_D = element.getLocation().getRight();
-			
-			element.updateCenterVector();
-			java.awt.Shape shapePresentation = element.getShapeObject();			
-			Graphics2D g2 = (Graphics2D)g;
-			g2.setColor(element.strokeColorC);
-			g2.setStroke(new BasicStroke(4));
-			g2.draw(shapePresentation);
-			g2.setColor(element.fillColorC);
-			g2.fill(shapePresentation);						
-		}
-		
-	
-	}
+	public void paintComponent(Graphics g) { super.paintComponent(g); }
 
 	
 	public boolean isMouseInFrame() {
@@ -115,7 +92,7 @@ public class ElementPanel
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
-		Element element = shapeARR[shapeARR.length -1];		
+		Element element = elementARR[elementARR.length -1];		
 		if (!element.getClass().getName().contains("GravityBall")) return;
 		
 		

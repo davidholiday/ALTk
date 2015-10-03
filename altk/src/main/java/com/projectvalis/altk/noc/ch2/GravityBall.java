@@ -1,7 +1,6 @@
 package com.projectvalis.altk.noc.ch2;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 
 import org.slf4j.Logger;
@@ -33,19 +32,10 @@ public class GravityBall extends Element {
 	double upperDistanceConstraintD = 25.0;
 	
 	
-	// ensure default behavior is to create a circle, and to set mass
-	// equal to the diameter of that circle 
-	public double widthD = 50;
-	public double heightD = widthD;
-	
-	
 	public GravityBall() {
 		this.massD = widthD;
-		
-		this.shapeGeometry =  new Ellipse2D.Double(locationV.xD, 
-												   locationV.yD,
-												   widthD,
-												   heightD);
+		this.heightD = widthD;		
+		this.widthD = 50;
 	}
 	
 	
@@ -84,11 +74,6 @@ public class GravityBall extends Element {
 		widthD = width;
 		heightD = height;
 		massD = mass;
-		
-		this.shapeGeometry = new Ellipse2D.Double(locationV.xD, 
-				  								  locationV.yD,
-				  								  widthD,
-				  								  heightD);
 	}
 	
 	 
@@ -145,26 +130,6 @@ public class GravityBall extends Element {
 	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
 
 
-	@Override
-	public java.awt.Shape getShapeObject() {	
-		return shapeGeometry;
-	}
-
-
-	@Override
-	protected Point getShapeObjectCenterPoint() {		
-		Double centerX_D = ((Ellipse2D.Double)shapeGeometry).getCenterX();
-		Double centerY_D = ((Ellipse2D.Double)shapeGeometry).getCenterY();
-		Point point = new Point();
-		point.setLocation(centerX_D, centerY_D);
-		return point;
-	}
-	
-	
-	@Override
-	public void updateCenterVector() {
-		this.centerV = new Vector( getShapeObjectCenterPoint() );		
-	}
 	
 }
 
