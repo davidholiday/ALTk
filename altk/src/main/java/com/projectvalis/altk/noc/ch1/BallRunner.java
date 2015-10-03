@@ -24,8 +24,8 @@ public class BallRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(BallRunner.class.getName());
 	
-	private Ball[] ballArr = new Ball[10];
-	private BallPanel ballPanel;
+	private Element[] ballArr = new Element[10];
+	private ElementPanel ballPanel;
 	
 	
 	/**
@@ -48,7 +48,7 @@ public class BallRunner extends internalFrameDark {
 			int colorIndexI = randy.nextInt(5);		
 			Color fillColor = colorArr[colorIndexI];
 			
-			Ball ball = new BouncingBall(new Vector(25 + (i * 50), 25), 
+			Element ball = new BouncingBall(new Vector(25 + (i * 50), 25), 
 									new Vector(0, 0), 
 									new Vector(0, 0), 
 									Color.black, 
@@ -61,7 +61,7 @@ public class BallRunner extends internalFrameDark {
 			
 		}
 		
-			ballPanel = new BallPanel(ballArr);
+			ballPanel = new ElementPanel(ballArr);
 			add(ballPanel);	
 		
 		
@@ -110,7 +110,7 @@ public class BallRunner extends internalFrameDark {
 			try {	
 				
 				for (int i = 0; i < ballArr.length; i ++) {
-					Ball ball = ballArr[i];
+					Element ball = ballArr[i];
 					
 //					// get mouse location
 //					Point p = ballPanel.getMousePosition();
@@ -160,7 +160,7 @@ public class BallRunner extends internalFrameDark {
 	 * @return
 	 * 		new acceleration vector
 	 */
-	private Vector getMouseAccelerationVector(Point p, Ball ball) {
+	private Vector getMouseAccelerationVector(Point p, Element ball) {
 		
 		// get mouse vector
 		Vector mouseV = new Vector(p.getX(), p.getY());

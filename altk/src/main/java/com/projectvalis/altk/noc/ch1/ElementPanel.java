@@ -24,19 +24,19 @@ import com.projectvalis.altk.noc.ch2.GravityBall;
  * @author snerd
  *
  */
-public class BallPanel 
+public class ElementPanel 
 	extends JPanel implements MouseMotionListener, MouseListener {
 	
 	private static final Logger LOGGER = 
-			LoggerFactory.getLogger(BallPanel.class.getName());
+			LoggerFactory.getLogger(ElementPanel.class.getName());
 	
-	private Ball[] ballArr;
+	private Element[] shapeARR;
 	private boolean mouseInFrameB = false;
 	private Vector mousePressPositionV; 
 	
 
-	public BallPanel(Ball[] ballArr) {
-		this.ballArr = ballArr;
+	public ElementPanel(Element[] shapeARR) {
+		this.shapeARR = shapeARR;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(GUI.charcoalC);
@@ -47,27 +47,20 @@ public class BallPanel
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		for (int i = 0; i < ballArr.length; i ++) {
-			Ball ball = ballArr[i];
+		for (int i = 0; i < shapeARR.length; i ++) {
+			Element element = shapeARR[i];	
 			
-			double ballLocationX_D = ball.getLocation().getLeft();
-			double ballLocationY_D = ball.getLocation().getRight();
+			double ballLocationX_D = element.getLocation().getLeft();
+			double ballLocationY_D = element.getLocation().getRight();
 			
-			Ellipse2D ballE2D = new Ellipse2D.Double(ballLocationX_D, 
-													 ballLocationY_D,
-													 ball.widthD,
-													 ball.heightD);
-			
-			// update center point variable
-			ball.centerV = 
-					new Vector(ballE2D.getCenterX(), ballE2D.getCenterY());
-			
+			element.updateCenterVector();
+			java.awt.Shape shapePresentation = element.getShapeObject();			
 			Graphics2D g2 = (Graphics2D)g;
-			g2.setColor(ball.strokeColorC);
+			g2.setColor(element.strokeColorC);
 			g2.setStroke(new BasicStroke(4));
-			g2.draw(ballE2D);
-			g2.setColor(ball.fillColorC);
-			g2.fill(ballE2D);						
+			g2.draw(shapePresentation);
+			g2.setColor(element.fillColorC);
+			g2.fill(shapePresentation);						
 		}
 		
 	
@@ -122,14 +115,14 @@ public class BallPanel
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
-		Ball ball = ballArr[ballArr.length -1];		
-		if (!ball.getClass().getName().contains("GravityBall")) return;
+		Element element = shapeARR[shapeARR.length -1];		
+		if (!element.getClass().getName().contains("GravityBall")) return;
 		
 		
 		// if the ball color has changed, then we know the mouse is over
 		// the ball at click-time
-		if (ball.fillColorC == GUI.orangeC) {
-			GravityBall gravityBall = (GravityBall)ball;
+		if (element.fillColorC == GUI.orangeC) {
+			GravityBall gravityBall = (GravityBall)element;
 
 			// get the vector betwixt the point at which the mouse was pressed
 			// and the current mouse position

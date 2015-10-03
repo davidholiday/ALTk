@@ -1,5 +1,7 @@
 package com.projectvalis.altk.noc.ch1;
 
+import java.awt.Point;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,12 @@ public class Vector {
 	public Vector(double x, double y) {
 		xD = x;
 		yD = y;
+	}
+	
+	
+	public Vector(Point p) {
+		xD = p.getX();
+		yD = p.getY();
 	}
 	
 	

@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.init.internalFrameDark;
-import com.projectvalis.altk.noc.ch1.Ball;
-import com.projectvalis.altk.noc.ch1.BallPanel;
+import com.projectvalis.altk.noc.ch1.Element;
+import com.projectvalis.altk.noc.ch1.ElementPanel;
 import com.projectvalis.altk.noc.ch1.Vector;
 
 
@@ -27,8 +27,8 @@ public class GravityRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityRunner.class.getName());
 	
-	private Ball[] ballArr = new Ball[5];
-	private BallPanel ballPanel;
+	private Element[] ballArr = new Element[5];
+	private ElementPanel ballPanel;
 	private GravityBall gravityBall;
 	
 	
@@ -69,14 +69,14 @@ public class GravityRunner extends internalFrameDark {
 		ballLocationV.xD += 75;
 		ballLocationV.yD -= 25;
 		
-		Ball ball = new Ball(ballLocationV, 
-							 new Vector(0, 0), 
-							 new Vector(0.35, 1), 
-							 Color.black, 
-							 fillColor, 
-							 diameterI, 
-							 diameterI,
-							 diameterI);
+		Element ball = new GravityBall(ballLocationV, 
+							 		 new Vector(0, 0), 
+							 		 new Vector(0.35, 1), 
+							 		 Color.black, 
+							 		 fillColor, 
+							 		 diameterI, 
+							 		 diameterI,
+							 		 diameterI);
 		
 		ballArr[0] = ball;
 		
@@ -93,14 +93,14 @@ public class GravityRunner extends internalFrameDark {
 			double locationY_D = randy.nextInt(this.getHeight());
 			Vector locationV = new Vector(locationX_D, locationY_D);
 						
-			ball = new Ball(locationV, 
-							new Vector(0, 0), 
-							new Vector(0, 0), 
-							Color.black, 
-							fillColor, 
-							diameterI, 
-							diameterI,
-							diameterI);		
+			ball = new GravityBall(locationV, 
+								   new Vector(0, 0), 
+								   new Vector(0, 0), 
+								   Color.black, 
+								   fillColor, 
+								   diameterI, 
+								   diameterI,
+								   diameterI);		
 
 			ballArr[i] = ball;		
 		}
@@ -109,7 +109,7 @@ public class GravityRunner extends internalFrameDark {
 		ballArr[ballArr.length - 1] = gravityBall;
 		
 		// put it all together
-		ballPanel = new BallPanel(ballArr);
+		ballPanel = new ElementPanel(ballArr);
 		this.add(ballPanel);		
 		this.attach(true);
 		
@@ -149,7 +149,7 @@ public class GravityRunner extends internalFrameDark {
 			try {	
 
 				for (int i = 0; i < gravityBallIndexI; i ++) {
-					Ball ball = ballArr[i];				
+					Element ball = ballArr[i];				
 					Vector attractionV = gravityBall.attract(ball);
 					ball.applyForce(attractionV);
 					ball.update(panelWidthI, panelHeightI);
@@ -186,7 +186,7 @@ public class GravityRunner extends internalFrameDark {
 	 * @return
 	 * 		true if mouse is atop ball -- else false.
 	 */
-	private boolean getMouseOver(Point p, Ball ball) {		
+	private boolean getMouseOver(Point p, GravityBall ball) {		
 		double centerX_D = ball.centerV.xD;
 		double centerY_D = ball.centerV.yD;
 		double radiusD = ball.widthD / 2;

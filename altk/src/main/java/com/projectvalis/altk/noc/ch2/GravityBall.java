@@ -1,11 +1,13 @@
 package com.projectvalis.altk.noc.ch2;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.geom.Ellipse2D;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.projectvalis.altk.noc.ch1.Ball;
+import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.Vector;
 
 
@@ -16,7 +18,7 @@ import com.projectvalis.altk.noc.ch1.Vector;
  * @author snerd
  *
  */
-public class GravityBall extends Ball {
+public class GravityBall extends Element {
 
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityBall.class.getName());
@@ -29,6 +31,23 @@ public class GravityBall extends Ball {
 	// keeps things from going nanners with respect to ball movement
 	double lowerDistanceConstraintD = 5.0;
 	double upperDistanceConstraintD = 25.0;
+	
+	
+	// ensure default behavior is to create a circle, and to set mass
+	// equal to the diameter of that circle 
+	public double widthD = 50;
+	public double heightD = widthD;
+	
+	
+	public GravityBall() {
+		this.massD = widthD;
+		
+		this.shapeGeometry =  new Ellipse2D.Double(locationV.xD, 
+												   locationV.yD,
+												   widthD,
+												   heightD);
+	}
+	
 	
 	/**
 	 * full control constructor. controls size and color of the ball
@@ -48,12 +67,28 @@ public class GravityBall extends Ball {
 	 * @param mass
 	 * 		indicator of mass in the physics sense
 	 */
-	public GravityBall (Vector location, Vector velocity, Vector acceleration, 
-				Color strokeColor, Color fillColor, double width,
-				double height, double mass) {
+	public GravityBall (Vector location, 
+						Vector velocity, 
+						Vector acceleration, 
+						Color strokeColor, 
+						Color fillColor, 
+						double width,
+						double height, 
+						double mass) {
 		
-		super(location, velocity, acceleration, strokeColor, fillColor, width,
-				height, mass);
+		locationV = location;
+		velocityV = velocity;
+		accelerationV = acceleration;
+		strokeColorC = strokeColor;
+		fillColorC = fillColor;
+		widthD = width;
+		heightD = height;
+		massD = mass;
+		
+		this.shapeGeometry = new Ellipse2D.Double(locationV.xD, 
+				  								  locationV.yD,
+				  								  widthD,
+				  								  heightD);
 	}
 	
 	 
@@ -70,7 +105,7 @@ public class GravityBall extends Ball {
 	 * @return
 	 * 		vector representing the gravitational force against target ball.
 	 */
-	Vector attract(Ball ball) {
+	Vector attract(Element ball) {
 		
 		// get unit vector telling us the direction of force.
 		// *remember* a vector is the difference between two points. it tells 
@@ -104,6 +139,43 @@ public class GravityBall extends Ball {
 		//
 		return forceV;
 	}
+
+
+	@Override
+	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
+
+
+	@Override
+	public java.awt.Shape getShapeObject() {	
+		return shapeGeometry;
+	}
+
+
+	@Override
+	protected Point getShapeObjectCenterPoint() {		
+		Double centerX_D = ((Ellipse2D.Double)shapeGeometry).getCenterX();
+		Double centerY_D = ((Ellipse2D.Double)shapeGeometry).getCenterY();
+		Point point = new Point();
+		point.setLocation(centerX_D, centerY_D);
+		return point;
+	}
 	
+	
+	@Override
+	public void updateCenterVector() {
+		this.centerV = new Vector( getShapeObjectCenterPoint() );		
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
