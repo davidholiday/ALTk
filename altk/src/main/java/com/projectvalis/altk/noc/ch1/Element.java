@@ -1,6 +1,7 @@
 package com.projectvalis.altk.noc.ch1;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -130,6 +131,8 @@ public abstract class Element {
 	 */
 	protected abstract void checkEdges(int panelWidth, int panelHeight);
 	
+	
+	protected abstract void renderPresentation(Graphics g, Element element);
 
 	
 }

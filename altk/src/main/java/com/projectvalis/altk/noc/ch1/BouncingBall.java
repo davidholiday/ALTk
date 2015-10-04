@@ -1,6 +1,9 @@
 package com.projectvalis.altk.noc.ch1;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -101,6 +104,30 @@ public class BouncingBall extends Element {
 			locationV.yD = 0;
 		}	
 		
+	}
+
+
+	@Override
+	protected void renderPresentation(Graphics g, Element element) {
+		
+		double ballLocationX_D = element.getLocation().getLeft();
+		double ballLocationY_D = element.getLocation().getRight();
+				
+		Ellipse2D ballE2D = new Ellipse2D.Double(ballLocationX_D, 
+				ballLocationY_D,
+				element.widthD,
+				element.heightD);
+
+		// update center point variable
+		element.centerV = 
+				new Vector(ballE2D.getCenterX(), ballE2D.getCenterY());
+
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setColor(element.strokeColorC);
+		g2.setStroke(new BasicStroke(4));
+		g2.draw(ballE2D);
+		g2.setColor(element.fillColorC);
+		g2.fill(ballE2D);		
 	}
 
 
