@@ -39,9 +39,7 @@ public class BallPanel extends ElementPanel {
 			g2.draw(ballE2D);
 			g2.setColor(ball.fillColorC);
 			g2.fill(ballE2D);						
-		}
-		
-		
+		}	
 		
 	}
 	
