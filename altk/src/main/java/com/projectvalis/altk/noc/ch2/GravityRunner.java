@@ -16,6 +16,7 @@ import com.projectvalis.altk.noc.ch1.BallPanel;
 import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.ElementPanel;
 import com.projectvalis.altk.noc.ch1.Vector;
+import com.projectvalis.altk.noc.ch3.GravitySquare;
 
 
 /**
@@ -28,7 +29,7 @@ public class GravityRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityRunner.class.getName());
 	
-	private Element[] ballArr = new Element[5];
+	private Element[] squareArr = new Element[5];
 	private ElementPanel ballPanel;
 	private GravityBall gravityBall;
 	
@@ -70,23 +71,23 @@ public class GravityRunner extends internalFrameDark {
 		ballLocationV.xD += 75;
 		ballLocationV.yD -= 25;
 		
-		Element ball = new GravityBall(ballLocationV, 
-							 		 new Vector(0, 0), 
-							 		 new Vector(0.35, 1), 
-							 		 Color.black, 
-							 		 fillColor, 
-							 		 diameterI, 
-							 		 diameterI,
-							 		 diameterI);
+		Element square = new GravitySquare(ballLocationV, 
+							 		 	   new Vector(0, 0), 
+							 		 	   new Vector(0.35, 1), 
+							 		 	   Color.black, 
+							 		 	   fillColor, 
+							 		 	   diameterI, 
+							 		 	   diameterI,
+							 		 	   diameterI);
 		
-		ballArr[0] = ball;
+		squareArr[0] = square;
 		
 		
 		// create balls at random locations of random ontologies 
 		//
 		Random randy = new Random();
-		for (int i = 1; i < ballArr.length; i ++) {
-			diameterI = randy.nextInt(100);
+		for (int i = 1; i < squareArr.length; i ++) {
+			diameterI = randy.nextInt(65);
 			
 			int colorIndexI = randy.nextInt(5);		
 			fillColor = colorArr[colorIndexI];
@@ -94,23 +95,23 @@ public class GravityRunner extends internalFrameDark {
 			double locationY_D = randy.nextInt(this.getHeight());
 			Vector locationV = new Vector(locationX_D, locationY_D);
 						
-			ball = new GravityBall(locationV, 
-								   new Vector(0, 0), 
-								   new Vector(0, 0), 
-								   Color.black, 
-								   fillColor, 
-								   diameterI, 
-								   diameterI,
-								   diameterI);		
+			square = new GravitySquare(locationV, 
+								   	   new Vector(0, 0), 
+								   	   new Vector(0, 0), 
+								   	   Color.black, 
+								   	   fillColor, 
+								   	   diameterI, 
+								   	   diameterI,
+								   	   diameterI);		
 
-			ballArr[i] = ball;		
+			squareArr[i] = square;		
 		}
 		
 		// append gravity ball to tail of array
-		ballArr[ballArr.length - 1] = gravityBall;
+		squareArr[squareArr.length - 1] = gravityBall;
 		
 		// put it all together
-		ballPanel = new BallPanel(ballArr);
+		ballPanel = new BallPanel(squareArr);
 		this.add(ballPanel);		
 		this.attach(true);
 		
@@ -125,10 +126,10 @@ public class GravityRunner extends internalFrameDark {
 	 */
 	private void animate() {
 		
-		int gravityBallIndexI = ballArr.length -1;
+		int gravityBallIndexI = squareArr.length -1;
 		
 		GravityBall gravityBall = 
-				(GravityBall)ballArr[gravityBallIndexI];
+				(GravityBall)squareArr[gravityBallIndexI];
 				
 		boolean keepOnTrucknB = true;
 
@@ -150,10 +151,10 @@ public class GravityRunner extends internalFrameDark {
 			try {	
 
 				for (int i = 0; i < gravityBallIndexI; i ++) {
-					Element ball = ballArr[i];				
-					Vector attractionV = gravityBall.attract(ball);
-					ball.applyForce(attractionV);
-					ball.update(panelWidthI, panelHeightI);
+					Element square = squareArr[i];				
+					Vector attractionV = gravityBall.attract(square);
+					square.applyForce(attractionV);
+					square.update(panelWidthI, panelHeightI);
 				}
 				
 				repaint();

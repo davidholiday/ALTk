@@ -48,7 +48,7 @@ public abstract class ElementPanel
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+	
 		for (Element element : elementARR) {
 			element.renderPresentation(g, element);						
 		}	

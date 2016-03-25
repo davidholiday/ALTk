@@ -1,26 +1,15 @@
-package com.projectvalis.altk.noc.ch2;
+package com.projectvalis.altk.noc.ch3;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.Vector;
+import com.projectvalis.altk.noc.ch2.GravityBall;
 
-
-/**
- * extension of ball class that is able to exert gravitational force on other
- * ball objects.
- * 
- * @author snerd
- *
- */
-public class GravityBall extends Element {
+public class GravitySquare extends Square {
 
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityBall.class.getName());
@@ -35,7 +24,7 @@ public class GravityBall extends Element {
 	double upperDistanceConstraintD = 25.0;
 	
 	
-	public GravityBall() {
+	public GravitySquare() {
 		this.massD = widthD;
 		this.heightD = widthD;		
 		this.widthD = 50;
@@ -60,14 +49,14 @@ public class GravityBall extends Element {
 	 * @param mass
 	 * 		indicator of mass in the physics sense
 	 */
-	public GravityBall (Vector location, 
-						Vector velocity, 
-						Vector acceleration, 
-						Color strokeColor, 
-						Color fillColor, 
-						double width,
-						double height, 
-						double mass) {
+	public GravitySquare (Vector location, 
+						  Vector velocity, 
+						  Vector acceleration, 
+						  Color strokeColor, 
+						  Color fillColor, 
+						  double width,
+						  double height, 
+						  double mass) {
 		
 		locationV = location;
 		velocityV = velocity;
@@ -100,11 +89,11 @@ public class GravityBall extends Element {
 		// you how many x-units and how many y-units from a given location to
 		// go to reach a given destination.
 		//
-		Vector elementLocationV = new Vector(element.getLocation().getLeft(), 
+		Vector ballLocationV = new Vector(element.getLocation().getLeft(), 
 										  element.getLocation().getRight());
 		
 		Vector forceV = this.locationV.clone();
-		forceV.subtract(elementLocationV);
+		forceV.subtract(ballLocationV);
 		
 		double distanceD = forceV.getMagnitude();
 		
@@ -129,44 +118,5 @@ public class GravityBall extends Element {
 	}
 
 
-	@Override
-	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
-
-
-	@Override
-	protected void renderPresentation(Graphics g, Element element) {
-		double ballLocationX_D = element.getLocation().getLeft();
-		double ballLocationY_D = element.getLocation().getRight();
-				
-		Ellipse2D ballE2D = new Ellipse2D.Double(ballLocationX_D, 
-				ballLocationY_D,
-				element.widthD,
-				element.heightD);
-
-		// update center point variable
-		element.centerV = 
-				new Vector(ballE2D.getCenterX(), ballE2D.getCenterY());
-
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setColor(element.strokeColorC);
-		g2.setStroke(new BasicStroke(4));
-		g2.draw(ballE2D);
-		g2.setColor(element.fillColorC);
-		g2.fill(ballE2D);		
-	}
-
-
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-

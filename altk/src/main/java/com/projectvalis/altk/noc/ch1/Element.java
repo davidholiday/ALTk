@@ -29,6 +29,10 @@ public abstract class Element {
 	protected Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	
+	protected double angleD = 0;
+	protected double angularVelocityD = 0;
+	protected double angularAccelerationD = 0;
+	
 	// populated only when drawn
 	public Vector centerV;
 	
@@ -89,9 +93,16 @@ public abstract class Element {
 		// handle case where ball reaches window edge
 		checkEdges(panelWidth, panelHeight);
 
-		// reset the acceleration vector to zero because we're recalculating 
+		// update angular rotation
+		angularAccelerationD += accelerationV.xD;
+		angularVelocityD += angularAccelerationD;
+		angleD += angularVelocityD;	
+
+		// reset the acceleration vectors to zero because we're recalculating 
 		// it every time step
-		accelerationV.multiply(0);
+		accelerationV.multiply(0);	
+		angularAccelerationD *=0;
+		
 	}
 	
 	
@@ -103,10 +114,9 @@ public abstract class Element {
 	public void applyForce(Vector force) {
 		Vector forceLocalV = force.clone();		
 		forceLocalV.divide(massD);
-		accelerationV.add(forceLocalV);
+		accelerationV.add(forceLocalV);	
 	}
-	
-	
+
 	
 	/**
 	 * ensures velocity does not exceed limit
