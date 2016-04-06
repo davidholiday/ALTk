@@ -1,0 +1,15 @@
+// File: spacewar.bsh
+
+bsh.spacewar.help = "executes the spacewar game.";
+
+
+spacewar() {
+	Thread t1 = new Thread(new Runnable() {
+		public void run() {
+			SpacewarRunner spaceWarRunner = 
+				new com.projectvalis.altk.noc.ch3.SpacewarRunner();
+		}
+	});
+	  
+	t1.start();
+}

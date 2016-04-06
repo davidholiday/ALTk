@@ -19,12 +19,11 @@ import com.projectvalis.altk.noc.ch2.GravityBall;
 
 
 /**
- * the 'view' for the vector bouncing ball example in ch1 of nature of code
  * 
  * @author snerd
  *
  */
-public abstract class ElementPanel 
+public class ElementPanel 
 	extends JPanel implements MouseMotionListener, MouseListener {
 	
 	private static final Logger LOGGER = 
@@ -109,7 +108,7 @@ public abstract class ElementPanel
 	public void mouseDragged(MouseEvent e) {
 
 		Element element = elementARR[elementARR.length -1];		
-		if (!element.getClass().getName().contains("GravityBall")) return;
+		//if (!element.getClass().getName().contains("GravityBall")) return;
 		
 		
 		// if the ball color has changed, then we know the mouse is over

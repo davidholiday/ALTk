@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.init.internalFrameDark;
-import com.projectvalis.altk.noc.ch1.BallPanel;
 import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.ElementPanel;
 import com.projectvalis.altk.noc.ch1.Vector;
@@ -111,7 +110,7 @@ public class GravityRunner extends internalFrameDark {
 		squareArr[squareArr.length - 1] = gravityBall;
 		
 		// put it all together
-		ballPanel = new BallPanel(squareArr);
+		ballPanel = new ElementPanel(squareArr);
 		this.add(ballPanel);		
 		this.attach(true);
 		
