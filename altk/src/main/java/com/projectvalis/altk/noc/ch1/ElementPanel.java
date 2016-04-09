@@ -1,13 +1,12 @@
 package com.projectvalis.altk.noc.ch1;
 
-import java.awt.BasicStroke;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 
@@ -24,7 +23,7 @@ import com.projectvalis.altk.noc.ch2.GravityBall;
  *
  */
 public class ElementPanel 
-	extends JPanel implements MouseMotionListener, MouseListener {
+	extends JPanel implements MouseMotionListener, MouseListener, KeyListener {
 	
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(ElementPanel.class.getName());
@@ -34,8 +33,8 @@ public class ElementPanel
 	protected Vector mousePressPositionV; 
 	
 
-	public ElementPanel(Element[] shapeARR) {
-		this.elementARR = shapeARR;
+	public ElementPanel(Element[] elementARR) {
+		this.elementARR = elementARR;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(GUI.charcoalC);
@@ -106,40 +105,37 @@ public class ElementPanel
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-
-		Element element = elementARR[elementARR.length -1];		
-		//if (!element.getClass().getName().contains("GravityBall")) return;
 		
-		
-		// if the ball color has changed, then we know the mouse is over
-		// the ball at click-time
-		if (element.fillColorC == GUI.orangeC) {
-			GravityBall gravityBall = (GravityBall)element;
-
-			// get the vector betwixt the point at which the mouse was pressed
-			// and the current mouse position
-			Point p = this.getMousePosition();
-			
-			if (p == null) return;
-			
-			Vector currentMousePositionV = new Vector(p.getX(), p.getY());
-			
-			Vector newBallPositionV = currentMousePositionV.clone();
-			newBallPositionV.subtract(mousePressPositionV);
-			//newBallPositionV.normalize();
-			//newBallPositionV.multiply(0.5);
-			
-			
-			gravityBall.locationV.add(newBallPositionV);
-			mousePressPositionV = currentMousePositionV;
-			
-		}		
 	}
 
 
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

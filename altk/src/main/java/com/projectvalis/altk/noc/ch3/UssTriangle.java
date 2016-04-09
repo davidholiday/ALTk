@@ -3,6 +3,7 @@ package com.projectvalis.altk.noc.ch3;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 import org.slf4j.Logger;
@@ -41,32 +42,29 @@ public class UssTriangle extends Element {
 		}
 		
 		ussTriangleGP.closePath();
-
-//		g2.setColor(element.fillColorC);
-//		g2.fill(ussTriangleGP);
 		
 		// render the outline of the image
 		g2.setColor(element.strokeColorC);
-		g2.setStroke(new BasicStroke(2));
+		g2.setStroke(new BasicStroke(2));		
+		
+		AffineTransform affineTransform = new AffineTransform();	
+		affineTransform.scale(0.5, 0.5);
+		ussTriangleGP.transform(affineTransform);
+		
+				
+//		g2.setColor(element.fillColorC);
+//		g2.fill(ussTriangleGP);
+		
+
 		
 		g2.draw(ussTriangleGP);
 
-//	    AffineTransform affineTransform = new AffineTransform();
+
 //	   
 //	    affineTransform.rotate(Math.toRadians(angleD), 
 //	    					   squareR2D.getCenterX(), 
 //	    					   squareR2D.getCenterY());
-//	    
-//	    path.transform(affineTransform);
-//	    
-//	    // render the filled in image
-//		g2.setColor(element.fillColorC);
-//		g2.fill(path);
-//		
-//		// render the outline of the image
-//		g2.setColor(element.strokeColorC);
-//		g2.setStroke(new BasicStroke(2));
-//	    g2.draw(path);				 		
+//	    			 		
 	}
 	
 }

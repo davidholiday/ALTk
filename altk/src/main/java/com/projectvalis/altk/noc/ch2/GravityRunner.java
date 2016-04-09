@@ -110,7 +110,7 @@ public class GravityRunner extends internalFrameDark {
 		squareArr[squareArr.length - 1] = gravityBall;
 		
 		// put it all together
-		ballPanel = new ElementPanel(squareArr);
+		ballPanel = new GravityBallPanel(squareArr);
 		this.add(ballPanel);		
 		this.attach(true);
 		

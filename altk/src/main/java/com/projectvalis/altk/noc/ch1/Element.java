@@ -51,7 +51,18 @@ public abstract class Element {
 	// placeholder
 	public Element() {}
 
-		
+	
+	/**
+	 * adds the provided vector to this object's location vector
+	 * 
+	 * @param updateLocationVector
+	 */
+	public void addToLocationVector(Vector updateLocationVector) {
+		locationV.xD += updateLocationVector.xD;
+		locationV.yD += updateLocationVector.yD;
+	}
+	
+	
 
 	/**
 	 * returns location w/o granting access to this object's location

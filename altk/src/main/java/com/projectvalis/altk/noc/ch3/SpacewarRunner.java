@@ -38,10 +38,13 @@ public class SpacewarRunner extends internalFrameDark {
 		colorArr[4] = GUI.tealC;
 	
 		elementARR[0] = ussTriangleE;
+		
+		
+		
+		
 		elementPanel = new ElementPanel(elementARR);
 		this.add(elementPanel);
 		this.attach(true);
-		
 	}
 		
 
