@@ -39,7 +39,7 @@ public class SpacewarRunner extends internalFrameDark {
 									   new Vector(0, 0), 
 									   new Vector(0, 0), 
 									   GUI.redC, 
-									   GUI.mustardC, 
+									   GUI.charcoalC, 
 									   50, 
 									   50,
 									   50);	

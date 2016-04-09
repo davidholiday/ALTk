@@ -36,7 +36,7 @@ public class Square extends Element {
 	    path.append(squareR2D, false);
 	    AffineTransform affineTransform = new AffineTransform();
 	   
-	    affineTransform.rotate(Math.toRadians(angleD), 
+	    affineTransform.rotate(Math.toRadians(headingD), 
 	    					   squareR2D.getCenterX(), 
 	    					   squareR2D.getCenterY());
 	    

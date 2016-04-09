@@ -29,7 +29,7 @@ public abstract class Element {
 	protected Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	
-	protected double angleD = 0;
+	protected double headingD = 0;
 	protected double angularVelocityD = 0;
 	public double angularAccelerationD = 0;
 	
@@ -104,13 +104,13 @@ public abstract class Element {
 		checkEdges(panelWidth, panelHeight);
 
 		// update angular rotation
-		angularAccelerationD += accelerationV.xD;
 		angularVelocityD += angularAccelerationD;
-		angleD += angularVelocityD;	
+		headingD += angularVelocityD;	
 
 		// reset the acceleration vectors to zero because we're recalculating 
 		// it every time step
 		accelerationV.multiply(0);	
+		angularVelocityD *=0;
 		angularAccelerationD *=0;
 		
 	}

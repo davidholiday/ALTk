@@ -93,15 +93,17 @@ public class UssTriangle extends Element {
 		
 		double ussTriangleCenterX_D = ussTriangleGP.getBounds().getCenterX();
 		double ussTriangleCenterY_D = ussTriangleGP.getBounds().getCenterY();		
-	    affineTransform.rotate(Math.toRadians(angleD), 
+
+		affineTransform.rotate(Math.toRadians(this.headingD), 
 	    		               ussTriangleCenterX_D, 
 	    		               ussTriangleCenterY_D);		
+	    
 	    
 	    ussTriangleGP.transform(affineTransform);
 		
 		// render 
 		g2.setColor(element.strokeColorC);
-		g2.setStroke(new BasicStroke(1));		
+		g2.setStroke(new BasicStroke(2));		
 		g2.draw(ussTriangleGP);
 		g2.setColor(element.fillColorC);
 		g2.fill(ussTriangleGP);

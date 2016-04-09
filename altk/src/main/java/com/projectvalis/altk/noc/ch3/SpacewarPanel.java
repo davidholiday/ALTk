@@ -24,7 +24,7 @@ public class SpacewarPanel extends ElementPanel {
 	
 		// left
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {			
-			elementARR[0].angularAccelerationD -= 0.05;
+			elementARR[0].angularAccelerationD -= 10;
 		}
 	
 		
@@ -35,7 +35,7 @@ public class SpacewarPanel extends ElementPanel {
 		
 		// right
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			elementARR[0].angularAccelerationD += 0.05;
+			elementARR[0].angularAccelerationD += 10;
 		}
 		
 

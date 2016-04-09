@@ -153,6 +153,7 @@ public class GravityRunner extends internalFrameDark {
 					Element square = squareArr[i];				
 					Vector attractionV = gravityBall.attract(square);
 					square.applyForce(attractionV);
+					square.angularAccelerationD += square.accelerationV.xD;
 					square.update(panelWidthI, panelHeightI);
 				}
 				
