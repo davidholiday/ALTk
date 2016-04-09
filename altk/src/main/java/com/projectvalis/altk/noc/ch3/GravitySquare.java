@@ -32,7 +32,7 @@ public class GravitySquare extends Square {
 	
 	
 	/**
-	 * full control constructor. controls size and color of the ball
+	 * full control constructor. controls size and color of the element
 	 * 
 	 * @param location
 	 * 		where the thing starts in the window

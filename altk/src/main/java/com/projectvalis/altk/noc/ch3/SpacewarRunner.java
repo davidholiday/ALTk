@@ -1,7 +1,7 @@
 package com.projectvalis.altk.noc.ch3;
 
 import java.awt.Color;
-
+import java.awt.Point;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +10,8 @@ import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.init.internalFrameDark;
 import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.ElementPanel;
+import com.projectvalis.altk.noc.ch1.Vector;
+import com.projectvalis.altk.noc.ch2.GravityBall;
 
 
 public class SpacewarRunner extends internalFrameDark {
@@ -20,7 +22,7 @@ public class SpacewarRunner extends internalFrameDark {
 	
 	private Element[] elementARR = new Element[1];
 	private SpacewarPanel spacewarPanel;
-	private Element ussTriangleE = new UssTriangle();
+	private Element ussTriangleE;
 	
 	
 
@@ -28,17 +30,21 @@ public class SpacewarRunner extends internalFrameDark {
 	 * constructor bootstraps the whole demo
 	 */
 	public SpacewarRunner() {
-		this.setLocation(800, 200);	
-			
-		Color[] colorArr = new Color[5];
-		colorArr[0] = GUI.mustardC;
-		colorArr[1] = GUI.orangeC;
-		colorArr[2] = GUI.purpleC;
-		colorArr[3] = GUI.redC;
-		colorArr[4] = GUI.tealC;
-	
-		elementARR[0] = ussTriangleE;
-				
+		this.setLocation(800, 200);		
+		
+		Vector ussTriangleLocationVector = 
+				new Vector(this.getWidth() / 2, this.getHeight() / 2);
+		
+		ussTriangleE = new UssTriangle(ussTriangleLocationVector, 
+									   new Vector(0, 0), 
+									   new Vector(0, 0), 
+									   GUI.redC, 
+									   GUI.mustardC, 
+									   50, 
+									   50,
+									   50);	
+		
+		elementARR[0] = ussTriangleE;	
 		spacewarPanel = new SpacewarPanel(elementARR);
 		
 		this.add(spacewarPanel);
@@ -48,9 +54,29 @@ public class SpacewarRunner extends internalFrameDark {
 
 	
 	private void animate() {
+
 		
-		while(true) {
-			elementARR[0].update(this.getWidth(), this.getHeight());
+		boolean keepOnTrucknB = true;
+
+		while (keepOnTrucknB) {					
+			int panelWidthI = this.getWidth();
+			int panelHeightI = this.getHeight();				
+			
+			// go through ball array and update their positions 
+			try {	
+				elementARR[0].update(this.getWidth(), this.getHeight());
+				repaint();
+				Thread.sleep(10);
+				
+				// ensure the window is still open
+				keepOnTrucknB = (this.isClosed) ? (false) : (true);
+				
+			} catch (InterruptedException e) {
+				LOGGER.error("EXITING ON ERROR! ");
+				e.printStackTrace();
+				keepOnTrucknB = false;
+			}
+			
 		}
 		
 	}

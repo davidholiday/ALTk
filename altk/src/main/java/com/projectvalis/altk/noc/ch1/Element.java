@@ -50,7 +50,7 @@ public abstract class Element {
 	
 	// placeholder
 	public Element() {}
-
+	
 	
 	/**
 	 * adds the provided vector to this object's location vector

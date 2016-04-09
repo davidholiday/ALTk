@@ -1,6 +1,7 @@
 package com.projectvalis.altk.noc.ch3;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -10,27 +11,65 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.noc.ch1.Element;
+import com.projectvalis.altk.noc.ch1.Vector;
 
 
 public class UssTriangle extends Element {
 	
+
+	/**
+	 * full control constructor. controls size and color of the element
+	 * 
+	 * @param location
+	 * 		where the thing starts in the window
+	 * @param velocity
+	 * 		what the rate of change of location for the thing should be
+	 * @param strokeColor
+	 * 		color of the outline of the circle
+	 * @param fillColor
+	 * 		color of the interior of the circle
+	 * @param width
+	 * 		horizontal size of the circle
+	 * @param height
+	 * 		vertical size of the circle
+	 * @param mass
+	 * 		indicator of mass in the physics sense
+	 */
+	public UssTriangle (Vector location, 
+						Vector velocity, 
+						Vector acceleration, 
+						Color strokeColor, 
+						Color fillColor, 
+						double width,
+						double height, 
+						double mass) {
+		
+		this.locationV = location;
+		this.velocityV = velocity;
+		this.accelerationV = acceleration;
+		this.strokeColorC = strokeColor;
+		this.fillColorC = fillColor;
+		this.widthD = width;
+		this.heightD = height;
+		this.massD = mass;
+	}
+	
+	
+	
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(UssTriangle.class.getName());
+	
 	
 	@Override
 	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
 
 	@Override
-	protected void renderPresentation(Graphics g, Element element) {
-		double elementLocationX_D = element.getLocation().getLeft();
-		double elementLocationY_D = element.getLocation().getRight();
-				
-		
+	protected void renderPresentation(Graphics g, Element element) {						
 		Graphics2D g2 = (Graphics2D)g;	
 		
-		// treat the shape as a path object so we can easily rotate it
-		int x2Points[] = {65, 55, 65, 75};
-		int y2Points[] = {182, 217, 207, 217};
+		// create ss triangle path at origin
+		double x2Points[] = {0, -10, 0, 10};			
+		double y2Points[] = {0, 35, 25, 35};
 		
 		GeneralPath ussTriangleGP = new GeneralPath(
 				GeneralPath.WIND_EVEN_ODD, x2Points.length);
@@ -42,29 +81,31 @@ public class UssTriangle extends Element {
 		}
 		
 		ussTriangleGP.closePath();
-		
-		// render the outline of the image
-		g2.setColor(element.strokeColorC);
-		g2.setStroke(new BasicStroke(2));		
-		
-		AffineTransform affineTransform = new AffineTransform();	
+	
+		// translate, scale, and rotate
+		AffineTransform affineTransform = new AffineTransform();
+
+		double elementLocationX_D = element.getLocation().getLeft();
+		double elementLocationY_D = element.getLocation().getRight();		
+		affineTransform.translate(elementLocationX_D, elementLocationY_D);
+
 		affineTransform.scale(0.5, 0.5);
-		ussTriangleGP.transform(affineTransform);
 		
-				
-//		g2.setColor(element.fillColorC);
-//		g2.fill(ussTriangleGP);
+		double ussTriangleCenterX_D = ussTriangleGP.getBounds().getCenterX();
+		double ussTriangleCenterY_D = ussTriangleGP.getBounds().getCenterY();		
+	    affineTransform.rotate(Math.toRadians(angleD), 
+	    		               ussTriangleCenterX_D, 
+	    		               ussTriangleCenterY_D);		
+	    
+	    ussTriangleGP.transform(affineTransform);
 		
-
-		
+		// render 
+		g2.setColor(element.strokeColorC);
+		g2.setStroke(new BasicStroke(1));		
 		g2.draw(ussTriangleGP);
-
-
-//	   
-//	    affineTransform.rotate(Math.toRadians(angleD), 
-//	    					   squareR2D.getCenterX(), 
-//	    					   squareR2D.getCenterY());
-//	    			 		
+		g2.setColor(element.fillColorC);
+		g2.fill(ussTriangleGP);
+	 		
 	}
 	
 }
