@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.init.GUI;
-import com.projectvalis.altk.noc.ch2.GravityBall;
 
 
 /**

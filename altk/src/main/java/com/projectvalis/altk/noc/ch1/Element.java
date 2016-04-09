@@ -31,7 +31,7 @@ public abstract class Element {
 	
 	protected double angleD = 0;
 	protected double angularVelocityD = 0;
-	protected double angularAccelerationD = 0;
+	public double angularAccelerationD = 0;
 	
 	// populated only when drawn
 	public Vector centerV;
@@ -61,7 +61,6 @@ public abstract class Element {
 		locationV.xD += updateLocationVector.xD;
 		locationV.yD += updateLocationVector.yD;
 	}
-	
 	
 
 	/**

@@ -19,7 +19,7 @@ public class SpacewarRunner extends internalFrameDark {
 			LoggerFactory.getLogger(SpacewarRunner.class.getName());
 	
 	private Element[] elementARR = new Element[1];
-	private ElementPanel elementPanel;
+	private SpacewarPanel spacewarPanel;
 	private Element ussTriangleE = new UssTriangle();
 	
 	
@@ -38,14 +38,21 @@ public class SpacewarRunner extends internalFrameDark {
 		colorArr[4] = GUI.tealC;
 	
 		elementARR[0] = ussTriangleE;
+				
+		spacewarPanel = new SpacewarPanel(elementARR);
 		
-		
-		
-		
-		elementPanel = new ElementPanel(elementARR);
-		this.add(elementPanel);
-		this.attach(true);
+		this.add(spacewarPanel);
+		this.attach(true);		
+		animate();
 	}
-		
 
+	
+	private void animate() {
+		
+		while(true) {
+			elementARR[0].update(this.getWidth(), this.getHeight());
+		}
+		
+	}
+	
 }
