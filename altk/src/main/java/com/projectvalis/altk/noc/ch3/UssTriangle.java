@@ -121,7 +121,7 @@ public class UssTriangle extends Element {
 	    
 		g2.setColor(this.strokeColorC);
 		g2.setStroke(new BasicStroke(2));		
-	 
+	
 		return ussTriangleGP;
 	}
 	

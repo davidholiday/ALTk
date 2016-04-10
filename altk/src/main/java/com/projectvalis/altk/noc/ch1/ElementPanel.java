@@ -10,6 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -35,12 +37,10 @@ public class ElementPanel
 	public boolean[] keyFlagsARR;
 	protected boolean mouseInFrameB = false;
 	protected Vector mousePressPositionV; 
-	protected List<Shape> shapeToRenderList;
 	
 
 	public ElementPanel(Element[] elementARR) {
 		this.elementARR = elementARR;
-		shapeToRenderList = new ArrayList<Shape>();
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(GUI.charcoalC);
@@ -48,22 +48,15 @@ public class ElementPanel
 	
 		
 	
-//	public void paintComponent(Graphics g) { super.paintComponent(g); }
 
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-	
+		super.paintComponent(g);	
 		Graphics2D g2 = (Graphics2D)g;
 		
-		for (Element element : elementARR) {
-			Shape shapeToRender = element.renderPresentation(g);	
-			shapeToRenderList.add(shapeToRender);
-			
-			shapeToRenderList.parallelStream()
-							 .forEach(g2::draw);
-			
-			shapeToRenderList.clear();
-		}	
+		Arrays.asList(elementARR)
+			  .stream()
+			  .map(x -> x.renderPresentation(g2))
+			  .forEach(g2::draw);
 		
 	}
 	

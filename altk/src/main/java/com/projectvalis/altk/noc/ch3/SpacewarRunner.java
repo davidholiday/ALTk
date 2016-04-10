@@ -2,6 +2,7 @@ package com.projectvalis.altk.noc.ch3;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.beans.PropertyVetoException;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,7 +24,7 @@ public class SpacewarRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(SpacewarRunner.class.getName());
 	
-	private Element[] elementARR = new Element[10];
+	private Element[] elementARR = new Element[6];
 	private SpacewarPanel spacewarPanel;
 	private Element ussTriangleE;
 	
@@ -33,14 +34,13 @@ public class SpacewarRunner extends internalFrameDark {
 	 * constructor bootstraps the whole demo
 	 */
 	public SpacewarRunner() {
-		this.setLocation(800, 200);		
-		
-		Color[] colorArr = new Color[5];
+		this.setLocation(800, 200);	
+
+		Color[] colorArr = new Color[4];
 		colorArr[0] = GUI.mustardC;
 		colorArr[1] = GUI.orangeC;
-		colorArr[2] = GUI.purpleC;
-		colorArr[3] = GUI.redC;
-		colorArr[4] = GUI.tealC;
+		colorArr[2] = GUI.redC;
+		colorArr[3] = GUI.tealC;
 		
 		Vector ussTriangleLocationVector = 
 				new Vector(this.getWidth() / 2, this.getHeight() / 2);
@@ -48,8 +48,8 @@ public class SpacewarRunner extends internalFrameDark {
 		ussTriangleE = new UssTriangle(ussTriangleLocationVector, 
 									   new Vector(0, 0), 
 									   new Vector(0, 0), 
-									   GUI.tealC, 
-									   GUI.purpleC, 
+									   GUI.redC, 
+									   GUI.orangeC, 
 									   50, 
 									   50,
 									   50);	
@@ -58,9 +58,9 @@ public class SpacewarRunner extends internalFrameDark {
 		
 		Random randy = new Random();
 		for (int i = 1; i < elementARR.length; i ++) {
-			int diameterI = randy.nextInt(65);
+			int diameterI = ThreadLocalRandom.current().nextInt(25, 65 + 1);
 			
-			int colorIndexI = randy.nextInt(5);		
+			int colorIndexI = randy.nextInt(4);		
 			Color fillColor = colorArr[colorIndexI];
 			double locationX_D = randy.nextInt(this.getWidth());
 			double locationY_D = randy.nextInt(this.getHeight());
@@ -75,8 +75,8 @@ public class SpacewarRunner extends internalFrameDark {
 								   	   diameterI,
 								   	   diameterI);	
 			
-			int randomX_I = ThreadLocalRandom.current().nextInt(-3, 3 + 1);
-			int randomY_I = ThreadLocalRandom.current().nextInt(-3, 3 + 1);
+			int randomX_I = ThreadLocalRandom.current().nextInt(-2, 2 + 1);
+			int randomY_I = ThreadLocalRandom.current().nextInt(-2, 2 + 1);
 			square.velocityV = new Vector(randomX_I, randomY_I);
 			square.angularAccelerationD = square.velocityV.xD;
 			elementARR[i] = square;		
