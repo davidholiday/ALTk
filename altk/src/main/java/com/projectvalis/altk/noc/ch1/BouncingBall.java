@@ -11,6 +11,8 @@ import java.awt.geom.Ellipse2D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.projectvalis.altk.util.EdgeDetectors;
+
 
 
 
@@ -72,43 +74,24 @@ public class BouncingBall extends Element {
 	}
 	
 
-	
 	/**
-	 * makes the ball appear to bounce when it reaches a window edge
-	 * @param panelWidth
-	 * @param panelHeight
+	 * sets behavior for what happens when this element reaches the 
+	 * container boundary. 
 	 */
 	protected void checkEdges(int panelWidth, int panelHeight) {
 		
-		// x axis
-		//
-		if ((locationV.xD + widthD) > panelWidth) {
-			velocityV.xD *= -1;
-			double locationDiffD = (locationV.xD + widthD) - panelWidth;
-			locationV.xD = panelWidth - locationDiffD - widthD;
-		}
-		else if ((locationV.xD) < 0) {
-			velocityV.xD *= -1;
-			locationV.xD = 0;
-		}
-		
-		// y axis
-		//
-		if ((locationV.yD + heightD) > panelHeight) {
-			velocityV.yD *= -1;
-			double locationDiffD = (locationV.yD + heightD) - panelHeight;
-			locationV.yD = panelHeight - locationDiffD - heightD;
-		}
-		else if ((locationV.yD + heightD) < 0) {
-			velocityV.yD *= -1;
-			locationV.yD = 0;
-		}	
+		EdgeDetectors.bounceEdges(panelWidth, 
+				                  panelHeight, 
+				                  locationV, 
+				                  velocityV, 
+				                  widthD, 
+				                  heightD);
 		
 	}
 
 
 	@Override
-	protected Shape renderPresentation(Graphics g) {
+	protected Shape renderPresentation(Graphics2D g2) {
 		
 		double ballLocationX_D = this.getLocation().getLeft();
 		double ballLocationY_D = this.getLocation().getRight();
@@ -121,8 +104,6 @@ public class BouncingBall extends Element {
 		// update center point variable
 		this.centerV = 
 				new Vector(ballE2D.getCenterX(), ballE2D.getCenterY());
-
-		Graphics2D g2 = (Graphics2D)g;
 		
 		g2.setColor(this.fillColorC);
 		g2.fill(ballE2D);

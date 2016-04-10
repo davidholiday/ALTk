@@ -17,7 +17,7 @@ public class Square extends Element {
 	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
 
 	@Override
-	protected Shape renderPresentation(Graphics g) {
+	protected Shape renderPresentation(Graphics2D g2) {
 		double squareLocationX_D = this.getLocation().getLeft();
 		double squareLocationY_D = this.getLocation().getRight();
 				
@@ -29,9 +29,7 @@ public class Square extends Element {
 		// update center point variable
 		this.centerV = 
 				new Vector(squareR2D.getCenterX(), squareR2D.getCenterY());
-		
-		Graphics2D g2 = (Graphics2D)g;	
-		
+				
 		// treat the shape as a path object so we can easily rotate it
 	    Path2D.Double squareAsPath = new Path2D.Double();
 	    squareAsPath.append(squareR2D, false);
@@ -50,8 +48,7 @@ public class Square extends Element {
 		// render the outline of the image
 		g2.setColor(this.strokeColorC);
 		g2.setStroke(new BasicStroke(2));
-	    //g2.draw(path);	
-		
+
 		return squareAsPath;
 	}
 

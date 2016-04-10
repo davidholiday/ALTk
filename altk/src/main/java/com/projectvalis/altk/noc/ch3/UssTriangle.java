@@ -72,14 +72,13 @@ public class UssTriangle extends Element {
 	
 	@Override
 	protected void checkEdges(int panelWidth, int panelHeight) { 
-		this.locationV = 
-				EdgeDetectors.loopEdges(panelWidth, panelHeight, locationV);	
+		EdgeDetectors.loopEdges(panelWidth, panelHeight, locationV);	
 	}
 
 	
 	@Override
-	protected Shape renderPresentation(Graphics g) {						
-		Graphics2D g2 = (Graphics2D)g;	
+	protected Shape renderPresentation(Graphics2D g2) {						
+
 		
 		// create ss triangle path at origin
 		double x2Points[] = {0, -10, 0, 10};			
@@ -103,7 +102,7 @@ public class UssTriangle extends Element {
 		double elementLocationY_D = this.getLocation().getRight();		
 		affineTransform.translate(elementLocationX_D, elementLocationY_D);
 
-		affineTransform.scale(0.5, 0.5);
+		affineTransform.scale(0.75, 0.75);
 		
 		double ussTriangleCenterX_D = ussTriangleGP.getBounds().getCenterX();
 		double ussTriangleCenterY_D = ussTriangleGP.getBounds().getCenterY();		
@@ -120,7 +119,7 @@ public class UssTriangle extends Element {
 		g2.fill(ussTriangleGP);
 	    
 		g2.setColor(this.strokeColorC);
-		g2.setStroke(new BasicStroke(2));		
+		g2.setStroke(new BasicStroke(1));		
 	
 		return ussTriangleGP;
 	}

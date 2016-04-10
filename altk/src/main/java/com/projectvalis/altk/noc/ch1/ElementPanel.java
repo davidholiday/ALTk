@@ -51,12 +51,15 @@ public class ElementPanel
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);	
+
 		Graphics2D g2 = (Graphics2D)g;
 		
 		Arrays.asList(elementARR)
 			  .stream()
 			  .map(x -> x.renderPresentation(g2))
 			  .forEach(g2::draw);
+		
+		g2.dispose();
 		
 	}
 	

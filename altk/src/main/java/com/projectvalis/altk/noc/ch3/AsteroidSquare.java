@@ -50,10 +50,10 @@ public class AsteroidSquare extends Square {
 		massD = mass;
 	}
 	
+	
 	@Override
 	protected void checkEdges(int panelWidth, int panelHeight) { 
-		this.locationV = 
-				EdgeDetectors.loopEdges(panelWidth, panelHeight, locationV);	
+		EdgeDetectors.loopEdges(panelWidth, panelHeight, locationV);	
 		
 	}
 

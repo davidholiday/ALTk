@@ -135,7 +135,7 @@ public class GravityBall extends Element {
 
 
 	@Override
-	protected Shape renderPresentation(Graphics g) {
+	protected Shape renderPresentation(Graphics2D g2) {
 		double ballLocationX_D = this.getLocation().getLeft();
 		double ballLocationY_D = this.getLocation().getRight();
 				
@@ -148,7 +148,6 @@ public class GravityBall extends Element {
 		this.centerV = 
 				new Vector(ballE2D.getCenterX(), ballE2D.getCenterY());
 
-		Graphics2D g2 = (Graphics2D)g;
 		g2.setColor(this.fillColorC);
 		g2.fill(ballE2D);	
 		

@@ -34,13 +34,13 @@ public class SpacewarRunner extends internalFrameDark {
 	 * constructor bootstraps the whole demo
 	 */
 	public SpacewarRunner() {
-		this.setLocation(800, 200);	
-
-		Color[] colorArr = new Color[4];
+		this.setLocation(400, 200);
+		this.setSize(1280, 720);
+		
+		Color[] colorArr = new Color[3];
 		colorArr[0] = GUI.mustardC;
 		colorArr[1] = GUI.orangeC;
 		colorArr[2] = GUI.redC;
-		colorArr[3] = GUI.tealC;
 		
 		Vector ussTriangleLocationVector = 
 				new Vector(this.getWidth() / 2, this.getHeight() / 2);
@@ -48,8 +48,8 @@ public class SpacewarRunner extends internalFrameDark {
 		ussTriangleE = new UssTriangle(ussTriangleLocationVector, 
 									   new Vector(0, 0), 
 									   new Vector(0, 0), 
-									   GUI.redC, 
-									   GUI.orangeC, 
+									   Color.black, 
+									   GUI.tealC, 
 									   50, 
 									   50,
 									   50);	
@@ -60,7 +60,7 @@ public class SpacewarRunner extends internalFrameDark {
 		for (int i = 1; i < elementARR.length; i ++) {
 			int diameterI = ThreadLocalRandom.current().nextInt(25, 65 + 1);
 			
-			int colorIndexI = randy.nextInt(4);		
+			int colorIndexI = randy.nextInt(3);		
 			Color fillColor = colorArr[colorIndexI];
 			double locationX_D = randy.nextInt(this.getWidth());
 			double locationY_D = randy.nextInt(this.getHeight());
