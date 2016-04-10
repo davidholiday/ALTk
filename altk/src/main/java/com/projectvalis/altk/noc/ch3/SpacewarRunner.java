@@ -91,7 +91,12 @@ public class SpacewarRunner extends internalFrameDark {
 		}
 		
 		if (spacewarPanel.keyFlagsARR[1]) {
-			double thetaD = elementARR[0].headingD;
+			
+			// convert heading to radians - which is what polar format 
+			// expects. the (-90) is to account for the difference in 
+			// orientation between heading and angle (eg -- heading 000 is a
+			// 90 degree angle).
+			double thetaD = Math.toRadians(elementARR[0].headingD - 90);
 			double radiusD = 0.03;
 			
 			Vector newAccelerationVector = 

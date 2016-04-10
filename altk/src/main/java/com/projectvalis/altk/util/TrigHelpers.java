@@ -17,8 +17,8 @@ public class TrigHelpers {
      *
 	 */
 	public static Vector PolarToVector(double thetaD, double radiusD) {
-		double vectorX_D = Math.cos(Math.toRadians(thetaD)) * radiusD;
-		double vectorY_D = Math.sin(Math.toRadians(thetaD)) * radiusD;	
+		double vectorX_D = Math.cos(thetaD) * radiusD;
+		double vectorY_D = Math.sin(thetaD) * radiusD;	
 		return new Vector(vectorX_D, vectorY_D);		
 	}
 	

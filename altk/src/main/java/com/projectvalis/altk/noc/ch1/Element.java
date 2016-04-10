@@ -29,7 +29,9 @@ public abstract class Element {
 	protected Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	
-	public double headingD = 0;
+	// heading goes from (-180 : 180) 
+	// don't forget heading isn't the same thing as angle!
+	public double headingD = 0; 
 	public double angularVelocityD = 0;
 	public double angularAccelerationD = 0;
 	
@@ -110,7 +112,6 @@ public abstract class Element {
 		// reset the acceleration vectors to zero because we're recalculating 
 		// it every time step
 		accelerationV.multiply(0);	
-		//angularVelocityD *=0;
 		angularAccelerationD *=0;
 		
 	}
