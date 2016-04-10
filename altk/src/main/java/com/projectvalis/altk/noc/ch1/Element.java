@@ -25,8 +25,8 @@ public abstract class Element {
 			LoggerFactory.getLogger(Element.class.getName());
 	
 		
-	protected Vector locationV = new Vector(10, 300);
-	protected Vector velocityV = new Vector(0, 0);
+	public Vector locationV = new Vector(10, 300);
+	public Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	
 	// heading goes from (-180 : 180) 
