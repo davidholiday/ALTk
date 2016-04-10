@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
@@ -71,17 +72,17 @@ public class UssTriangle extends Element {
 	@Override
 	protected void checkEdges(int panelWidth, int panelHeight) { 
 		
-		if (locationV.xD > panelWidth - 15) { locationV.xD = 15; }
-		if (locationV.xD < 15) { locationV.xD = panelWidth - 15; }
+		if (locationV.xD > panelWidth - 10) { locationV.xD = 10; }
+		if (locationV.xD < 10) { locationV.xD = panelWidth - 10; }
 		
-		if (locationV.yD > panelHeight - 15) { locationV.yD = 15; }
-		if (locationV.yD < 15) { locationV.yD = panelHeight - 15; }
+		if (locationV.yD > panelHeight - 10) { locationV.yD = 10; }
+		if (locationV.yD < 10) { locationV.yD = panelHeight - 10; }
 		
 	}
 
 	
 	@Override
-	protected void renderPresentation(Graphics g, Element element) {						
+	protected Shape renderPresentation(Graphics g) {						
 		Graphics2D g2 = (Graphics2D)g;	
 		
 		// create ss triangle path at origin
@@ -102,8 +103,8 @@ public class UssTriangle extends Element {
 		// translate, scale, and rotate
 		AffineTransform affineTransform = new AffineTransform();
 
-		double elementLocationX_D = element.getLocation().getLeft();
-		double elementLocationY_D = element.getLocation().getRight();		
+		double elementLocationX_D = this.getLocation().getLeft();
+		double elementLocationY_D = this.getLocation().getRight();		
 		affineTransform.translate(elementLocationX_D, elementLocationY_D);
 
 		affineTransform.scale(0.5, 0.5);
@@ -119,12 +120,13 @@ public class UssTriangle extends Element {
 	    ussTriangleGP.transform(affineTransform);
 		
 		// render 
-		g2.setColor(element.strokeColorC);
-		g2.setStroke(new BasicStroke(2));		
-		g2.draw(ussTriangleGP);
-		g2.setColor(element.fillColorC);
+	    g2.setColor(this.fillColorC);
 		g2.fill(ussTriangleGP);
-	 		
+	    
+		g2.setColor(this.strokeColorC);
+		g2.setStroke(new BasicStroke(2));		
+	 
+		return ussTriangleGP;
 	}
 	
 }

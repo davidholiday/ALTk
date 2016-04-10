@@ -28,7 +28,7 @@ public class GravityRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityRunner.class.getName());
 	
-	private Element[] squareArr = new Element[5];
+	private Element[] squareArr = new Element[25];
 	private ElementPanel ballPanel;
 	private GravityBall gravityBall;
 	

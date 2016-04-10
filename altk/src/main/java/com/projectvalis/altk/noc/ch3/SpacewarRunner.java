@@ -3,6 +3,7 @@ package com.projectvalis.altk.noc.ch3;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class SpacewarRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(SpacewarRunner.class.getName());
 	
-	private Element[] elementARR = new Element[6];
+	private Element[] elementARR = new Element[10];
 	private SpacewarPanel spacewarPanel;
 	private Element ussTriangleE;
 	
@@ -47,7 +48,7 @@ public class SpacewarRunner extends internalFrameDark {
 		ussTriangleE = new UssTriangle(ussTriangleLocationVector, 
 									   new Vector(0, 0), 
 									   new Vector(0, 0), 
-									   GUI.redC, 
+									   Color.GREEN, 
 									   GUI.charcoalC, 
 									   50, 
 									   50,
@@ -72,9 +73,12 @@ public class SpacewarRunner extends internalFrameDark {
 								   	   fillColor, 
 								   	   diameterI, 
 								   	   diameterI,
-								   	   diameterI);		
-
-			square.velocityV = new Vector(randy.nextInt(3), randy.nextInt(3));
+								   	   diameterI);	
+			
+			int randomX_I = ThreadLocalRandom.current().nextInt(-3, 3 + 1);
+			int randomY_I = ThreadLocalRandom.current().nextInt(-3, 3 + 1);
+			square.velocityV = new Vector(randomX_I, randomY_I);
+			square.angularAccelerationD = square.velocityV.xD;
 			elementARR[i] = square;		
 		}
 		
@@ -83,9 +87,12 @@ public class SpacewarRunner extends internalFrameDark {
 		this.add(spacewarPanel);
 		this.attach(true);		
 		animate();
-	}
-
+	}	
 	
+	
+	/**
+	 * 
+	 */
 	private void animate() {
 
 		
@@ -100,17 +107,17 @@ public class SpacewarRunner extends internalFrameDark {
 				
 				for (Element element : elementARR) {	
 					checkInputFlags();
-					element.update(panelWidthI, panelHeightI);
-					repaint();
-					Thread.sleep(10);
-
-					// ensure the window is still open
-					keepOnTrucknB = (this.isClosed) ? (false) : (true);								
+					element.update(panelWidthI, panelHeightI);					
 				}
 				
+				repaint();
+				Thread.sleep(10);
+
+				// ensure the window is still open
+				keepOnTrucknB = (this.isClosed) ? (false) : (true);	
+				
 			} catch (InterruptedException e) {
-				LOGGER.error("EXITING ON ERROR! ");
-				e.printStackTrace();
+				LOGGER.error("EXITING ON ERROR! ", e);
 				keepOnTrucknB = false;
 			}
 			
@@ -121,10 +128,12 @@ public class SpacewarRunner extends internalFrameDark {
 	
 	private void checkInputFlags() {
 		
+		// port thruster
 		if (spacewarPanel.keyFlagsARR[0]) {
-			elementARR[0].angularAccelerationD -= 3;
+			elementARR[0].angularAccelerationD -= 0.5;
 		}
 		
+		// forward thruster
 		if (spacewarPanel.keyFlagsARR[1]) {
 			
 			// convert heading to radians - which is what polar format 
@@ -140,8 +149,9 @@ public class SpacewarRunner extends internalFrameDark {
 			elementARR[0].accelerationV = newAccelerationVector;
 		}
 		
+		// starboard thruster
 		if (spacewarPanel.keyFlagsARR[2]) {
-			elementARR[0].angularAccelerationD += 10;
+			elementARR[0].angularAccelerationD += 0.5;
 		}
 		
 		if (spacewarPanel.keyFlagsARR[3]) {

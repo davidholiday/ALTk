@@ -108,26 +108,29 @@ public class BouncingBall extends Element {
 
 
 	@Override
-	protected void renderPresentation(Graphics g, Element element) {
+	protected Shape renderPresentation(Graphics g) {
 		
-		double ballLocationX_D = element.getLocation().getLeft();
-		double ballLocationY_D = element.getLocation().getRight();
+		double ballLocationX_D = this.getLocation().getLeft();
+		double ballLocationY_D = this.getLocation().getRight();
 				
 		Ellipse2D ballE2D = new Ellipse2D.Double(ballLocationX_D, 
 				ballLocationY_D,
-				element.widthD,
-				element.heightD);
+				this.widthD,
+				this.heightD);
 
 		// update center point variable
-		element.centerV = 
+		this.centerV = 
 				new Vector(ballE2D.getCenterX(), ballE2D.getCenterY());
 
 		Graphics2D g2 = (Graphics2D)g;
-		g2.setColor(element.strokeColorC);
+		
+		g2.setColor(this.fillColorC);
+		g2.fill(ballE2D);
+		
+		g2.setColor(this.strokeColorC);
 		g2.setStroke(new BasicStroke(4));
-		g2.draw(ballE2D);
-		g2.setColor(element.fillColorC);
-		g2.fill(ballE2D);		
+
+		return ballE2D;
 	}
 
 
