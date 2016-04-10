@@ -12,6 +12,7 @@ import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.ElementPanel;
 import com.projectvalis.altk.noc.ch1.Vector;
 import com.projectvalis.altk.noc.ch2.GravityBall;
+import com.projectvalis.altk.util.TrigHelpers;
 
 
 public class SpacewarRunner extends internalFrameDark {
@@ -86,15 +87,21 @@ public class SpacewarRunner extends internalFrameDark {
 	private void checkInputFlags() {
 		
 		if (spacewarPanel.keyFlagsARR[0]) {
-			elementARR[0].angularAccelerationD -= 1;
+			elementARR[0].angularAccelerationD -= 3;
 		}
 		
 		if (spacewarPanel.keyFlagsARR[1]) {
+			double thetaD = elementARR[0].headingD;
+			double radiusD = 0.03;
 			
+			Vector newAccelerationVector = 
+					TrigHelpers.PolarToVector(thetaD, radiusD);
+			
+			elementARR[0].accelerationV = newAccelerationVector;
 		}
 		
 		if (spacewarPanel.keyFlagsARR[2]) {
-			elementARR[0].angularAccelerationD += 1;
+			elementARR[0].angularAccelerationD += 3;
 		}
 		
 		if (spacewarPanel.keyFlagsARR[3]) {

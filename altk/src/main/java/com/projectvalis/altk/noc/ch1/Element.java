@@ -29,7 +29,7 @@ public abstract class Element {
 	protected Vector velocityV = new Vector(0, 0);
 	public Vector accelerationV = new Vector(0, 0);
 	
-	protected double headingD = 0;
+	public double headingD = 0;
 	public double angularVelocityD = 0;
 	public double angularAccelerationD = 0;
 	

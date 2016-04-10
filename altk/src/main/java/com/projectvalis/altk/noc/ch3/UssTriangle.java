@@ -69,8 +69,17 @@ public class UssTriangle extends Element {
 	
 	
 	@Override
-	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
+	protected void checkEdges(int panelWidth, int panelHeight) { 
+		
+		if (locationV.xD > panelWidth - 15) { locationV.xD = 15; }
+		if (locationV.xD < 15) { locationV.xD = panelWidth - 15; }
+		
+		if (locationV.yD > panelHeight - 15) { locationV.yD = 15; }
+		if (locationV.yD < 15) { locationV.yD = panelHeight - 15; }
+		
+	}
 
+	
 	@Override
 	protected void renderPresentation(Graphics g, Element element) {						
 		Graphics2D g2 = (Graphics2D)g;	
