@@ -30,7 +30,7 @@ public abstract class Element {
 	public Vector accelerationV = new Vector(0, 0);
 	
 	protected double headingD = 0;
-	protected double angularVelocityD = 0;
+	public double angularVelocityD = 0;
 	public double angularAccelerationD = 0;
 	
 	// populated only when drawn
@@ -110,7 +110,7 @@ public abstract class Element {
 		// reset the acceleration vectors to zero because we're recalculating 
 		// it every time step
 		accelerationV.multiply(0);	
-		angularVelocityD *=0;
+		//angularVelocityD *=0;
 		angularAccelerationD *=0;
 		
 	}

@@ -64,6 +64,7 @@ public class SpacewarRunner extends internalFrameDark {
 			
 			// go through ball array and update their positions 
 			try {	
+				checkInputFlags();
 				elementARR[0].update(this.getWidth(), this.getHeight());
 				repaint();
 				Thread.sleep(10);
@@ -80,5 +81,31 @@ public class SpacewarRunner extends internalFrameDark {
 		}
 		
 	}
+	
+	
+	private void checkInputFlags() {
+		
+		if (spacewarPanel.keyFlagsARR[0]) {
+			elementARR[0].angularAccelerationD -= 1;
+		}
+		
+		if (spacewarPanel.keyFlagsARR[1]) {
+			
+		}
+		
+		if (spacewarPanel.keyFlagsARR[2]) {
+			elementARR[0].angularAccelerationD += 1;
+		}
+		
+		if (spacewarPanel.keyFlagsARR[3]) {
+			
+		}
+		
+		if (spacewarPanel.keyFlagsARR[4]) {
+			
+		}
+	}
+	
+	
 	
 }

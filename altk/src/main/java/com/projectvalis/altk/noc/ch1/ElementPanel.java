@@ -28,6 +28,7 @@ public class ElementPanel
 			LoggerFactory.getLogger(ElementPanel.class.getName());
 	
 	protected Element[] elementARR;
+	public boolean[] keyFlagsARR;
 	protected boolean mouseInFrameB = false;
 	protected Vector mousePressPositionV; 
 	

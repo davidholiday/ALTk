@@ -60,6 +60,14 @@ public class UssTriangle extends Element {
 			LoggerFactory.getLogger(UssTriangle.class.getName());
 	
 	
+	// does the normal update then stops the rotation after a single cycle
+	//
+	public void update(int panelWidth, int panelHeight) {
+		super.update(panelWidth, panelHeight);
+		this.angularVelocityD = 0; 
+	}
+	
+	
 	@Override
 	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
 

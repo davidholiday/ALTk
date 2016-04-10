@@ -15,33 +15,58 @@ public class SpacewarPanel extends ElementPanel {
 	
 	public SpacewarPanel(Element[] elementARR) {
 		super(elementARR);
+		this.keyFlagsARR = new boolean[5];
 		this.addKeyListener(this);
 		this.setFocusable(true);
 	}
 
+
+	// keyFlags = {left, up, right, space}
+	//
 	@Override
 	public void keyPressed(KeyEvent e) {
 	
 		// left
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {			
-			elementARR[0].angularAccelerationD -= 10;
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {	
+			this.keyFlagsARR[0] = true;
 		}
 	
 		
 		// thrust (up)
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			this.keyFlagsARR[1] = true;
 		}		
 		
 		
 		// right
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			elementARR[0].angularAccelerationD += 10;
-		}
-		
-
-		
+			this.keyFlagsARR[2] = true;
+		}		
 		
 	}
 
+	
+	public void keyReleased(KeyEvent e) {
+		
+		// left
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {	
+			this.keyFlagsARR[0] = false;
+		}
+	
+		
+		// thrust (up)
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			this.keyFlagsARR[1] = false;
+		}		
+		
+		
+		// right
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			this.keyFlagsARR[2] = false;
+		}	
+		
+	}
+	
+	
 	
 }
