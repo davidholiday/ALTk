@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.Vector;
+import com.projectvalis.altk.util.EdgeDetectors;
 
 
 public class UssTriangle extends Element {
@@ -71,13 +72,8 @@ public class UssTriangle extends Element {
 	
 	@Override
 	protected void checkEdges(int panelWidth, int panelHeight) { 
-		
-		if (locationV.xD > panelWidth - 10) { locationV.xD = 10; }
-		if (locationV.xD < 10) { locationV.xD = panelWidth - 10; }
-		
-		if (locationV.yD > panelHeight - 10) { locationV.yD = 10; }
-		if (locationV.yD < 10) { locationV.yD = panelHeight - 10; }
-		
+		this.locationV = 
+				EdgeDetectors.loopEdges(panelWidth, panelHeight, locationV);	
 	}
 
 	

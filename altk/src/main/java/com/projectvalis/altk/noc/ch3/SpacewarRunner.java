@@ -48,8 +48,8 @@ public class SpacewarRunner extends internalFrameDark {
 		ussTriangleE = new UssTriangle(ussTriangleLocationVector, 
 									   new Vector(0, 0), 
 									   new Vector(0, 0), 
-									   Color.GREEN, 
-									   GUI.charcoalC, 
+									   GUI.tealC, 
+									   GUI.purpleC, 
 									   50, 
 									   50,
 									   50);	
@@ -66,7 +66,7 @@ public class SpacewarRunner extends internalFrameDark {
 			double locationY_D = randy.nextInt(this.getHeight());
 			Vector locationV = new Vector(locationX_D, locationY_D);
 						
-			Element square = new GravitySquare(locationV, 
+			Element square = new AsteroidSquare(locationV, 
 								   	   new Vector(0, 0), 
 								   	   new Vector(0, 0), 
 								   	   Color.black, 
