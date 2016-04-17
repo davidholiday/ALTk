@@ -114,6 +114,7 @@ public class GravityRunner extends internalFrameDark {
 		ballPanel = new GravityBallPanel(squareL);
 		this.add(ballPanel);		
 		this.attach(true);
+		this.setTitle("Gravity Planet Demo");
 		
 		// showtime!
 		animate();

@@ -67,7 +67,8 @@ public class BallRunner extends internalFrameDark {
 			add(ballPanel);	
 		
 		
-		attach(true);
+		this.attach(true);
+		this.setTitle("Bouncing Ball Demo");
 		animate();
 	}
 	

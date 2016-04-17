@@ -50,9 +50,7 @@ public abstract class Element {
 	
 	// ensure velocity doesn't get out of hand
 	public double velocityLimitD = 8;
-	
-	public int lifeForceI = 100;
-	
+		
 	// placeholder
 	public Element() {}
 	
@@ -149,14 +147,13 @@ public abstract class Element {
 	
 	
 	/**
-	 * makes the shape appear to bounce when it reaches a window edge
 	 * @param panelWidth
 	 * @param panelHeight
 	 */
 	protected abstract void checkEdges(int panelWidth, int panelHeight);
 	
 	
-	protected abstract Shape renderPresentation(Graphics2D g2);
+	public abstract Shape renderPresentation(Graphics2D g2);
 
 	
 }

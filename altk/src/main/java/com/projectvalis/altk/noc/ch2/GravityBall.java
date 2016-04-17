@@ -135,7 +135,7 @@ public class GravityBall extends Element {
 
 
 	@Override
-	protected Shape renderPresentation(Graphics2D g2) {
+	public Shape renderPresentation(Graphics2D g2) {
 		double ballLocationX_D = this.getLocation().getLeft();
 		double ballLocationY_D = this.getLocation().getRight();
 				

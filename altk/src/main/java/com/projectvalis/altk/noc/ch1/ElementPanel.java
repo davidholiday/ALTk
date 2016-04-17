@@ -36,6 +36,7 @@ public class ElementPanel
 			LoggerFactory.getLogger(ElementPanel.class.getName());
 	
 	protected List<Element> elementL;
+
 	public boolean[] keyFlagsARR;
 	protected boolean mouseInFrameB = false;
 	protected Vector mousePressPositionV; 
@@ -49,22 +50,39 @@ public class ElementPanel
 	}
 	
 		
+	public void setElementList(List<Element> elementL) {
+		this.elementL = elementL;
+	}
 	
-
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);	
 
 		Graphics2D g2 = (Graphics2D)g;
+		List<Element> localL = new ArrayList<Element>();
+		localL.addAll(elementL);
 		
-		elementL.stream()
+		// doing it this way 
+		// seems to remove the ability to add things to the element list
+		// after the fact. 
+		localL.stream()
 			    .map(x -> x.renderPresentation(g2))
 			    .forEach(g2::draw);
 		
-		g2.dispose();
+		//g2.dispose();
 		
 	}
 	
 	
+//	public void paintElements(List<Shape> renderList) {
+//		Graphics2D g2 = (Graphics2D)this.getGraphics();
+//		super.paintComponent(this.getGraphics());
+//		
+//		renderList.parallelStream()
+//		          .forEach(g2 :: draw);
+//		
+//		//this.repaint();
+//	}
 	
 	
 	

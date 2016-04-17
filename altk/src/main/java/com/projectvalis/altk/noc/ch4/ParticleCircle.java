@@ -9,7 +9,7 @@ import java.awt.geom.Ellipse2D;
 import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.Vector;
 
-public class ParticleCircle extends Element {
+public class ParticleCircle extends ParticleAbstract {
 
 	public ParticleCircle() {
 		this.massD = widthD;
@@ -57,16 +57,22 @@ public class ParticleCircle extends Element {
 		this.widthD = width;
 		this.heightD = height;
 		this.massD = mass;	
-		this.lifeForceI = lifeForce;
+		this.setLifeForce(lifeForce);
 	}
 	
+	public void update(int panelWidth, int panelHeight) {
+		super.update(panelWidth, panelHeight);
+		this.subtractFromLifeForce(5);
+	}
 	
 	@Override
 	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
 
 	
 	@Override
-	protected Shape renderPresentation(Graphics2D g2) {
+	public Shape renderPresentation(Graphics2D g2) {
+//if (!this.getIsAliveFlag()) { return null; }
+		
 		double ballLocationX_D = this.getLocation().getLeft();
 		double ballLocationY_D = this.getLocation().getRight();
 				

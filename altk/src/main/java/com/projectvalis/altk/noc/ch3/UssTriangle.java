@@ -77,7 +77,7 @@ public class UssTriangle extends Element {
 
 	
 	@Override
-	protected Shape renderPresentation(Graphics2D g2) {						
+	public Shape renderPresentation(Graphics2D g2) {						
 
 		
 		// create ss triangle path at origin

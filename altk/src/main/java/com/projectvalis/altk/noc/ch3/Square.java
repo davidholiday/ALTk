@@ -17,7 +17,7 @@ public class Square extends Element {
 	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
 
 	@Override
-	protected Shape renderPresentation(Graphics2D g2) {
+	public Shape renderPresentation(Graphics2D g2) {
 		double squareLocationX_D = this.getLocation().getLeft();
 		double squareLocationY_D = this.getLocation().getRight();
 				

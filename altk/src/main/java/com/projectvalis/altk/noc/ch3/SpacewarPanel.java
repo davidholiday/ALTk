@@ -44,6 +44,17 @@ public class SpacewarPanel extends ElementPanel {
 			this.keyFlagsARR[2] = true;
 		}		
 		
+		
+		// fire 
+		if (e.getKeyCode() == KeyEvent.VK_2) {
+			this.keyFlagsARR[3] = true;
+		}
+		
+		// special 
+		if (e.getKeyCode() == KeyEvent.VK_1) {
+			this.keyFlagsARR[4] = true;
+		}
+		
 	}
 
 	
@@ -65,6 +76,16 @@ public class SpacewarPanel extends ElementPanel {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			this.keyFlagsARR[2] = false;
 		}	
+		
+		// fire 
+		if (e.getKeyCode() == KeyEvent.VK_2) {
+			this.keyFlagsARR[3] = false;
+		}
+		
+		// special 
+		if (e.getKeyCode() == KeyEvent.VK_1) {
+			this.keyFlagsARR[4] = false;
+		}
 		
 	}
 	
