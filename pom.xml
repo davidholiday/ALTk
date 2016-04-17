@@ -6,9 +6,9 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>swingJD</module>
-	<module>beanshell</module>
-	<module>altk</module>	
+      <module>swingJD</module>
+      <module>beanshell</module>
+      <module>altk</module>
     </modules>
 
 </project>

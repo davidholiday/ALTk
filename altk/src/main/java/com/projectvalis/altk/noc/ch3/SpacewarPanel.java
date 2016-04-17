@@ -1,6 +1,7 @@
 package com.projectvalis.altk.noc.ch3;
 
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,8 @@ public class SpacewarPanel extends ElementPanel {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(SpacewarPanel.class.getName());
 	
-	public SpacewarPanel(Element[] elementARR) {
-		super(elementARR);
+	public SpacewarPanel(List<Element> elementL) {
+		super(elementL);
 		this.keyFlagsARR = new boolean[5];
 		this.addKeyListener(this);
 		this.setFocusable(true);

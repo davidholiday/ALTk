@@ -109,7 +109,7 @@ public class BouncingBall extends Element {
 		g2.fill(ballE2D);
 		
 		g2.setColor(this.strokeColorC);
-		g2.setStroke(new BasicStroke(4));
+		g2.setStroke(new BasicStroke(2));
 
 		return ballE2D;
 	}

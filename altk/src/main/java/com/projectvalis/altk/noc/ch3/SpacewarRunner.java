@@ -3,6 +3,8 @@ package com.projectvalis.altk.noc.ch3;
 import java.awt.Color;
 import java.awt.Point;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,7 +26,7 @@ public class SpacewarRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(SpacewarRunner.class.getName());
 	
-	private Element[] elementARR = new Element[6];
+	private List<Element> elementL = new ArrayList<Element>();
 	private SpacewarPanel spacewarPanel;
 	private Element ussTriangleE;
 	
@@ -54,10 +56,10 @@ public class SpacewarRunner extends internalFrameDark {
 									   50,
 									   50);	
 		
-		elementARR[0] = ussTriangleE;	
+		elementL.add(ussTriangleE);	
 		
 		Random randy = new Random();
-		for (int i = 1; i < elementARR.length; i ++) {
+		for (int i = 1; i < 6; i ++) {
 			int diameterI = ThreadLocalRandom.current().nextInt(25, 65 + 1);
 			
 			int colorIndexI = randy.nextInt(3);		
@@ -66,7 +68,7 @@ public class SpacewarRunner extends internalFrameDark {
 			double locationY_D = randy.nextInt(this.getHeight());
 			Vector locationV = new Vector(locationX_D, locationY_D);
 						
-			Element square = new AsteroidSquare(locationV, 
+			Element square_E = new AsteroidSquare(locationV, 
 								   	   new Vector(0, 0), 
 								   	   new Vector(0, 0), 
 								   	   Color.black, 
@@ -77,12 +79,12 @@ public class SpacewarRunner extends internalFrameDark {
 			
 			int randomX_I = ThreadLocalRandom.current().nextInt(-2, 2 + 1);
 			int randomY_I = ThreadLocalRandom.current().nextInt(-2, 2 + 1);
-			square.velocityV = new Vector(randomX_I, randomY_I);
-			square.angularAccelerationD = square.velocityV.xD;
-			elementARR[i] = square;		
+			square_E.velocityV = new Vector(randomX_I, randomY_I);
+			square_E.angularAccelerationD = square_E.velocityV.xD;
+			elementL.add(square_E);		
 		}
 		
-		spacewarPanel = new SpacewarPanel(elementARR);
+		spacewarPanel = new SpacewarPanel(elementL);
 		
 		this.add(spacewarPanel);
 		this.attach(true);		
@@ -105,7 +107,7 @@ public class SpacewarRunner extends internalFrameDark {
 			// go through ball array and update their positions 
 			try {	
 				
-				for (Element element : elementARR) {	
+				for (Element element : elementL) {	
 					checkInputFlags();
 					element.update(panelWidthI, panelHeightI);					
 				}
@@ -127,10 +129,11 @@ public class SpacewarRunner extends internalFrameDark {
 	
 	
 	private void checkInputFlags() {
+		Element ussTriangle_E = elementL.get(0);
 		
 		// port thruster
 		if (spacewarPanel.keyFlagsARR[0]) {
-			elementARR[0].angularAccelerationD -= 0.5;
+			ussTriangle_E.angularAccelerationD -= 0.5;
 		}
 		
 		// forward thruster
@@ -140,18 +143,18 @@ public class SpacewarRunner extends internalFrameDark {
 			// expects. the (-90) is to account for the difference in 
 			// orientation between heading and angle (eg -- heading 000 is a
 			// 90 degree angle).
-			double thetaD = Math.toRadians(elementARR[0].headingD - 90);
+			double thetaD = Math.toRadians(ussTriangle_E.headingD - 90);
 			double radiusD = 0.03;
 			
 			Vector newAccelerationVector = 
 					TrigHelpers.PolarToVector(thetaD, radiusD);
 			
-			elementARR[0].accelerationV = newAccelerationVector;
+			ussTriangle_E.accelerationV = newAccelerationVector;
 		}
 		
 		// starboard thruster
 		if (spacewarPanel.keyFlagsARR[2]) {
-			elementARR[0].angularAccelerationD += 0.5;
+			ussTriangle_E.angularAccelerationD += 0.5;
 		}
 		
 		if (spacewarPanel.keyFlagsARR[3]) {

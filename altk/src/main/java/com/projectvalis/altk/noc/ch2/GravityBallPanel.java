@@ -2,6 +2,7 @@ package com.projectvalis.altk.noc.ch2;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.noc.ch1.Element;
@@ -10,15 +11,15 @@ import com.projectvalis.altk.noc.ch1.Vector;
 
 public class GravityBallPanel extends ElementPanel {
 
-	public GravityBallPanel(Element[] elementARR) {
-		super(elementARR);
+	public GravityBallPanel(List<Element> elementL) {
+		super(elementL);
 	}
 	
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
-
-		Element element = elementARR[elementARR.length -1];		
+		int lastElementIndexI = this.elementL.size() - 1;
+		Element element = this.elementL.get(lastElementIndexI);
 		//if (!element.getClass().getName().contains("GravityBall")) return;
 		
 		

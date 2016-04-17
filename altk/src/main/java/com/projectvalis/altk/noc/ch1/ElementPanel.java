@@ -23,6 +23,8 @@ import com.projectvalis.altk.init.GUI;
 
 
 /**
+ * base panel for handling the rendering of elements and the capture of 
+ * user input. 
  * 
  * @author snerd
  *
@@ -33,14 +35,14 @@ public class ElementPanel
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(ElementPanel.class.getName());
 	
-	protected Element[] elementARR;
+	protected List<Element> elementL;
 	public boolean[] keyFlagsARR;
 	protected boolean mouseInFrameB = false;
 	protected Vector mousePressPositionV; 
 	
 
-	public ElementPanel(Element[] elementARR) {
-		this.elementARR = elementARR;
+	public ElementPanel(List<Element> elementL) {
+		this.elementL = elementL;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(GUI.charcoalC);
@@ -54,10 +56,9 @@ public class ElementPanel
 
 		Graphics2D g2 = (Graphics2D)g;
 		
-		Arrays.asList(elementARR)
-			  .stream()
-			  .map(x -> x.renderPresentation(g2))
-			  .forEach(g2::draw);
+		elementL.stream()
+			    .map(x -> x.renderPresentation(g2))
+			    .forEach(g2::draw);
 		
 		g2.dispose();
 		

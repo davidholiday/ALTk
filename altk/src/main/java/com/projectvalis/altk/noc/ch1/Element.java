@@ -17,6 +17,8 @@ import com.projectvalis.altk.util.Pair;
 /**
  * base class for all shape objects
  * 
+ * TODO adding some encapsulation here probably would be a good thing...
+ * 
  * @author snerd
  *
  */
@@ -49,7 +51,7 @@ public abstract class Element {
 	// ensure velocity doesn't get out of hand
 	public double velocityLimitD = 8;
 	
-
+	public int lifeForceI = 100;
 	
 	// placeholder
 	public Element() {}

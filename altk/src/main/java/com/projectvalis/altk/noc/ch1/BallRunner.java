@@ -5,6 +5,8 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -24,7 +26,7 @@ public class BallRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(BallRunner.class.getName());
 	
-	private Element[] ballArr = new Element[10];
+	private List<Element> elementL = new ArrayList<Element>();
 	private ElementPanel ballPanel;
 	
 	
@@ -43,7 +45,7 @@ public class BallRunner extends internalFrameDark {
 	
 		Random randy = new Random();
 		
-		for (int i = 0; i < ballArr.length; i ++) {
+		for (int i = 0; i < 10; i ++) {
 			int diameterI = randy.nextInt(100);
 			int colorIndexI = randy.nextInt(5);		
 			Color fillColor = colorArr[colorIndexI];
@@ -57,11 +59,11 @@ public class BallRunner extends internalFrameDark {
 									diameterI,
 									diameterI);		
 
-			ballArr[i] = ball;
+			elementL.add(ball);
 			
 		}
 		
-			ballPanel = new ElementPanel(ballArr);
+			ballPanel = new ElementPanel(elementL);
 			add(ballPanel);	
 		
 		
@@ -109,9 +111,8 @@ public class BallRunner extends internalFrameDark {
 			
 			try {	
 				
-				for (int i = 0; i < ballArr.length; i ++) {
-					Element ball = ballArr[i];
-					
+				for (Element ballE : elementL) {
+										
 //					// get mouse location
 //					Point p = ballPanel.getMousePosition();
 //					
@@ -120,20 +121,20 @@ public class BallRunner extends internalFrameDark {
 					
 					
 					// calculate friction
-					Vector frictionV = ballArr[i].velocityV.clone();
+					Vector frictionV = ballE.velocityV.clone();
 					frictionV.multiply(-1);
 					frictionV.normalize();
 					frictionV.multiply(muD);
 					
 					// calculate gravity
 					Vector appliedGravityV = gravityV.clone();
-					appliedGravityV.multiply(ball.massD);
+					appliedGravityV.multiply(ballE.massD);
 					
 					// apply force 
-					ball.applyForce(windV);
-					ball.applyForce(appliedGravityV);
+					ballE.applyForce(windV);
+					ballE.applyForce(appliedGravityV);
 					//ball.applyForce(frictionV);
-					ball.update(panelWidthI, panelHeightI);
+					ballE.update(panelWidthI, panelHeightI);
 				}
 				
 				repaint();
