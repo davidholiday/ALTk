@@ -114,7 +114,6 @@ public abstract class Element {
 		// it every time step
 		accelerationV.multiply(0);	
 		angularAccelerationD *=0;
-		
 	}
 	
 	

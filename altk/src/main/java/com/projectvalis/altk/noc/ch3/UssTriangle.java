@@ -54,6 +54,8 @@ public class UssTriangle extends Element {
 		this.widthD = width;
 		this.heightD = height;
 		this.massD = mass;
+		
+		this.velocityLimitD = 4;
 	}
 	
 	
@@ -64,7 +66,7 @@ public class UssTriangle extends Element {
 	
 	// does the normal update then stops the rotation after a single cycle
 	//
-	public void update(int panelWidth, int panelHeight, Graphics2D g2d) {
+	public void update(int panelWidth, int panelHeight) {
 		super.update(panelWidth, panelHeight);
 		this.angularVelocityD = 0; 
 	}

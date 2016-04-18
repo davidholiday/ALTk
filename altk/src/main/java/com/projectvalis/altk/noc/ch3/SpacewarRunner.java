@@ -184,7 +184,7 @@ public class SpacewarRunner extends internalFrameDark {
 		
 		// port thruster
 		if (spacewarPanel.keyFlagsARR[0]) {
-			ussTriangle_E.angularAccelerationD -= 0.5;
+			ussTriangle_E.angularAccelerationD -= 3;
 		}
 		
 		// forward thruster
@@ -243,7 +243,7 @@ public class SpacewarRunner extends internalFrameDark {
 		
 		// starboard thruster
 		if (spacewarPanel.keyFlagsARR[2]) {
-			ussTriangle_E.angularAccelerationD += 0.5;
+			ussTriangle_E.angularAccelerationD += 3;
 		}
 		
 		if (spacewarPanel.keyFlagsARR[3]) {
