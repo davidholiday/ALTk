@@ -1,6 +1,7 @@
 package com.projectvalis.altk.noc.ch1;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -26,7 +27,7 @@ public class BallRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(BallRunner.class.getName());
 	
-	private List<Element> elementL = new ArrayList<Element>();
+//	private List<Element> elementL = new ArrayList<Element>();
 	private ElementPanel ballPanel;
 	
 	
@@ -35,6 +36,7 @@ public class BallRunner extends internalFrameDark {
 	 */
 	public BallRunner() {
 		setLocation(800, 200);	
+		List<Element> elementL = new ArrayList<Element>();
 		
 		Color[] colorArr = new Color[5];
 		colorArr[0] = GUI.mustardC;
@@ -78,7 +80,7 @@ public class BallRunner extends internalFrameDark {
 	 * handles the logic that figures out ball movement
 	 */
 	private void animate() {
-		
+		Graphics2D g2d = (Graphics2D) ballPanel.getGraphics();
 		boolean keepOnTrucknB = true;
 //		ball.accelerationV= new Vector(0.001, 0.003);
 		Vector windV = new Vector(0.01, 0);
@@ -110,6 +112,7 @@ public class BallRunner extends internalFrameDark {
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();
 			
+			List<Element> elementL = ballPanel.getElementListCopy();
 			try {	
 				
 				for (Element ballE : elementL) {
@@ -138,7 +141,8 @@ public class BallRunner extends internalFrameDark {
 					ballE.update(panelWidthI, panelHeightI);
 				}
 				
-				repaint();
+//				ballPanel.setElementList(elementL);
+				this.repaint();
 				Thread.sleep(10);
 				
 				// ensure the window is still open

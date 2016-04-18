@@ -91,7 +91,7 @@ public class BouncingBall extends Element {
 
 
 	@Override
-	public Shape renderPresentation(Graphics2D g2) {
+	protected void renderPresentation(Graphics2D g2) {
 		
 		double ballLocationX_D = this.getLocation().getLeft();
 		double ballLocationY_D = this.getLocation().getRight();
@@ -111,7 +111,8 @@ public class BouncingBall extends Element {
 		g2.setColor(this.strokeColorC);
 		g2.setStroke(new BasicStroke(2));
 
-		return ballE2D;
+		g2.draw(ballE2D);
+		//return ballE2D;
 	}
 
 

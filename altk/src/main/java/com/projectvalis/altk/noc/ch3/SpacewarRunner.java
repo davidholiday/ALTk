@@ -35,7 +35,7 @@ public class SpacewarRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(SpacewarRunner.class.getName());
 	
-	private List<Element> elementL = new ArrayList<Element>();
+//	private List<Element> elementL = new ArrayList<Element>();
 
 	private List<ParticleAbstract> particleL = 
 			new ArrayList<ParticleAbstract>();
@@ -52,6 +52,8 @@ public class SpacewarRunner extends internalFrameDark {
 	public SpacewarRunner() {
 		this.setLocation(400, 200);
 		this.setSize(1280, 720);
+		
+		List<Element> elementL = new ArrayList<Element>();
 		
 		colorL.add(GUI.redC);
 		colorL.add(GUI.mustardC);
@@ -112,22 +114,22 @@ public class SpacewarRunner extends internalFrameDark {
 	 * 
 	 */
 	private void animate() {
-
+		Graphics2D g2d = (Graphics2D)spacewarPanel.getGraphics();
 		boolean keepOnTrucknB = true;
 
-		while (keepOnTrucknB) {					
+		while (keepOnTrucknB) {		
+			List<Element> elementL = spacewarPanel.getElementListCopy();
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();				
 			
 			// update scene 
 			try {	
 				
-				
+				checkInputFlags(elementL);
 //				elementL.addAll(particleL);
 				particleL.clear();
 				
-				for (Element element : elementL) {	
-					checkInputFlags();
+				for (Element element : elementL) {			
 					element.update(panelWidthI, panelHeightI);					
 				}
 				
@@ -158,10 +160,9 @@ public class SpacewarRunner extends internalFrameDark {
 //				Graphics2D g2 = (Graphics2D)spacewarPanel.getGraphics();
 //				elementL.stream()
 //				        .forEach(x -> x.renderPresentation(g2));
-				this.repaint();
-				//.forEach(x -> x.renderPresentation(g2));
-						
 				
+				spacewarPanel.setElementList(elementL);
+				this.repaint();						
 				Thread.sleep(10);
 
 				// ensure the window is still open
@@ -177,7 +178,8 @@ public class SpacewarRunner extends internalFrameDark {
 	}
 	
 	
-	private void checkInputFlags() {
+	private void checkInputFlags(List<Element> elementL) {
+		
 		Element ussTriangle_E = elementL.get(0);
 		
 		// port thruster

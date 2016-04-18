@@ -64,7 +64,7 @@ public class UssTriangle extends Element {
 	
 	// does the normal update then stops the rotation after a single cycle
 	//
-	public void update(int panelWidth, int panelHeight) {
+	public void update(int panelWidth, int panelHeight, Graphics2D g2d) {
 		super.update(panelWidth, panelHeight);
 		this.angularVelocityD = 0; 
 	}
@@ -77,7 +77,7 @@ public class UssTriangle extends Element {
 
 	
 	@Override
-	public Shape renderPresentation(Graphics2D g2) {						
+	protected void renderPresentation(Graphics2D g2) {						
 
 		
 		// create ss triangle path at origin
@@ -121,7 +121,8 @@ public class UssTriangle extends Element {
 		g2.setColor(this.strokeColorC);
 		g2.setStroke(new BasicStroke(1));		
 	
-		return ussTriangleGP;
+		g2.draw(ussTriangleGP);
+		//return ussTriangleGP;
 	}
 	
 }

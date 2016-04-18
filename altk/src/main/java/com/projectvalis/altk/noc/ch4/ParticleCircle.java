@@ -60,7 +60,7 @@ public class ParticleCircle extends ParticleAbstract {
 		this.setLifeForce(lifeForce);
 	}
 	
-	public void update(int panelWidth, int panelHeight) {
+	public void update(int panelWidth, int panelHeight, Graphics2D g2d) {
 		super.update(panelWidth, panelHeight);
 		this.subtractFromLifeForce(5);
 	}
@@ -70,7 +70,7 @@ public class ParticleCircle extends ParticleAbstract {
 
 	
 	@Override
-	public Shape renderPresentation(Graphics2D g2) {
+	protected void renderPresentation(Graphics2D g2) {
 //if (!this.getIsAliveFlag()) { return null; }
 		
 		double ballLocationX_D = this.getLocation().getLeft();
@@ -91,7 +91,8 @@ public class ParticleCircle extends ParticleAbstract {
 		g2.setColor(this.strokeColorC);
 		g2.setStroke(new BasicStroke(4));
 
-		return ballE2D;
+		//g2.draw(ballE2D);
+		//return ballE2D;
 	}
 
 }

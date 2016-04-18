@@ -153,7 +153,7 @@ public abstract class Element {
 	protected abstract void checkEdges(int panelWidth, int panelHeight);
 	
 	
-	public abstract Shape renderPresentation(Graphics2D g2);
+	protected abstract void renderPresentation(Graphics2D g2);
 
 	
 }

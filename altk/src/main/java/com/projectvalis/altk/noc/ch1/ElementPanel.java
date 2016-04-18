@@ -36,6 +36,7 @@ public class ElementPanel
 			LoggerFactory.getLogger(ElementPanel.class.getName());
 	
 	protected List<Element> elementL;
+	private boolean elementListNoTouchieB = false;
 
 	public boolean[] keyFlagsARR;
 	protected boolean mouseInFrameB = false;
@@ -50,40 +51,46 @@ public class ElementPanel
 	}
 	
 		
-	public void setElementList(List<Element> elementL) {
-		this.elementL = elementL;
+	public void setElementList(List<Element> newElementList) {
+		while (elementListNoTouchieB) {
+			
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		elementListNoTouchieB = true;
+		elementL = newElementList;
+		elementListNoTouchieB = false;
 	}
+	
+	
+	public List<Element> getElementListCopy() {
+		List<Element> returnL = new ArrayList<Element>();
+		returnL.addAll(elementL);
+		return returnL;
+	}
+	
 	
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);	
-
+		if (elementListNoTouchieB) { return; }
+		
+		elementListNoTouchieB = true;
+		
 		Graphics2D g2 = (Graphics2D)g;
-		List<Element> localL = new ArrayList<Element>();
-		localL.addAll(elementL);
 		
-		// doing it this way 
-		// seems to remove the ability to add things to the element list
-		// after the fact. 
-		localL.stream()
-			    .map(x -> x.renderPresentation(g2))
-			    .forEach(g2::draw);
+		elementL.stream()
+			    .forEach(x -> x.renderPresentation(g2));
 		
-		//g2.dispose();
-		
+		elementListNoTouchieB = false;
 	}
-	
-	
-//	public void paintElements(List<Shape> renderList) {
-//		Graphics2D g2 = (Graphics2D)this.getGraphics();
-//		super.paintComponent(this.getGraphics());
-//		
-//		renderList.parallelStream()
-//		          .forEach(g2 :: draw);
-//		
-//		//this.repaint();
-//	}
-	
 	
 	
 	

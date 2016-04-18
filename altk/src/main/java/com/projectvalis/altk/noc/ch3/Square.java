@@ -17,7 +17,7 @@ public class Square extends Element {
 	protected void checkEdges(int panelWidth, int panelHeight) { /* noop */ }
 
 	@Override
-	public Shape renderPresentation(Graphics2D g2) {
+	protected void renderPresentation(Graphics2D g2) {
 		double squareLocationX_D = this.getLocation().getLeft();
 		double squareLocationY_D = this.getLocation().getRight();
 				
@@ -49,7 +49,8 @@ public class Square extends Element {
 		g2.setColor(this.strokeColorC);
 		g2.setStroke(new BasicStroke(2));
 
-		return squareAsPath;
+		g2.draw(squareAsPath);
+		//return squareAsPath;
 	}
 
 }

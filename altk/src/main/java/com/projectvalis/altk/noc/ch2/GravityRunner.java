@@ -1,6 +1,7 @@
 package com.projectvalis.altk.noc.ch2;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -30,7 +31,7 @@ public class GravityRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityRunner.class.getName());
 	
-	List<Element> squareL = new ArrayList<Element>();
+	//List<Element> squareL = new ArrayList<Element>();
 	private ElementPanel ballPanel;
 	private GravityBall gravityBall;
 	
@@ -42,6 +43,8 @@ public class GravityRunner extends internalFrameDark {
 	public GravityRunner() {
 		this.setLocation(800, 200);	
 			
+		List<Element> squareL = new ArrayList<Element>();
+		
 		Color[] colorArr = new Color[5];
 		colorArr[0] = GUI.mustardC;
 		colorArr[1] = GUI.orangeC;
@@ -126,7 +129,8 @@ public class GravityRunner extends internalFrameDark {
 	 * handles the logic that figures out ball movement
 	 */
 	private void animate() {
-		
+		List<Element> squareL = ballPanel.getElementListCopy();
+		Graphics2D g2d = (Graphics2D)ballPanel.getGraphics();
 		int gravityBallIndexI = squareL.size() -1;
 		
 		GravityBall gravityBall = 
@@ -137,7 +141,7 @@ public class GravityRunner extends internalFrameDark {
 		while (keepOnTrucknB) {					
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();
-			
+
 			Point p = ballPanel.getMousePosition();
 		
 			// check if mouse is over gravity ball
