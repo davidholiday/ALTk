@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -27,7 +28,9 @@ public class BallRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(BallRunner.class.getName());
 	
-//	private List<Element> elementL = new ArrayList<Element>();
+	private List<Element> elementL = 
+			Collections.synchronizedList(new ArrayList<Element>());
+	
 	private ElementPanel ballPanel;
 	
 	
@@ -36,7 +39,6 @@ public class BallRunner extends internalFrameDark {
 	 */
 	public BallRunner() {
 		setLocation(800, 200);	
-		List<Element> elementL = new ArrayList<Element>();
 		
 		Color[] colorArr = new Color[5];
 		colorArr[0] = GUI.mustardC;
@@ -112,7 +114,6 @@ public class BallRunner extends internalFrameDark {
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();
 			
-			List<Element> elementL = ballPanel.getElementListCopy();
 			try {	
 				
 				for (Element ballE : elementL) {
@@ -141,7 +142,6 @@ public class BallRunner extends internalFrameDark {
 					ballE.update(panelWidthI, panelHeightI);
 				}
 				
-//				ballPanel.setElementList(elementL);
 				this.repaint();
 				Thread.sleep(10);
 				

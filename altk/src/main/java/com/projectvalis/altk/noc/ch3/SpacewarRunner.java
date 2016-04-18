@@ -35,7 +35,8 @@ public class SpacewarRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(SpacewarRunner.class.getName());
 	
-//	private List<Element> elementL = new ArrayList<Element>();
+	private List<Element> elementL = 
+			Collections.synchronizedList(new ArrayList<Element>());
 
 	private List<ParticleAbstract> particleL = 
 			new ArrayList<ParticleAbstract>();
@@ -53,7 +54,7 @@ public class SpacewarRunner extends internalFrameDark {
 		this.setLocation(400, 200);
 		this.setSize(1280, 720);
 		
-		List<Element> elementL = new ArrayList<Element>();
+		//List<Element> elementL = new ArrayList<Element>();
 		
 		colorL.add(GUI.redC);
 		colorL.add(GUI.mustardC);
@@ -113,11 +114,10 @@ public class SpacewarRunner extends internalFrameDark {
 	 * 
 	 */
 	private void animate() {
-		Graphics2D g2d = (Graphics2D)spacewarPanel.getGraphics();
 		boolean keepOnTrucknB = true;
 
 		while (keepOnTrucknB) {		
-			List<Element> elementL = spacewarPanel.getElementListCopy();
+			//List<Element> elementL = spacewarPanel.getElementListCopy();
 			int panelWidthI = this.getWidth();
 			int panelHeightI = this.getHeight();				
 			
@@ -147,9 +147,8 @@ public class SpacewarRunner extends internalFrameDark {
 				deadParticlesL.parallelStream()
 				              .forEach(p -> elementL.remove(p));
 				
-
 				// paint and nappie-poo				
-				spacewarPanel.setElementList(elementL);
+				//spacewarPanel.setElementList(elementL);
 				particleL.clear();
 				this.repaint();						
 				Thread.sleep(10);

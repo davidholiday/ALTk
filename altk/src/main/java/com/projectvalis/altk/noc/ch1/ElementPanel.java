@@ -36,7 +36,6 @@ public class ElementPanel
 			LoggerFactory.getLogger(ElementPanel.class.getName());
 	
 	protected List<Element> elementL;
-	private boolean elementListNoTouchieB = false;
 
 	public boolean[] keyFlagsARR;
 	protected boolean mouseInFrameB = false;
@@ -50,46 +49,16 @@ public class ElementPanel
 		setBackground(GUI.charcoalC);
 	}
 	
-		
-	public void setElementList(List<Element> newElementList) {
-		while (elementListNoTouchieB) {
-			
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-		
-		
-		elementListNoTouchieB = true;
-		elementL = newElementList;
-		elementListNoTouchieB = false;
-	}
-	
-	
-	public List<Element> getElementListCopy() {
-		List<Element> returnL = new ArrayList<Element>();
-		returnL.addAll(elementL);
-		return returnL;
-	}
-	
-	
 	
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);	
-		if (elementListNoTouchieB) { return; }
-		
-		elementListNoTouchieB = true;
-		
+		super.paintComponent(g);				
 		Graphics2D g2 = (Graphics2D)g;
 		
-		elementL.stream()
-			    .forEach(x -> x.renderPresentation(g2));
-		
-		elementListNoTouchieB = false;
+		synchronized(elementL){
+			elementL.stream()
+				    .forEach(x -> x.renderPresentation(g2));
+		}
+			    		
 	}
 	
 	

@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -31,7 +32,9 @@ public class GravityRunner extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(GravityRunner.class.getName());
 	
-	//List<Element> squareL = new ArrayList<Element>();
+	private List<Element> elementL = 
+			Collections.synchronizedList(new ArrayList<Element>());
+	
 	private ElementPanel ballPanel;
 	private GravityBall gravityBall;
 	
@@ -43,8 +46,6 @@ public class GravityRunner extends internalFrameDark {
 	public GravityRunner() {
 		this.setLocation(800, 200);	
 			
-		List<Element> squareL = new ArrayList<Element>();
-		
 		Color[] colorArr = new Color[5];
 		colorArr[0] = GUI.mustardC;
 		colorArr[1] = GUI.orangeC;
@@ -83,7 +84,7 @@ public class GravityRunner extends internalFrameDark {
 							 		 	   diameterI, 
 							 		 	   diameterI,
 							 		 	   diameterI);
-		squareL.add(square_E);
+		elementL.add(square_E);
 		
 		
 		// create balls at random locations of random ontologies 
@@ -107,14 +108,14 @@ public class GravityRunner extends internalFrameDark {
 								   	   diameterI,
 								   	   diameterI);		
 
-			squareL.add(square_E);		
+			elementL.add(square_E);		
 		}
 		
 
-		squareL.add(gravityBall);
+		elementL.add(gravityBall);
 		
 		// put it all together
-		ballPanel = new GravityBallPanel(squareL);
+		ballPanel = new GravityBallPanel(elementL);
 		this.add(ballPanel);		
 		this.attach(true);
 		this.setTitle("Gravity Planet Demo");
@@ -129,12 +130,11 @@ public class GravityRunner extends internalFrameDark {
 	 * handles the logic that figures out ball movement
 	 */
 	private void animate() {
-		List<Element> squareL = ballPanel.getElementListCopy();
 		Graphics2D g2d = (Graphics2D)ballPanel.getGraphics();
-		int gravityBallIndexI = squareL.size() -1;
+		int gravityBallIndexI = elementL.size() -1;
 		
 		GravityBall gravityBall = 
-				(GravityBall)squareL.get(gravityBallIndexI);
+				(GravityBall)elementL.get(gravityBallIndexI);
 				
 		boolean keepOnTrucknB = true;
 
@@ -155,7 +155,7 @@ public class GravityRunner extends internalFrameDark {
 			// go through ball array and update their positions 
 			try {	
 
-				for (Element square_E : squareL) {			
+				for (Element square_E : elementL) {			
 					Vector attractionV = gravityBall.attract(square_E);
 					square_E.applyForce(attractionV);
 					square_E.angularAccelerationD += square_E.accelerationV.xD;

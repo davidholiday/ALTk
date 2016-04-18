@@ -77,7 +77,7 @@ public class ParticleCircle extends ParticleAbstract {
 
 	
 	@Override
-	protected void renderPresentation(Graphics2D g2) {
+	protected synchronized void renderPresentation(Graphics2D g2) {
 		if (!this.getIsAliveFlag()) { return; }
 		
 		double ballLocationX_D = this.getLocation().getLeft();

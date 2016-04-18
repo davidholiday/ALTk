@@ -96,7 +96,7 @@ public abstract class Element {
 	/**
 	 * call this after you manipulate the acceleration vector directly. 
 	 */
-	public void update(int panelWidth, int panelHeight) {
+	public synchronized void update(int panelWidth, int panelHeight) {
 		
 		// apply the acceleration vector to the object
 		velocityV.add(accelerationV);
@@ -146,12 +146,20 @@ public abstract class Element {
 	
 	
 	/**
+	 * determines what happens when the element hits the panel edge
+	 * 
 	 * @param panelWidth
 	 * @param panelHeight
 	 */
 	protected abstract void checkEdges(int panelWidth, int panelHeight);
 	
 	
+	/**
+	 * method to draw the element onto the graphics context 
+	 * 
+	 * all implementers should synchronize their implementations!
+	 * @param g2
+	 */
 	protected abstract void renderPresentation(Graphics2D g2);
 
 	
