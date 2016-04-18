@@ -6,11 +6,18 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.Vector;
+import com.projectvalis.altk.noc.ch3.UssTriangle;
 
 public class ParticleCircle extends ParticleAbstract {
 
+	private static final Logger LOGGER = 
+			LoggerFactory.getLogger(ParticleCircle.class.getName());
+	
 	public ParticleCircle() {
 		this.massD = widthD;
 		this.heightD = widthD;		
@@ -60,9 +67,9 @@ public class ParticleCircle extends ParticleAbstract {
 		this.setLifeForce(lifeForce);
 	}
 	
-	public void update(int panelWidth, int panelHeight, Graphics2D g2d) {
+	public void update(int panelWidth, int panelHeight) {
 		super.update(panelWidth, panelHeight);
-		this.subtractFromLifeForce(5);
+		this.subtractFromLifeForce(5);		
 	}
 	
 	@Override
@@ -71,7 +78,7 @@ public class ParticleCircle extends ParticleAbstract {
 	
 	@Override
 	protected void renderPresentation(Graphics2D g2) {
-//if (!this.getIsAliveFlag()) { return null; }
+		if (!this.getIsAliveFlag()) { return; }
 		
 		double ballLocationX_D = this.getLocation().getLeft();
 		double ballLocationY_D = this.getLocation().getRight();

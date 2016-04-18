@@ -59,8 +59,7 @@ public class SpacewarRunner extends internalFrameDark {
 		colorL.add(GUI.mustardC);
 		colorL.add(GUI.orangeC);
 		colorL.add(GUI.purpleC);
-		colorL.add(Color.BLUE);
-		colorL.add(Color.MAGENTA);
+		colorL.add(GUI.charcoalDarkC);
 		
 		Vector ussTriangleLocationVector = 
 				new Vector(this.getWidth() / 2, this.getHeight() / 2);
@@ -126,42 +125,32 @@ public class SpacewarRunner extends internalFrameDark {
 			try {	
 				
 				checkInputFlags(elementL);
-//				elementL.addAll(particleL);
-				particleL.clear();
+				elementL.addAll(particleL);
 				
 				for (Element element : elementL) {			
 					element.update(panelWidthI, panelHeightI);					
 				}
 				
-//				// check for dead particles
-//				//
-//				List<Integer> deadParticleIndexesL = 
-//					IntStream.range(0, elementL.size())
-//				                               .filter(i -> elementL.get(i)
-//				        		               .getClass()
-//				        		               .getName()
-//				        		               .contains("Particle"))
-//				             .boxed()
-//				             .collect(Collectors.toList());
-//				  
-//				// filter out the dead ones
-//				//
-//				elementL = 
-//				    IntStream.range(0, elementL.size())
-//				             .filter(i -> !deadParticleIndexesL.contains(i))
-//				             .mapToObj(i -> elementL.get(i))  
-//				             .collect(Collectors.toList());
+				// check for dead particles
+				//
+				List<Element> deadParticlesL = 
+					elementL.parallelStream()
+				            .filter(e -> e.getClass()
+				            		      .getName()
+				            		      .contains("Particle"))
+				            .filter(e -> 
+				                ((ParticleAbstract)e).getIsAliveFlag() == false)
+				            .collect(Collectors.toList());
+						  
+				// filter out the dead ones
+				//
+				deadParticlesL.parallelStream()
+				              .forEach(p -> elementL.remove(p));
+				
 
-				
-				
-				
-				// paint and nappie-poo	
-				
-//				Graphics2D g2 = (Graphics2D)spacewarPanel.getGraphics();
-//				elementL.stream()
-//				        .forEach(x -> x.renderPresentation(g2));
-				
+				// paint and nappie-poo				
 				spacewarPanel.setElementList(elementL);
+				particleL.clear();
 				this.repaint();						
 				Thread.sleep(10);
 
@@ -203,38 +192,48 @@ public class SpacewarRunner extends internalFrameDark {
 			ussTriangle_E.accelerationV = newAccelerationVector;
 			
 			// add some thruster exhaust
-			for (int i = 0; i < 4; i ++) {
-				int diameterI = ThreadLocalRandom.current().nextInt(5, 10);
-				int colorIndexI = ThreadLocalRandom.current().nextInt(3, 6);	
-				Color fillColor = GUI.charcoalDarkC;
-				Color strokeColor = colorL.get(colorIndexI);
+			for (int i = 0; i < 1; i ++) {
+				int diameterI = ThreadLocalRandom.current().nextInt(2, 5);
+				int colorIndexI = ThreadLocalRandom.current().nextInt(3, 5);	
+				Color fillColor = colorL.get(colorIndexI);
+				
 				double locationX_D = ussTriangle_E.getLocation().getLeft();
 				double locationY_D = ussTriangle_E.getLocation().getRight();
-				Vector locationV = new Vector(locationX_D, locationY_D);
+				Vector shipLocationV = new Vector(locationX_D, locationY_D);
 				
 				// take the current acceleration vector for the ship, normalize
 				// it, set a new magnitude, then invert so it points in the 
 				// opposite direction 
 				Vector particleVelocityVector = newAccelerationVector.clone();
 				particleVelocityVector.normalize();
-				
+				particleVelocityVector.multiply(-1);	
+
+				Vector particleSpoutLocationOffsetV = 
+						particleVelocityVector.clone();
+
 				double newMagnitudeD = 
 						ThreadLocalRandom.current().nextInt(1, 4);
 				
 				particleVelocityVector.multiply(newMagnitudeD);
-				particleVelocityVector.multiply(-1);
-
 				
+				// offset the spout location down a few units then use the
+				// particle velocity unit vector to ensure the spout is always
+				// placed at the ass-end of the ship
+				Vector particleSpoutLocationV = shipLocationV.clone();				
+				particleSpoutLocationV.yD += 12;	
+				particleSpoutLocationOffsetV.multiply(8);	
+				particleSpoutLocationV.add(particleSpoutLocationOffsetV);	
+		
 				ParticleCircle particleCircle = 
-						new ParticleCircle(locationV, 
+						new ParticleCircle(particleSpoutLocationV, 
 									   	   particleVelocityVector, 
 									   	   new Vector(0, 0), 
-									   	   strokeColor, 
+									   	   Color.black, 
 									   	   fillColor, 
 									   	   diameterI, 
 									   	   diameterI,
 									   	   diameterI, 
-									   	   100);		
+									   	   60);		
 
 				particleL.add(particleCircle);		
 			}

@@ -21,5 +21,22 @@ public class TrigHelpers {
 		double vectorY_D = Math.sin(thetaD) * radiusD;	
 		return new Vector(vectorX_D, vectorY_D);		
 	}
+
+	
+	
+	/**
+	 * takes a point assumed to be on the circumference of a unit circle
+	 * and rotates it thetaD (polar) degrees.  
+	 * 
+	 * 
+	 * @param thetaD
+	 * @param locationV
+	 * @return
+	 */
+	public static Vector RotatePoint(double thetaD, Vector locationV) {
+		double vectorX_D = 1 * Math.cos(thetaD) + locationV.xD;
+		double vectorY_D = 1 * Math.sin(thetaD) + locationV.yD;
+		return new Vector(vectorX_D, vectorY_D);
+	}
 	
 }
