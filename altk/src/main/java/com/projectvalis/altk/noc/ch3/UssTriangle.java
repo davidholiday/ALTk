@@ -79,7 +79,7 @@ public class UssTriangle extends Element {
 
 	
 	@Override
-	protected synchronized void renderPresentation(Graphics2D g2) {						
+	protected void renderPresentation(Graphics2D g2) {						
 
 		
 		// create ss triangle path at origin

@@ -157,7 +157,6 @@ public abstract class Element {
 	/**
 	 * method to draw the element onto the graphics context 
 	 * 
-	 * all implementers should synchronize their implementations!
 	 * @param g2
 	 */
 	protected abstract void renderPresentation(Graphics2D g2);

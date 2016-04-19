@@ -56,11 +56,12 @@ public class SpacewarRunner extends internalFrameDark {
 		
 		//List<Element> elementL = new ArrayList<Element>();
 		
-		colorL.add(GUI.redC);
 		colorL.add(GUI.mustardC);
-		colorL.add(GUI.orangeC);
+		colorL.add(Color.ORANGE);
+		colorL.add(GUI.redC);
+		colorL.add(GUI.charcoalLightC);
 		colorL.add(GUI.purpleC);
-		colorL.add(GUI.charcoalDarkC);
+		//colorL.add(Color.ORANGE);
 		
 		Vector ussTriangleLocationVector = 
 				new Vector(this.getWidth() / 2, this.getHeight() / 2);
@@ -77,11 +78,12 @@ public class SpacewarRunner extends internalFrameDark {
 		elementL.add(ussTriangleE);	
 		
 		Random randy = new Random();
+		int colorIndexI = 0;
+		
 		for (int i = 1; i < 6; i ++) {
-			int diameterI = ThreadLocalRandom.current().nextInt(25, 65 + 1);
-			
-			int colorIndexI = randy.nextInt(3);		
+			int diameterI = ThreadLocalRandom.current().nextInt(25, 65 + 1);	
 			Color fillColor = colorL.get(colorIndexI);
+			colorIndexI = (colorIndexI == 2) ? (0) : (colorIndexI + 1);
 			double locationX_D = randy.nextInt(this.getWidth());
 			double locationY_D = randy.nextInt(this.getHeight());
 			Vector locationV = new Vector(locationX_D, locationY_D);
@@ -96,7 +98,10 @@ public class SpacewarRunner extends internalFrameDark {
 								   	   diameterI);	
 			
 			int randomX_I = ThreadLocalRandom.current().nextInt(-2, 2 + 1);
-			int randomY_I = ThreadLocalRandom.current().nextInt(-2, 2 + 1);
+			int randomY_I = ThreadLocalRandom.current().nextInt(-2, 2 + 1);	
+			randomX_I = (randomX_I == 0) ? (1) : (randomX_I);
+			randomY_I = (randomY_I == 0) ? (1) : (randomY_I);
+			
 			square_E.velocityV = new Vector(randomX_I, randomY_I);
 			square_E.angularAccelerationD = square_E.velocityV.xD;
 			elementL.add(square_E);		
@@ -211,7 +216,7 @@ public class SpacewarRunner extends internalFrameDark {
 						particleVelocityVector.clone();
 
 				double newMagnitudeD = 
-						ThreadLocalRandom.current().nextInt(1, 4);
+						ThreadLocalRandom.current().nextInt(1, 5);
 				
 				particleVelocityVector.multiply(newMagnitudeD);
 				
@@ -232,7 +237,7 @@ public class SpacewarRunner extends internalFrameDark {
 									   	   diameterI, 
 									   	   diameterI,
 									   	   diameterI, 
-									   	   60);		
+									   	   40);		
 
 				particleL.add(particleCircle);		
 			}

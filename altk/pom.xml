@@ -3,20 +3,20 @@
   <groupId>altK</groupId>
   <artifactId>altK</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
+
   <build>
-    
+
     <plugins>
-        <plugin> 
+        <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
-            <configuration>           
+            <configuration>
                 <archive>
                     <manifest>
                         <addClasspath>true</addClasspath>
                         <mainClass>com.projectvalis.altk.init.bootstrap</mainClass>
-                    </manifest>    
-                </archive>                              
+                    </manifest>
+                </archive>
             </configuration>
         </plugin>
 
@@ -34,66 +34,75 @@
 		    <configuration>
 		        <archive>
 		            <manifest>
-		            <mainClass>
-						com.projectvalis.altk.init.bootstrap
-		            </mainClass>
-		        </manifest>
-		    </archive>
-		    <descriptorRefs>
-		        <descriptorRef>jar-with-dependencies</descriptorRef>
-		    </descriptorRefs>
-		</configuration>
+		                <mainClass>
+						    com.projectvalis.altk.init.bootstrap
+		                </mainClass>
+		            </manifest>
+		        </archive>
+		        <descriptorRefs>
+		            <descriptorRef>jar-with-dependencies</descriptorRef>
+		        </descriptorRefs>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                    <phase>package</phase> <!-- bind to the packaging phase -->
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
 		</plugin>
-		
+
 		<plugin>
         	<groupId>org.jbehave</groupId>
         	<artifactId>jbehave-maven-plugin</artifactId>
         	<version>4.0.2</version>
-            	<executions>  
-                	<execution>  
-                    	<id>run-stories-as-embeddables</id>  
-                    	<phase>integration-test</phase>  
-                    	<configuration>  
-                    		<includes>  
-                        		<include>**/*Test.java</include>  
-                    		</includes>  
+            	<executions>
+                	<execution>
+                    	<id>run-stories-as-embeddables</id>
+                    	<phase>integration-test</phase>
+                    	<configuration>
+                    		<includes>
+                        		<include>**/*Test.java</include>
+                    		</includes>
                     		<ignoreFailureInStories>
                     			false
-                    		</ignoreFailureInStories>  
-                    		<ignoreFailureInView>false</ignoreFailureInView>  
+                    		</ignoreFailureInStories>
+                    		<ignoreFailureInView>false</ignoreFailureInView>
                         	<systemProperties>
                             	<property>
                                 	<name>java.awt.headless</name>
                                 	<value>true</value>
                             	</property>
                         	</systemProperties>
-                    	</configuration>  
-                    	<goals>  
-                    		<goal>run-stories-as-embeddables</goal>  
-                    	</goals>  
-            	</execution>  
+                    	</configuration>
+                    	<goals>
+                    		<goal>run-stories-as-embeddables</goal>
+                    	</goals>
+            	</execution>
              </executions>
        </plugin>
-		
+
     </plugins>
 
   </build>
-  
-  
+
+
   <dependencies>
-  
+
   	<dependency>
   		<groupId>beanshell</groupId>
   		<artifactId>beanshell</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
-  	
+
   	<dependency>
   		<groupId>swingJD</groupId>
   		<artifactId>swingJD</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
-  	
+
 	<dependency>
     	<groupId>de.sciss</groupId>
    		<artifactId>weblaf-core</artifactId>
@@ -105,31 +114,31 @@
     	<artifactId>weblaf-ui</artifactId>
     	<version>1.28</version>
 	</dependency>
-	
+
 	<dependency>
     	<groupId>org.graphstream</groupId>
     	<artifactId>gs-core</artifactId>
     	<version>1.2</version>
 	</dependency>
-	
+
 	<dependency>
     	<groupId>org.graphstream</groupId>
     	<artifactId>gs-algo</artifactId>
     	<version>1.2</version>
 	</dependency>
-	
+
 	<dependency>
     	<groupId>org.graphstream</groupId>
     	<artifactId>gs-ui</artifactId>
     	<version>1.2</version>
 	</dependency>
-	
+
 	<dependency>
         <groupId>org.jbehave</groupId>
         <artifactId>jbehave-core</artifactId>
         <version>4.0.2</version>
     </dependency>
-	
+
   </dependencies>
-  
+
 </project>
