@@ -4,6 +4,8 @@ import java.util.logging.*;
 
 import javax.swing.SwingUtilities;
 
+import com.projectvalis.altk.jbox2d.lab.TestbedRunner;
+
 
 /**
  * bootstraps the program
@@ -37,7 +39,9 @@ public class bootstrap {
 				// CSS ref sheet
 				System.setProperty("org.graphstream.ui.renderer",
 		                "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-				gui.buildGUI();	
+				
+				new TestbedRunner().bootstrapTestBedRunner();
+				//gui.buildGUI();	
 			}
 			
 		});
