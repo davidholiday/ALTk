@@ -70,7 +70,7 @@ public class SpacewarRunner extends internalFrameDark {
 									   new Vector(0, 0), 
 									   new Vector(0, 0), 
 									   Color.black, 
-									   GUI.tealC, 
+									   Color.CYAN.darker(), 
 									   50, 
 									   50,
 									   50);	
@@ -115,8 +115,9 @@ public class SpacewarRunner extends internalFrameDark {
 	}	
 	
 	
+
 	/**
-	 * 
+	 * cycles through the element list and updates the scene
 	 */
 	private void animate() {
 		boolean keepOnTrucknB = true;
@@ -171,6 +172,12 @@ public class SpacewarRunner extends internalFrameDark {
 	}
 	
 	
+	/**
+	 * checks the input flags from the JPanel handling the 'view' stuff and 
+	 * handles the 'controller' logic. 
+	 * 
+	 * @param elementL
+	 */
 	private void checkInputFlags(List<Element> elementL) {
 		
 		Element ussTriangle_E = elementL.get(0);
