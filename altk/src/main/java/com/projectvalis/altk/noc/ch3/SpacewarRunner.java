@@ -58,9 +58,10 @@ public class SpacewarRunner extends internalFrameDark {
 		
 		colorL.add(GUI.mustardC);
 		colorL.add(Color.ORANGE);
-		colorL.add(GUI.redC);
-		colorL.add(GUI.charcoalLightC);
-		colorL.add(GUI.purpleC);
+		//colorL.add(GUI.redC);
+		//colorL.add(Color.yellow);
+		//colorL.add(GUI.charcoalLightC);
+		//colorL.add(GUI.purpleC);
 		//colorL.add(Color.ORANGE);
 		
 		Vector ussTriangleLocationVector = 
@@ -70,7 +71,7 @@ public class SpacewarRunner extends internalFrameDark {
 									   new Vector(0, 0), 
 									   new Vector(0, 0), 
 									   Color.black, 
-									   Color.CYAN.darker(), 
+									   Color.GREEN, 
 									   50, 
 									   50,
 									   50);	
@@ -82,7 +83,8 @@ public class SpacewarRunner extends internalFrameDark {
 		
 		for (int i = 1; i < 6; i ++) {
 			int diameterI = ThreadLocalRandom.current().nextInt(25, 65 + 1);	
-			Color fillColor = colorL.get(colorIndexI);
+			//Color fillColor = colorL.get(colorIndexI);
+			Color fillColor = GUI.redC;
 			colorIndexI = (colorIndexI == 2) ? (0) : (colorIndexI + 1);
 			double locationX_D = randy.nextInt(this.getWidth());
 			double locationY_D = randy.nextInt(this.getHeight());
@@ -205,7 +207,10 @@ public class SpacewarRunner extends internalFrameDark {
 			// add some thruster exhaust
 			for (int i = 0; i < 1; i ++) {
 				int diameterI = ThreadLocalRandom.current().nextInt(2, 5);
-				int colorIndexI = ThreadLocalRandom.current().nextInt(3, 5);	
+				
+				int colorIndexI = 
+						ThreadLocalRandom.current().nextInt(0, colorL.size());
+				
 				Color fillColor = colorL.get(colorIndexI);
 				
 				double locationX_D = ussTriangle_E.getLocation().getLeft();
