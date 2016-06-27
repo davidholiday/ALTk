@@ -30,22 +30,21 @@ public class BouncingBallsTest extends TestbedTest {
 		circleShape.setRadius(1);
 		
 		Body circleBody = this.getWorld().createBody(circleBodyDef);
-        circleBody.createFixture(circleShape, 5);		
+        circleBody.createFixture(circleShape, 100);		
+        circleBody.getFixtureList().setRestitution(0.6f);
         
         
-        // edge box
+        // the ground
         //
-        BodyDef edgeBoxBodyDef = new BodyDef();
-        Vec2 edgeCenterVector = new Vec2(0, 0);
-        edgeBoxBodyDef.setPosition(edgeCenterVector);
-        edgeBoxBodyDef.setType(BodyType.STATIC);
+        BodyDef groundBodyDef = new BodyDef();
+        Vec2 groundBodyPositionVector = new Vec2(0, -10);
+        groundBodyDef.setPosition(groundBodyPositionVector);;
+  
+        PolygonShape groundShape = new PolygonShape();
+        groundShape.setAsBox(50, 10);
         
-        PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(20, 20);
-        
-        Body edgeBody = this.getWorld().createBody(edgeBoxBodyDef);
-        edgeBody.createFixture(boxShape, 0);
-        
+        Body groundBody = this.getWorld().createBody(groundBodyDef);
+        groundBody.createFixture(groundShape, 0);
         
 	}
 
