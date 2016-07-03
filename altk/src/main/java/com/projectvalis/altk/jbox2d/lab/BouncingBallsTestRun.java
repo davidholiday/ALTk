@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.testbed.framework.TestbedTest;
 
-public class BouncingBallsTest extends TestbedTest {
+public class BouncingBallsTestRun extends TestbedTest {
 
 	@Override
 	public void initTest(boolean deserialized) {

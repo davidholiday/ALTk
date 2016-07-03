@@ -18,13 +18,13 @@ public class ManagedCircleView extends ManagedElementView {
 
 	@Override
 	protected void renderPresentation(
-			Graphics2D g2, Vec2 posVector, Pair<Float, Float> screenSize) {
+			Graphics2D g2, Vec2 posVector, Vec2 screenSize) {
 		
 		float ballLocationX = posVector.x;
 		float ballLocationY = posVector.y;
 		
-		float screenWidth = (float)screenSize.getLeft();
-		float screenHeight = (float)screenSize.getRight();		
+		float screenWidth = screenSize.x;
+		float screenHeight = screenSize.y;		
 		
 		Ellipse2D ballE2D = 
 			new Ellipse2D.Float(ballLocationX, 

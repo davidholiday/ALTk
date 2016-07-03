@@ -54,7 +54,7 @@ public abstract class ManagedElementView {
 	 * @param g2
 	 */
 	protected abstract void renderPresentation(
-			Graphics2D g2, Vec2 posVector, Pair<Float, Float> screenSize);
+			Graphics2D g2, Vec2 posVector, Vec2 screenSize);
 
 
 	

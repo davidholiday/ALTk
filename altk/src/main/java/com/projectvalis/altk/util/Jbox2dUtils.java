@@ -33,10 +33,10 @@ public class Jbox2dUtils {
 	 * @return
 	 */
 	public static Vec2 box2dToPixelCoordinate(Vec2 box2dCoordinate,
-			                                  Vec2 screenCenterInPixel) {
+			                                  Vec2 screenSizeInPixels) {
 		
-		float offsetX = screenCenterInPixel.x / NUM_PIXELS_TO_METER;
-		float offsetY = screenCenterInPixel.y / NUM_PIXELS_TO_METER;
+		float offsetX =  (screenSizeInPixels.x / 2) / NUM_PIXELS_TO_METER;
+		float offsetY =  (screenSizeInPixels.y / 2) / NUM_PIXELS_TO_METER;
 		
 		Vec2 pixelCoordinate = new Vec2();
 		pixelCoordinate.x = box2dCoordinate.x + offsetX;
@@ -54,10 +54,10 @@ public class Jbox2dUtils {
 	 * @return
 	 */
 	public static Vec2 pixelToBox2dCoordinate(Vec2 pixelCoordinate,
-			                                  Vec2 screenCenterInPixel) {
+			                                  Vec2 screenSizeInPixels) {
 		
-		float offsetX = screenCenterInPixel.x;
-		float offsetY = screenCenterInPixel.y;
+		float offsetX =  screenSizeInPixels.x / 2;
+		float offsetY =  screenSizeInPixels.y / 2;
 		
 		Vec2 box2dCoordinate = new Vec2();
 		box2dCoordinate.x = pixelCoordinate.x - offsetX / NUM_PIXELS_TO_METER;

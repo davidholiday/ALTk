@@ -18,50 +18,52 @@ import org.jbox2d.dynamics.World;
  */
 public abstract class ManagedElementModel {
 	
-	private BodyDef bodyDef;
-	private Body body;
+	protected BodyDef m_bodyDef;
+	protected Body m_body;
+	protected Shape m_shape;	
+	protected Vec2 m_startPosition;	
+	protected float m_density;
+	protected float m_restitution;
+	protected float m_friction;
 	
-	private Shape shape;
-	
-	private float density;
-	private float restitution;
-	private float friction;
-	
-	
-	public ManagedElementModel(World world, 
-			                   Vec2 startPosition,
+
+	public ManagedElementModel(Vec2 startPosition,
 			                   float density, 
 			                   float restitution, 
 			                   float friction) {
 		
-		makeBody(world, startPosition);
+	    m_startPosition = startPosition;
+	    m_density = density;
+	    m_restitution = restitution;
+	    m_friction = friction;
 	};
 	
-	protected abstract void makeBody(World world, Vec2 startPosition);
+	protected void createInWorld(World world) {
+	    makeBody(world);
+	    makeShape(world);
+	}
 	
-	protected abstract void makeShape(World world, 
-			                          float density, 
-			                          float restitution, 
-			                          float friction);
+	protected abstract void makeBody(World world);
+	protected abstract void makeShape(World world);
 	
 	
-	protected BodyDef getBodyDef() { return bodyDef; }
-	protected void setBodyDef(BodyDef bodyDef) { this.bodyDef = bodyDef; }
+	protected BodyDef getBodyDef() { return m_bodyDef; }
+	protected void setBodyDef(BodyDef bodyDef) { this.m_bodyDef = bodyDef; }
 
-	public Body getBody() {	return body; }
-	protected void setBody(Body body) { this.body = body;}
+	public Body getBody() {	return m_body; }
+	protected void setBody(Body body) { this.m_body = body;}
 	
-	protected Shape getShape() { return shape;	}
-	protected void setShape(Shape shape) {	this.shape = shape;	}
+	protected Shape getShape() { return m_shape;	}
+	protected void setShape(Shape shape) {	this.m_shape = shape;	}
 
-	public float getDensity() { return density;	}
-	protected void setDensity(float density) {	this.density = density;	}
+	public float getDensity() { return m_density;	}
+	protected void setDensity(float density) {	this.m_density = density;	}
 
-	public float getRestitution() {	return restitution;	}
+	public float getRestitution() {	return m_restitution;	}
 	protected void setRestitution(float restitution) {
-		this.restitution = restitution;	}
+		this.m_restitution = restitution;	}
 
-	public float getFriction() { return friction; }
-	protected void setFriction(float friction) { this.friction = friction; }
+	public float getFriction() { return m_friction; }
+	protected void setFriction(float friction) { this.m_friction = friction; }
 	
 }

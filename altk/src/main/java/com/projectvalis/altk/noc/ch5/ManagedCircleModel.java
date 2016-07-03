@@ -9,18 +9,16 @@ import org.jbox2d.dynamics.World;
 
 public class ManagedCircleModel extends ManagedElementModel {
 
-	float m_radius;
+	private float m_radius;
 	
-	public ManagedCircleModel(World world, 
-			                  Vec2 startPosition, 
+	public ManagedCircleModel(Vec2 startPosition, 
 			                  float density,
 			                  float restitution, 
 			                  float friction, 
 			                  int radius) {
 		
-		super(world, startPosition, density, restitution, friction);
+		super(startPosition, density, restitution, friction);
 		m_radius = radius;
-		makeShape(world, density, restitution, friction);
 	}
 
 	
@@ -30,28 +28,24 @@ public class ManagedCircleModel extends ManagedElementModel {
 	
 	
 	@Override
-	protected void makeBody(World world, Vec2 startPosition) {
+	protected void makeBody(World world) {
 		BodyDef circleBodyDef = new BodyDef();
-		circleBodyDef.setPosition(startPosition);
+		circleBodyDef.setPosition(this.m_startPosition);
 		circleBodyDef.setType(BodyType.DYNAMIC);
 		
 		Body circleBody = world.createBody(circleBodyDef);
-		this.setBody(circleBody);
+		this.m_body = circleBody;
 	}
 
 
 	@Override
-	protected void makeShape(World world, 
-			                 float density, 
-			                 float restitution,
-			                 float friction) {
-		
+	protected void makeShape(World world) {
 		CircleShape circleShape = new CircleShape();
 		circleShape.setRadius(m_radius);
 		
-        this.getBody().createFixture(circleShape, density);		
-        this.getBody().getFixtureList().setRestitution(restitution);
-        this.getBody().getFixtureList().setFriction(friction);
+        this.m_body.createFixture(circleShape, this.m_density);		
+        this.m_body.getFixtureList().setRestitution(this.m_restitution);
+        this.m_body.getFixtureList().setFriction(this.m_friction);
 	}
 
 
