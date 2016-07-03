@@ -17,7 +17,8 @@ import com.projectvalis.altk.util.EdgeDetectors;
 
 
 /**
- * the 'model' for the bouncing ball in the ch1 examples.
+ * the 'model' (and basically the 'view' for the bouncing ball in the 
+ * ch1 examples.
  * 
  * @author snerd
  *

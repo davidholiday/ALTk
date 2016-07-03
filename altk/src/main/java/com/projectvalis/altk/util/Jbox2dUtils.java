@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * two utiltities to convert pixel-world to box2d-world coordinates and back.
+ * two utilities to convert pixel-world to box2d-world coordinates and back.
  * see the below for more details
  * 
  * http://www.box2d.org/forum/viewtopic.php?f=3&t=8198 

@@ -15,7 +15,8 @@ import com.projectvalis.altk.util.Pair;
 
 
 /**
- * base class for all shape objects
+ * base class for all shape objects not managed by the physics engine. 
+ * implementers end up acting as both model and view for themselves.
  * 
  * TODO adding some encapsulation here probably would be a good thing...
  * 
