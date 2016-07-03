@@ -2,6 +2,7 @@ package com.projectvalis.altk.noc.ch5;
 
 
 import org.jbox2d.collision.shapes.Shape;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
@@ -28,40 +29,39 @@ public abstract class ManagedElementModel {
 	
 	
 	public ManagedElementModel(World world, 
+			                   Vec2 startPosition,
 			                   float density, 
 			                   float restitution, 
 			                   float friction) {
 		
-		if ((bodyDef == null) || (shape == null)) {
-			throw new IllegalStateException(
-				"implementors of ManagedElementModel must contain bodydef and "
-				+ "shape definitions!");
-		}
-		
-		body = world.createBody(bodyDef);
-		body.createFixture(shape, density);
-		body.getFixtureList().setRestitution(restitution);
-		body.getFixtureList().setFriction(friction);
+		makeBody(world, startPosition);
 	};
 	
+	protected abstract void makeBody(World world, Vec2 startPosition);
 	
-	public BodyDef getBodyDef() { return bodyDef; }
-	public void setBodyDef(BodyDef bodyDef) { this.bodyDef = bodyDef; }
+	protected abstract void makeShape(World world, 
+			                          float density, 
+			                          float restitution, 
+			                          float friction);
+	
+	
+	protected BodyDef getBodyDef() { return bodyDef; }
+	protected void setBodyDef(BodyDef bodyDef) { this.bodyDef = bodyDef; }
 
 	public Body getBody() {	return body; }
-	public void setBody(Body body) { this.body = body;}
+	protected void setBody(Body body) { this.body = body;}
 	
-	public Shape getShape() { return shape;	}
-	public void setShape(Shape shape) {	this.shape = shape;	}
+	protected Shape getShape() { return shape;	}
+	protected void setShape(Shape shape) {	this.shape = shape;	}
 
 	public float getDensity() { return density;	}
-	public void setDensity(float density) {	this.density = density;	}
+	protected void setDensity(float density) {	this.density = density;	}
 
 	public float getRestitution() {	return restitution;	}
-	public void setRestitution(float restitution) {
+	protected void setRestitution(float restitution) {
 		this.restitution = restitution;	}
 
 	public float getFriction() { return friction; }
-	public void setFriction(float friction) { this.friction = friction; }
+	protected void setFriction(float friction) { this.friction = friction; }
 	
 }
