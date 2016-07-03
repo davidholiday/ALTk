@@ -16,13 +16,34 @@ import org.jbox2d.dynamics.World;
  *
  */
 public abstract class ManagedElementModel {
+	
 	private BodyDef bodyDef;
 	private Body body;
+	
 	private Shape shape;
 	
-	public ManagedElementModel(World world) { 
+	private float density;
+	private float restitution;
+	private float friction;
+	
+	
+	public ManagedElementModel(World world, 
+			                   float density, 
+			                   float restitution, 
+			                   float friction) {
 		
+		if ((bodyDef == null) || (shape == null)) {
+			throw new IllegalStateException(
+				"implementors of ManagedElementModel must contain bodydef and "
+				+ "shape definitions!");
+		}
+		
+		body = world.createBody(bodyDef);
+		body.createFixture(shape, density);
+		body.getFixtureList().setRestitution(restitution);
+		body.getFixtureList().setFriction(friction);
 	};
+	
 	
 	public BodyDef getBodyDef() { return bodyDef; }
 	public void setBodyDef(BodyDef bodyDef) { this.bodyDef = bodyDef; }
@@ -32,5 +53,15 @@ public abstract class ManagedElementModel {
 	
 	public Shape getShape() { return shape;	}
 	public void setShape(Shape shape) {	this.shape = shape;	}
+
+	public float getDensity() { return density;	}
+	public void setDensity(float density) {	this.density = density;	}
+
+	public float getRestitution() {	return restitution;	}
+	public void setRestitution(float restitution) {
+		this.restitution = restitution;	}
+
+	public float getFriction() { return friction; }
+	public void setFriction(float friction) { this.friction = friction; }
 	
 }

@@ -1,7 +1,14 @@
 package com.projectvalis.altk.util;
 
 
-//from stack overflow TODO rewrite
+/**
+ * simple pair holder for two typed objects. copied from stackoverflow
+ * 
+ * @author snerd
+ *
+ * @param <L>
+ * @param <R>
+ */
 public class Pair<L,R> {
 
 	  private final L left;

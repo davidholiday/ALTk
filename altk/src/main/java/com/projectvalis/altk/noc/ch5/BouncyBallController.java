@@ -21,7 +21,7 @@ import com.projectvalis.altk.noc.ch1.Element;
 import com.projectvalis.altk.noc.ch1.ElementPanel;
 import com.projectvalis.altk.noc.ch1.Vector;
 
-public class BallRunner2 extends internalFrameDark {
+public class BouncyBallController extends internalFrameDark {
 
 	
 	private static final Logger LOGGER = 
@@ -36,7 +36,7 @@ public class BallRunner2 extends internalFrameDark {
 	/**
 	 * position and create the window and get the ball rolling -er- bouncing
 	 */
-	public BallRunner2() {
+	public BouncyBallController() {
 	    Vec2 gravityVector = new Vec2(0, -10);
 		World world = new World(gravityVector);
 	    
