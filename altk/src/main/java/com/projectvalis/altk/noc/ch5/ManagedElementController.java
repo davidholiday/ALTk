@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.swing.JInternalFrame;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -14,7 +13,7 @@ import org.jbox2d.dynamics.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+import com.projectvalis.altk.init.internalFrameDark;
 import com.projectvalis.altk.util.Jbox2dUtils;
 import com.projectvalis.altk.util.Pair;
 
@@ -26,7 +25,7 @@ import com.projectvalis.altk.util.Pair;
  * @author snerd
  *
  */
-public abstract class ManagedElementController extends JInternalFrame {
+public abstract class ManagedElementController extends internalFrameDark {
 	
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger("ManagedElementController");
@@ -42,17 +41,29 @@ public abstract class ManagedElementController extends JInternalFrame {
 
     
     public ManagedElementController(Vec2 gravityVector,
-    		                        Pair<Float, Float> windowSize, 
-    		                        Pair<Float, Float> windowLocation,
+    		                        Vec2 windowSize, 
+    		                        Vec2 windowLocation,
     		                        List <ManagedElementPair> managedPairList) {
     	
+    	// setup world and create bodies
     	m_world = new World(gravityVector);
         m_managedPairList = managedPairList;
     	
     	m_managedPairList.stream()
     	                 .parallel()
     	                 .map(ManagedElementPair::getLeft)
-    	                 .forEach(x -> x.createInWorld(m_world));    	
+    	                 .forEach(x -> x.createInWorld(m_world));  
+    	
+    	
+    	// setup display window
+    	this.setLocation((int)windowLocation.x, (int)windowLocation.y);
+    	this.setSize((int)windowSize.x, (int)windowSize.y);
+		this.attach(true);
+		this.setTitle("Bouncing Ball JBox2D Demo");
+		
+		
+		// do stuff
+		runSimulation();
     }
 	
     

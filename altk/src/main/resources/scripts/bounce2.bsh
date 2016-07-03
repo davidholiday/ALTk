@@ -6,8 +6,8 @@ bsh.bounce2.help = "runs the jbox2d bouncy ball test";
 bounce2() {
 	Thread t1 = new Thread(new Runnable() {
 		public void run() {
-			BallRunner ballRunner = 
-				new com.projectvalis.altk.noc.ch5.ManagedElementController();
+			BouncyBallController ballRunner = 
+				new com.projectvalis.altk.noc.ch5.BouncyBallController();
 		}
 	});
 	  
