@@ -16,13 +16,13 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class ManagedElementRunner implements Runnable {
     Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-    private List<ManagedElementPair> m_managedElementList;
-    private ManagedElementController m_managedController;
+    protected List<ManagedElementPair> m_managedElementList;
+    protected ManagedElementController m_managedController;
     
     public ManagedElementRunner() {
-    	m_managedElementList = populateElementList();
+    	populateElementList();
     }
 	
-    public abstract List<ManagedElementPair> populateElementList();
+    public abstract void populateElementList();
     
 }
