@@ -41,7 +41,9 @@ public class Jbox2dUtils {
 		Vec2 pixelCoordinate = new Vec2();
 		pixelCoordinate.x = box2dCoordinate.x + offsetX;
 		pixelCoordinate.y = -box2dCoordinate.y + offsetY;
-		
+//LOGGER.info("box2pixel in: " + box2dCoordinate.x + " " + box2dCoordinate.y);
+//LOGGER.info("box2pixel out: " + pixelCoordinate.x + " " + pixelCoordinate.y);
+//LOGGER.info("=-=-=-=-");
 		return pixelCoordinate;
 	}
 	
@@ -63,6 +65,9 @@ public class Jbox2dUtils {
 		box2dCoordinate.x = pixelCoordinate.x - offsetX / NUM_PIXELS_TO_METER;
 		box2dCoordinate.y = -pixelCoordinate.y + offsetY / NUM_PIXELS_TO_METER;
 		
+//LOGGER.info("pixel2box out: " + box2dCoordinate.x + " " + box2dCoordinate.y);		
+//LOGGER.info("pixel2box in: " + pixelCoordinate.x + " " + pixelCoordinate.y);
+//LOGGER.info("=-=-=-=-");		
 		return box2dCoordinate;
 	}
 	

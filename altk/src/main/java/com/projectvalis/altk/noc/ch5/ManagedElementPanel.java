@@ -1,20 +1,28 @@
 package com.projectvalis.altk.noc.ch5;
 
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.swing.JPanel;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.init.GUI;
+import com.projectvalis.altk.util.Jbox2dUtils;
 
 
 /**
@@ -30,23 +38,61 @@ public class ManagedElementPanel
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger(ManagedElementPanel.class.getName());
 	
-
-	public boolean[] keyFlagsARR;
-	protected boolean mouseInFrameB = false;
-	protected Vec2 mousePressPositionVector; 
+   
+    protected List<ManagedElementPair> m_managedPairList;
+	public boolean[] m_keyFlagsARR;
+	protected boolean m_mouseInFrame = false;
+	protected Vec2 m_mousePressPositionVector; 
 	
 
-	public ManagedElementPanel() {
+	public ManagedElementPanel(List<ManagedElementPair> managedPairList) {
+		m_managedPairList = managedPairList;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(GUI.charcoalC);
 	}
 	
 	
-	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);				
+		Graphics2D g2d = (Graphics2D)g;	
+		Dimension screenSize = this.getSize();
+
+		Vec2 screenSizeVector = 
+				new Vec2(screenSize.width, screenSize.height);
+		
+		synchronized(m_managedPairList) {
+			
+	        List<Vec2> currentPositionsList = 
+	            	m_managedPairList.stream()
+	                                 .parallel()
+	                                 .map(ManagedElementPair::getLeft)
+	                                 .map(ManagedElementModel::getBody)
+	                                 .map(Body::getPosition)
+	                                 .map(x -> 
+	                                     Jbox2dUtils.box2dToPixelCoordinate(
+	                                		x, screenSizeVector))
+	                                 .collect(Collectors.toList());
+	                                 
+	    
+	        IntStream.range(0, currentPositionsList.size())
+	                 .parallel()
+	                 .forEach(i -> 
+	                     m_managedPairList.get(i)
+	                                      .getRight()
+	                                      .renderPresentation(
+	                                	      g2d, 
+	                                          currentPositionsList.get(i), 
+	                                          new Vec2(10, 10)));			
+	        
+		}
+		
+
+	}
+		
 	
 	public boolean isMouseInFrame() {
-		return mouseInFrameB;
+		return m_mouseInFrame;
 	}
 	
 
@@ -61,7 +107,7 @@ public class ManagedElementPanel
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Point p = this.getMousePosition();
-		mousePressPositionVector = new Vec2((float)p.getX(), (float)p.getY());
+		m_mousePressPositionVector = new Vec2((float)p.getX(), (float)p.getY());
 	}
 
 
@@ -76,7 +122,7 @@ public class ManagedElementPanel
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		mouseInFrameB = true;
+		m_mouseInFrame = true;
 		
 	}
 
@@ -84,7 +130,7 @@ public class ManagedElementPanel
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		mouseInFrameB = false;
+		m_mouseInFrame = false;
 		
 	}
 

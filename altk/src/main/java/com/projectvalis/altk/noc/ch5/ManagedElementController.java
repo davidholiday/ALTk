@@ -2,6 +2,7 @@ package com.projectvalis.altk.noc.ch5;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,12 +35,18 @@ public abstract class ManagedElementController extends internalFrameDark {
     private final float m_timeStep = 1.0f / 60.f;
     private final int m_velocityIterations = 6;
     private final int m_positionIterations = 2;
-    private final List<ManagedElementPair> m_managedPairList;
+    protected List<ManagedElementPair> m_managedPairList;
     
     private ManagedElementPanel m_ballPanel; 
 	
 
-    
+    /**
+     * 
+     * @param gravityVector
+     * @param windowSize
+     * @param windowLocation
+     * @param managedPairList
+     */
     public ManagedElementController(Vec2 gravityVector,
     		                        Vec2 windowSize, 
     		                        Vec2 windowLocation,
@@ -53,59 +60,60 @@ public abstract class ManagedElementController extends internalFrameDark {
     	                 .parallel()
     	                 .map(ManagedElementPair::getLeft)
     	                 .forEach(x -> x.createInWorld(m_world));  
-    	
-    	
-    	// setup display window
-    	m_ballPanel = new ManagedElementPanel();
-    	this.add(m_ballPanel);
+   
+    	// setup internal frame and render
     	this.setLocation((int)windowLocation.x, (int)windowLocation.y);
-    	this.setSize((int)windowSize.x, (int)windowSize.y);
-		this.attach(true);
+    	this.setSize((int)windowSize.x, (int)windowSize.y);	
 		this.setTitle("Bouncing Ball JBox2D Demo");
-	
+		this.setDoubleBuffered(true);
+		
+    	m_ballPanel = new ManagedElementPanel(m_managedPairList);
+    	m_ballPanel.setDoubleBuffered(true);
+	    this.add(m_ballPanel);
+	    this.attach(true);
     }
 	
     
-    
-    public void runSimulation() {
-		Graphics2D g2d = (Graphics2D) m_ballPanel.getGraphics();
+    /**
+     * kicks off an infinite loop that sets the simulation in motion
+     */
+    public void runSimulation() {		
         boolean keepOnTruckn = true;
-		while (keepOnTruckn) {					
-			
-			try {	
-				
-				
-				Dimension screenSize = this.getSize();
-				
-				Vec2 screenSizeVector = 
-						new Vec2(screenSize.width, screenSize.height);
-				
 
+        while (keepOnTruckn) {					     			
+        	Graphics2D g2d = (Graphics2D) m_ballPanel.getGraphics();
+        	
+			try {								
+//				Dimension screenSize = this.getSize();
+//
+//				Vec2 screenSizeVector = 
+//						new Vec2(screenSize.width, screenSize.height);
+//				
                 m_world.step(m_timeStep,
                 		     m_velocityIterations, 
                 		     m_positionIterations);
 
-                List<Vec2> currentPositionsList = 
-                	m_managedPairList.stream()
-                                     .parallel()
-                                     .map(ManagedElementPair::getLeft)
-                                     .map(ManagedElementModel::getBody)
-                                     .map(Body::getPosition)
-                                     .map(x -> 
-                                         Jbox2dUtils.box2dToPixelCoordinate(
-                                    		x, screenSizeVector))
-                                     .collect(Collectors.toList());
-                
-                
-                IntStream.range(0, currentPositionsList.size())
-                         .parallel()
-                         .forEach(i -> 
-                             m_managedPairList.get(i)
-                                              .getRight()
-                                              .renderPresentation(
-                                            	  g2d, 
-                                                  currentPositionsList.get(i), 
-                                                  screenSizeVector));
+//                List<Vec2> currentPositionsList = 
+//                	m_managedPairList.stream()
+//                                     .parallel()
+//                                     .map(ManagedElementPair::getLeft)
+//                                     .map(ManagedElementModel::getBody)
+//                                     .map(Body::getPosition)
+//                                     .map(x -> 
+//                                         Jbox2dUtils.box2dToPixelCoordinate(
+//                                    		x, screenSizeVector))
+//                                     .collect(Collectors.toList());
+//               
+//                
+//                IntStream.range(0, currentPositionsList.size())
+//                         .parallel()
+//                         .forEach(i -> 
+//                             m_managedPairList.get(i)
+//                                              .getRight()
+//                                              .renderPresentation(
+//                                            	  g2d, 
+//                                                  currentPositionsList.get(i), 
+//                                                  new Vec2(10, 10)));
 				
 				this.repaint();
 				Thread.sleep(10);

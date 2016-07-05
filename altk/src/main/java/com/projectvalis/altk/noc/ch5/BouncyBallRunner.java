@@ -13,7 +13,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
 	
 	@Override
 	public void run() {
-		Vec2 gravityVector = new Vec2(0, 0);
+		Vec2 gravityVector = new Vec2(0, -10);
 		Vec2 windowSizeVector = new Vec2(640, 480);
 		Vec2 windowPositionVector = new Vec2(800, 200);
 
