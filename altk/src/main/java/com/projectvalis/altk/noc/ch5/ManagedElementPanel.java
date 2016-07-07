@@ -61,6 +61,8 @@ public class ManagedElementPanel
 		Vec2 screenSizeVector = 
 				new Vec2(screenSize.width, screenSize.height);
 		
+		int scaleFactor = Jbox2dUtils.NUM_PIXELS_TO_METER;
+		
 		synchronized(m_managedPairList) {
 			
 	        List<Vec2> currentPositionsList = 
@@ -74,16 +76,20 @@ public class ManagedElementPanel
 	                                		x, screenSizeVector))
 	                                 .collect(Collectors.toList());
 	                                 
-	    
-	        IntStream.range(0, currentPositionsList.size())
-	                 .parallel()
-	                 .forEach(i -> 
-	                     m_managedPairList.get(i)
-	                                      .getRight()
-	                                      .renderPresentation(
-	                                	      g2d, 
-	                                          currentPositionsList.get(i), 
-	                                          new Vec2(10, 10)));			
+	        
+	        IntStream
+	            .range(0, currentPositionsList.size())
+	            .parallel()
+	            .forEach(i -> 
+	                m_managedPairList.get(i)
+	                                 .getRight()
+	                                 .renderPresentation(
+	                            	     g2d, 
+	                                     currentPositionsList.get(i), 
+	                                     m_managedPairList.get(i)
+	                                                      .getLeft()
+	                                                      .m_jboxSizeVector
+	                                                      .mul(scaleFactor)));	
 	        
 		}
 		

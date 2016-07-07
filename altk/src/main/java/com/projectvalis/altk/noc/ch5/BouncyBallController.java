@@ -20,10 +20,27 @@ public class BouncyBallController extends ManagedElementController {
 	public BouncyBallController(Vec2 gravityVector, 
 			                    Vec2 windowSize,
 			                    Vec2 windowLocation, 
-			                    List<ManagedElementPair> managedPairList) {
+			                    List<ManagedElementPair> managedPairList,
+			                    float timeStep, 
+		                        int velocityIterations, 
+		                        int positionIterations) {
 		
-		super(gravityVector, windowSize, windowLocation, managedPairList);
+		
+		super(gravityVector, 
+			  windowSize, 
+			  windowLocation, 
+			  managedPairList,
+			  timeStep,
+			  velocityIterations,
+			  positionIterations);
 
+	}
+
+
+	@Override
+	public void checkInputFlags() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

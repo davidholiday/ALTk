@@ -22,6 +22,7 @@ public abstract class ManagedElementModel {
 	protected Body m_body;
 	protected Shape m_shape;	
 	protected Vec2 m_startPosition;	
+	protected Vec2 m_jboxSizeVector;
 	protected float m_density;
 	protected float m_restitution;
 	protected float m_friction;

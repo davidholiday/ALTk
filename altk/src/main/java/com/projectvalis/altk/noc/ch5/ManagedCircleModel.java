@@ -7,6 +7,8 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
+import com.projectvalis.altk.util.Jbox2dUtils;
+
 public class ManagedCircleModel extends ManagedElementModel {
 
 	private float m_radius;
@@ -19,6 +21,8 @@ public class ManagedCircleModel extends ManagedElementModel {
 		
 		super(startPosition, density, restitution, friction);
 		m_radius = radius;
+		
+		this.m_jboxSizeVector = new Vec2(radius, radius);
 	}
 
 	

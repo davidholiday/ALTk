@@ -13,15 +13,21 @@ public class BouncyBallRunner extends ManagedElementRunner {
 	
 	@Override
 	public void run() {
-		Vec2 gravityVector = new Vec2(0, -10);
-		Vec2 windowSizeVector = new Vec2(640, 480);
+		Vec2 gravityVector = new Vec2(0, 0);
+		Vec2 windowSizeVector = new Vec2(600, 600);
 		Vec2 windowPositionVector = new Vec2(800, 200);
-
+	    float timeStep = 1.0f / 60.0f;
+	    int velocityIterations = 6;
+	    int positionIterations = 2;
+	    
 		BouncyBallController managedController = 
 				new BouncyBallController(gravityVector, 
 						                 windowSizeVector, 
 						                 windowPositionVector, 
-						                 m_managedElementList);
+						                 m_managedElementList,
+						                 timeStep, 
+		    		                     velocityIterations, 
+		    		                     positionIterations);
 		
 		managedController.runSimulation();
 	}
@@ -30,7 +36,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
 	public void populateElementList() {
 		m_managedElementList = new ArrayList<ManagedElementPair>();
 		
-		Vec2 modelStartPosition = new Vec2(10, 10);
+		Vec2 modelStartPosition = new Vec2(0, 0);
 		
 		ManagedCircleModel circleModel = 
 				new ManagedCircleModel(modelStartPosition, 
