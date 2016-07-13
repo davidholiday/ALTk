@@ -34,7 +34,7 @@ public class EdgeDetectors {
 	
 	
 	/**
-	 * bounces elements off the endges of the panel
+	 * bounces elements off the edges of the panel
 	 * 
 	 * @param panelWidth
 	 * @param panelHeight

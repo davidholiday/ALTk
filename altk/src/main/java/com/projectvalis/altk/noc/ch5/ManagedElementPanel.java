@@ -79,7 +79,7 @@ public class ManagedElementPanel
 	        
 	        IntStream
 	            .range(0, currentPositionsList.size())
-	            .parallel()
+//	            .parallel()
 	            .forEach(i -> 
 	                m_managedPairList.get(i)
 	                                 .getRight()

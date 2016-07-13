@@ -39,13 +39,14 @@ public abstract class ManagedElementController extends internalFrameDark {
      * @param windowLocation
      * @param managedPairList
      */
-    public ManagedElementController(Vec2 gravityVector,
-    		                        Vec2 windowSize, 
-    		                        Vec2 windowLocation,
-    		                        List <ManagedElementPair> managedPairList,
-    		                        float timeStep, 
-    		                        int velocityIterations, 
-    		                        int positionIterations) {
+    public ManagedElementController(
+    		        Vec2 gravityVector,	                        
+    		        Vec2 windowSize, 
+    		        Vec2 windowLocation,
+    		        List <ManagedElementPair> managedPairList,
+    		        float timeStep, 
+    		        int velocityIterations, 
+    		        int positionIterations) {
     	
     	// setup world and create bodies
     	m_world = new World(gravityVector);
@@ -86,7 +87,6 @@ public abstract class ManagedElementController extends internalFrameDark {
                 m_world.step(m_timeStep,
                 		     m_velocityIterations, 
                 		     m_positionIterations);
-
 				
 				this.repaint();
 				Thread.sleep(10);
