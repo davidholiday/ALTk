@@ -31,8 +31,8 @@ public class ManagedEdgeWallModel extends ManagedElementModel {
 			                    float friction, 
 			                    Vec2 jboxSizeVector) {
 		
-		super(startPosition, density, restitution, friction);	
-		this.m_jboxSizeVector = jboxSizeVector;
+		super(startPosition, null, null, density, restitution, friction);	
+		m_jboxSizeVector = jboxSizeVector;
 	}
 
 	
@@ -44,8 +44,7 @@ public class ManagedEdgeWallModel extends ManagedElementModel {
 	protected void makeBody(World world) {
         BodyDef wallBodyDef = new BodyDef();
         wallBodyDef.setPosition(this.m_startPosition);
-//        wallBodyDef.setType(BodyType.STATIC);
-        this.m_body = world.createBody(wallBodyDef);
+        m_body = world.createBody(wallBodyDef);
 	}
 
 	
@@ -58,9 +57,9 @@ public class ManagedEdgeWallModel extends ManagedElementModel {
 		PolygonShape edgeWallShape = new PolygonShape();
 		
         edgeWallShape.setAsBox(
-        		this.m_jboxSizeVector.x, this.m_jboxSizeVector.y);
+        		m_jboxSizeVector.x, m_jboxSizeVector.y);
         
-        this.m_body.createFixture(edgeWallShape, 0);	
+        m_body.createFixture(edgeWallShape, 0);	
 	}
 
 	

@@ -23,17 +23,23 @@ public abstract class ManagedElementModel {
 	protected Shape m_shape;	
 	protected Vec2 m_startPosition;	
 	protected Vec2 m_jboxSizeVector;
+	protected Vec2 m_linearVelocity;
+	protected Vec2 m_angularVelocity;
 	protected float m_density;
 	protected float m_restitution;
 	protected float m_friction;
 	
 
 	public ManagedElementModel(Vec2 startPosition,
+			                   Vec2 linearVelocity,
+			                   Vec2 angularVelocity,
 			                   float density, 
 			                   float restitution, 
 			                   float friction) {
 		
 	    m_startPosition = startPosition;
+	    m_linearVelocity = linearVelocity;
+	    m_angularVelocity = angularVelocity;
 	    m_density = density;
 	    m_restitution = restitution;
 	    m_friction = friction;

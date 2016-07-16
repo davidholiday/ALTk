@@ -14,15 +14,21 @@ public class ManagedCircleModel extends ManagedElementModel {
 	private float m_radius;
 	
 	public ManagedCircleModel(Vec2 startPosition, 
+			                  Vec2 linearVelocity,
 			                  float density,
 			                  float restitution, 
 			                  float friction, 
 			                  int radius) {
 		
-		super(startPosition, density, restitution, friction);
-		m_radius = radius;
+		super(startPosition, 
+			  linearVelocity, 
+			  null, 
+			  density, 
+			  restitution, 
+			  friction);
 		
-		this.m_jboxSizeVector = new Vec2(radius, radius);
+		m_radius = radius;
+		m_jboxSizeVector = new Vec2(radius, radius);
 	}
 
 	
@@ -38,7 +44,8 @@ public class ManagedCircleModel extends ManagedElementModel {
 		circleBodyDef.setType(BodyType.DYNAMIC);
 		
 		Body circleBody = world.createBody(circleBodyDef);
-		this.m_body = circleBody;
+		circleBody.setLinearVelocity(m_linearVelocity);
+		m_body = circleBody;
 	}
 
 
@@ -47,9 +54,9 @@ public class ManagedCircleModel extends ManagedElementModel {
 		CircleShape circleShape = new CircleShape();
 		circleShape.setRadius(m_radius);
 		
-        this.m_body.createFixture(circleShape, this.m_density);		
-        this.m_body.getFixtureList().setRestitution(this.m_restitution);
-        this.m_body.getFixtureList().setFriction(this.m_friction);
+        m_body.createFixture(circleShape, this.m_density);		
+        m_body.getFixtureList().setRestitution(this.m_restitution);
+        m_body.getFixtureList().setFriction(this.m_friction);
 	}
 
 

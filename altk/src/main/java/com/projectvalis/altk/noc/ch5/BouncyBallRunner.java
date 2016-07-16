@@ -40,11 +40,13 @@ public class BouncyBallRunner extends ManagedElementRunner {
 		// circles
 		//
 		Vec2 modelStartPosition = new Vec2(0, 0);
+		Vec2 modelLinearVelocity = new Vec2(3, 0);
 		
 		ManagedCircleModel circleModel = 
 				new ManagedCircleModel(modelStartPosition, 
+						               modelLinearVelocity,
 						               1, 
-						               1.4f, 
+						               1f, 
 						               0.3f, 
 						               1);
 		
