@@ -43,7 +43,7 @@ public class ManagedElementPanel
 	public boolean[] m_keyFlagsARR;
 	protected boolean m_mouseInFrame = false;
 	protected Vec2 m_mousePressPositionVector; 
-	
+
 
 	public ManagedElementPanel(List<ManagedElementPair> managedPairList) {
 		m_managedPairList = managedPairList;
@@ -79,7 +79,7 @@ public class ManagedElementPanel
 	        
 	        IntStream
 	            .range(0, currentPositionsList.size())
-//	            .parallel()
+	            //.parallel()
 	            .forEach(i -> 
 	                m_managedPairList.get(i)
 	                                 .getRight()
@@ -90,7 +90,7 @@ public class ManagedElementPanel
 	                                                      .getLeft()
 	                                                      .m_jboxSizeVector
 	                                                      .mul(scaleFactor)));	
-	        
+	
 		}
 		
 

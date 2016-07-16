@@ -1,18 +1,15 @@
 package com.projectvalis.altk.noc.ch5;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BouncyBallRunner extends ManagedElementRunner {
-    Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
 	
+    Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	public void run() {
@@ -47,7 +44,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
 		ManagedCircleModel circleModel = 
 				new ManagedCircleModel(modelStartPosition, 
 						               1, 
-						               0.6f, 
+						               1.4f, 
 						               0.3f, 
 						               1);
 		
@@ -58,62 +55,80 @@ public class BouncyBallRunner extends ManagedElementRunner {
 		
 		m_managedElementList.add(circlePair);
 		
-				
+		
         // the ground
         //
-        Vec2 groundBodyPositionVector = new Vec2(0, -30);
-        Vec2 sizeVector = new Vec2(10, 0);
+        Vec2 groundBodyPositionVector = new Vec2(0, -50);
+        Vec2 floorCeilingSizeVector = new Vec2(60, 0);
         
         ManagedEdgeWallModel groundModel = 
         		new ManagedEdgeWallModel(groundBodyPositionVector, 
         				                 0, 
         				                 0, 
         				                 1, 
-        				                 sizeVector);
+        				                 floorCeilingSizeVector);
         
         ManagedNullView nullView = new ManagedNullView();
+        ManagedRectangleView rectangleView = new ManagedRectangleView();
         
         ManagedElementPair groundPair = new
-        		ManagedElementPair(groundModel, circleView);
+        		ManagedElementPair(groundModel, rectangleView);
         
         m_managedElementList.add(groundPair);
         
         
-//        // walls
-//        //
-//        BodyDef leftWallBodyDef = new BodyDef();
-//        Vec2 leftWallBodyPositionVector = new Vec2(-31, 0);
-//        leftWallBodyDef.setPosition(leftWallBodyPositionVector);;
-//  
-//        PolygonShape leftWallShape = new PolygonShape();
-//        leftWallShape.setAsBox(0, 60);
-//        
-//        Body leftWallBody = this.getWorld().createBody(leftWallBodyDef);
-//        leftWallBody.createFixture(leftWallShape, 0);
-//        
-//        
-//        BodyDef rightWallBodyDef = new BodyDef();
-//        Vec2 rightWallBodyPositionVector = new Vec2(31, 0);
-//        rightWallBodyDef.setPosition(rightWallBodyPositionVector);;
-//  
-//        PolygonShape rightWallShape = new PolygonShape();
-//        rightWallShape.setAsBox(0, 60);
-//        
-//        Body rightWallBody = this.getWorld().createBody(rightWallBodyDef);
-//        rightWallBody.createFixture(rightWallShape, 0);
-//        
-//        
-//        // ceiling
-//        //
-//        BodyDef ceilingBodyDef = new BodyDef();
-//        Vec2 ceilingBodyPositionVector = new Vec2(0, 51);
-//        ceilingBodyDef.setPosition(ceilingBodyPositionVector);;
-//  
-//        PolygonShape ceilingShape = new PolygonShape();
-//        ceilingShape.setAsBox(60, 0);
-//        
-//        Body ceilingBody = this.getWorld().createBody(ceilingBodyDef);
-//        ceilingBody.createFixture(ceilingShape, 0);
+        // walls
+        //
+        Vec2 leftWallBodyPositionVector = new Vec2(-50, 0);
+        Vec2 wallSizeVector = new Vec2(0, 60);
+        
+        ManagedEdgeWallModel leftWallModel = 
+        		new ManagedEdgeWallModel(leftWallBodyPositionVector, 
+        				                 0, 
+        				                 0, 
+        				                 1, 
+        				                 wallSizeVector);
+        
+
+        ManagedElementPair leftWallPair = new
+        		ManagedElementPair(leftWallModel, rectangleView);
+        
+        m_managedElementList.add(leftWallPair);      
+        
+        
+        Vec2 rightWallBodyPositionVector = new Vec2(50, 0);
+        
+        ManagedEdgeWallModel rightWallModel = 
+        		new ManagedEdgeWallModel(rightWallBodyPositionVector, 
+        				                 0, 
+        				                 0, 
+        				                 1, 
+        				                 wallSizeVector);
+        
+        ManagedElementPair rightWallPair = new
+        		ManagedElementPair(rightWallModel, rectangleView);
+        
+        m_managedElementList.add(rightWallPair);
+        
+        
+        // ceiling
+        //
+        Vec2 ceilingBodyPositionVector = new Vec2(0, 50);
+        
+        ManagedEdgeWallModel ceilingModel = 
+        		new ManagedEdgeWallModel(ceilingBodyPositionVector, 
+        				                 0, 
+        				                 0, 
+        				                 1, 
+        				                 floorCeilingSizeVector);
+        
+
+        ManagedElementPair ceilingPair = new
+        		ManagedElementPair(ceilingModel, rectangleView);
+        
+        m_managedElementList.add(ceilingPair);        
+        
+
 	}
 
 }

@@ -44,7 +44,7 @@ public class ManagedEdgeWallModel extends ManagedElementModel {
 	protected void makeBody(World world) {
         BodyDef wallBodyDef = new BodyDef();
         wallBodyDef.setPosition(this.m_startPosition);
-        wallBodyDef.setType(BodyType.STATIC);
+//        wallBodyDef.setType(BodyType.STATIC);
         this.m_body = world.createBody(wallBodyDef);
 	}
 

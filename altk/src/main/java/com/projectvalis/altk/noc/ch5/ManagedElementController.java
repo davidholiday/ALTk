@@ -29,7 +29,6 @@ public abstract class ManagedElementController extends internalFrameDark {
     protected List<ManagedElementPair> m_managedPairList;
     
     private ManagedElementPanel m_ballPanel; 
-	
 
     /**
      * root controller class for all elements managed by jbox2d
@@ -57,7 +56,6 @@ public abstract class ManagedElementController extends internalFrameDark {
         m_managedPairList = Collections.synchronizedList(managedPairList);
     	
     	m_managedPairList.stream()
-    	                 .parallel()
     	                 .map(ManagedElementPair::getLeft)
     	                 .forEach(x -> x.createInWorld(m_world));  
    
@@ -82,12 +80,12 @@ public abstract class ManagedElementController extends internalFrameDark {
 
         while (keepOnTruckn) {					     			
 	
-			try {								
-				
+			try {	
+
                 m_world.step(m_timeStep,
                 		     m_velocityIterations, 
                 		     m_positionIterations);
-				
+                
 				this.repaint();
 				Thread.sleep(10);
 				

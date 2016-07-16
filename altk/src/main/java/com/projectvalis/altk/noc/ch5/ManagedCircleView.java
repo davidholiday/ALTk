@@ -13,7 +13,6 @@ import com.projectvalis.altk.util.Pair;
  * 
  * @author snerd
  * 
- * TODO update to draw from center of object not upper left corner!
  *
  */
 public class ManagedCircleView extends ManagedElementView {
