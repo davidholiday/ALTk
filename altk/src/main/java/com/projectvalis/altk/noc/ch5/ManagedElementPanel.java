@@ -41,44 +41,49 @@ public class ManagedElementPanel
 	
    
     protected List<ManagedElementPair> m_managedPairList;
-	protected boolean[] m_keyFlagsARR;
-	protected boolean m_mouseInFrame = false;
+	
+    protected boolean[] m_keyFlagsARR;
+	
+    protected boolean m_mouseInFrame = false;
 	protected boolean m_mousePressed = false;
 	protected boolean m_mouseClicked = false;
+	
 	protected Vec2 m_mousePressPixelPositionVector; 
 	protected Vec2 m_mousePressBox2dPositionVector;
 
+	protected final Vec2 m_originalWindowSize;
+	
 
-	public ManagedElementPanel(List<ManagedElementPair> managedPairList) {
+	public ManagedElementPanel(List<ManagedElementPair> managedPairList, 
+	                           Vec2 originalWindowSize) {
 		m_managedPairList = managedPairList;
+
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		setBackground(GUI.charcoalC);
+		setBackground(GUI.charcoalC);		
+		m_originalWindowSize = originalWindowSize;
 	}
 	
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);				
 		Graphics2D g2d = (Graphics2D)g;	
-		Dimension screenSize = this.getSize();
+		Dimension screenSize = this.getParent().getSize();
 
 		Vec2 screenSizeVector = 
 				new Vec2(screenSize.width, screenSize.height);
 		
-		int scaleFactor = Jbox2dUtils.NUM_PIXELS_TO_METER;
+	    float screenOffsetX = 
+	            screenSizeVector.x / m_originalWindowSize.x;
+	   
+	    float screenOffsetY = 
+	            screenSizeVector.y / m_originalWindowSize.y;
+	    
+	    Vec2 screenScale = new Vec2(screenOffsetX, screenOffsetY);
+		
+		int sizeScale = Jbox2dUtils.NUM_PIXELS_TO_METER;
 		
 		synchronized(m_managedPairList) {
-			
-			for (ManagedElementPair pair : m_managedPairList) {
-				
-				try {
-					pair.getLeft().getBody().getPosition();
-				} catch (Exception e) {
-					System.out.println(e.toString());
-					System.exit(0);
-				}
-				
-			}
 			
 	        List<Vec2> currentPositionsList = 
 	            	m_managedPairList.stream()
@@ -103,7 +108,7 @@ public class ManagedElementPanel
 	                                     m_managedPairList.get(i)
 	                                                      .getLeft()
 	                                                      .m_jboxSizeVector
-	                                                      .mul(scaleFactor)));	
+	                                                      .mul(sizeScale)));	
 	
 		}
 		

@@ -63,8 +63,10 @@ public abstract class ManagedElementController extends internalFrameDark {
     	this.setLocation((int)windowLocation.x, (int)windowLocation.y);
     	this.setSize((int)windowSize.x, (int)windowSize.y);	
 		this.setTitle("Bouncing Ball JBox2D Demo");
+		this.setResizable(false);
+		this.setMaximizable(false);
 		
-    	m_ballPanel = new ManagedElementPanel(m_managedPairList);
+    	m_ballPanel = new ManagedElementPanel(m_managedPairList, windowSize);
 	    this.add(m_ballPanel);
 	    this.attach(true);
     }

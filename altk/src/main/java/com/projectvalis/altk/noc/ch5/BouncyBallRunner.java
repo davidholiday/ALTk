@@ -41,7 +41,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
 		
         // the ground
         //
-        Vec2 groundBodyPositionVector = new Vec2(0, -50);
+        Vec2 groundBodyPositionVector = new Vec2(0, -57);
         Vec2 floorCeilingSizeVector = new Vec2(60, 0);
         
         ManagedEdgeWallModel groundModel = 
@@ -64,7 +64,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
         
         // walls
         //
-        Vec2 leftWallBodyPositionVector = new Vec2(-50, 0);
+        Vec2 leftWallBodyPositionVector = new Vec2(-60, 0);
         Vec2 wallSizeVector = new Vec2(0, 60);
         
         ManagedEdgeWallModel leftWallModel = 
@@ -81,7 +81,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
         m_managedElementList.add(leftWallPair);      
         
         
-        Vec2 rightWallBodyPositionVector = new Vec2(50, 0);
+        Vec2 rightWallBodyPositionVector = new Vec2(60, 0);
         
         ManagedEdgeWallModel rightWallModel = 
         		new ManagedEdgeWallModel(rightWallBodyPositionVector, 
@@ -98,7 +98,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
         
         // ceiling
         //
-        Vec2 ceilingBodyPositionVector = new Vec2(0, 50);
+        Vec2 ceilingBodyPositionVector = new Vec2(0, 57);
         
         ManagedEdgeWallModel ceilingModel = 
         		new ManagedEdgeWallModel(ceilingBodyPositionVector, 
