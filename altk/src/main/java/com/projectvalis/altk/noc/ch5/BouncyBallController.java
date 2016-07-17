@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.noc.ch1.BallRunner;
 
+import junit.framework.Assert;
+
 public class BouncyBallController extends ManagedElementController {
 
 	
@@ -40,17 +42,20 @@ public class BouncyBallController extends ManagedElementController {
 	@Override
 	public void checkInputFlags() {
 		
-		if (m_ballPanel.m_mouseInFrame && m_ballPanel.m_mousePressed) {
+		if (m_ballPanel.m_mouseInFrame && 
+				m_ballPanel.m_mousePressed &&
+				    m_ballPanel.m_mousePressBox2dPositionVector != null) {
 
 			Vec2 modelStartPosition = 
-					m_ballPanel.m_mousePressBox2dPositionVector;
-
+					m_ballPanel.m_mousePressBox2dPositionVector.clone();
+	
 			ManagedElementPair circlePair = 
 					ManagedCircleGenerator.getRandomManagedCircle(
 							modelStartPosition);
-LOGGER.info(circlePair.getLeft().m_startPosition+"");			
-//			m_managedPairList.add(circlePair);
-			
+		
+			circlePair.getLeft().createInWorld(m_world);
+			m_managedPairList.add(circlePair);
+
 		}
 		
 	}

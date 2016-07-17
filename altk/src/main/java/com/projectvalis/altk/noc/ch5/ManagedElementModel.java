@@ -36,7 +36,7 @@ public abstract class ManagedElementModel {
 			                   float density, 
 			                   float restitution, 
 			                   float friction) {
-		
+
 	    m_startPosition = startPosition;
 	    m_linearVelocity = linearVelocity;
 	    m_angularVelocity = angularVelocity;

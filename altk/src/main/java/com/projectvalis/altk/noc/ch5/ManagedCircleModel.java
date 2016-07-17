@@ -9,6 +9,12 @@ import org.jbox2d.dynamics.World;
 
 import com.projectvalis.altk.util.Jbox2dUtils;
 
+
+/**
+ * 
+ * @author snerd
+ *
+ */
 public class ManagedCircleModel extends ManagedElementModel {
 
 	private float m_radius;

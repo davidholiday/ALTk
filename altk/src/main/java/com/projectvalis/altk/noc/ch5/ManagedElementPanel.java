@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -43,6 +44,7 @@ public class ManagedElementPanel
 	protected boolean[] m_keyFlagsARR;
 	protected boolean m_mouseInFrame = false;
 	protected boolean m_mousePressed = false;
+	protected boolean m_mouseClicked = false;
 	protected Vec2 m_mousePressPixelPositionVector; 
 	protected Vec2 m_mousePressBox2dPositionVector;
 
@@ -66,6 +68,17 @@ public class ManagedElementPanel
 		int scaleFactor = Jbox2dUtils.NUM_PIXELS_TO_METER;
 		
 		synchronized(m_managedPairList) {
+			
+			for (ManagedElementPair pair : m_managedPairList) {
+				
+				try {
+					pair.getLeft().getBody().getPosition();
+				} catch (Exception e) {
+					System.out.println(e.toString());
+					System.exit(0);
+				}
+				
+			}
 			
 	        List<Vec2> currentPositionsList = 
 	            	m_managedPairList.stream()
@@ -106,6 +119,7 @@ public class ManagedElementPanel
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		m_mouseClicked = true;
 
 	}
 
@@ -113,7 +127,7 @@ public class ManagedElementPanel
 
 	@Override
 	public void mousePressed(MouseEvent e) {	
-		m_mousePressed = true;
+        m_mousePressed = true;
 		Point p = this.getMousePosition();
 		
 		m_mousePressPixelPositionVector = 

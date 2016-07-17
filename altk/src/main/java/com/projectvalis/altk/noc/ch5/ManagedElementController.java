@@ -22,7 +22,7 @@ public abstract class ManagedElementController extends internalFrameDark {
 	private static final Logger LOGGER = 
 			LoggerFactory.getLogger("ManagedElementController");
 	
-    private final World m_world;
+    protected final World m_world;
     private final float m_timeStep;
     private final int m_velocityIterations;
     private final int m_positionIterations;
@@ -79,7 +79,6 @@ public abstract class ManagedElementController extends internalFrameDark {
         while (keepOnTruckn) {					     			
 	
 			try {	
-
                 m_world.step(m_timeStep,
                 		     m_velocityIterations, 
                 		     m_positionIterations);

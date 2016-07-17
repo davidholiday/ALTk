@@ -38,7 +38,7 @@ public class ManagedCircleGenerator {
 		Vec2 modelLinearVelocity = 
 				new Vec2(randomLinearVelocityX, randomLinearVelocityY);
 		
-		int radius = getRandomBoundedInt(7) + 1; // prevents radius:0 circles
+		int radius = getRandomBoundedInt(4) + 1; // prevents radius:0 circles
 		int colorArrayIndex = getRandomBoundedInt(5);
 		
 		ManagedCircleModel circleModel = 
