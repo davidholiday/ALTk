@@ -1,5 +1,6 @@
 package com.projectvalis.altk.noc.ch5;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
@@ -17,6 +18,10 @@ import com.projectvalis.altk.util.Pair;
  */
 public class ManagedCircleView extends ManagedElementView {
 
+	ManagedCircleView(int strokeWidth, Color strokeColor, Color fillColor) {
+		super(strokeWidth, strokeColor, fillColor);
+	}
+
 	@Override
 	protected void renderPresentation(
 			Graphics2D g2, Vec2 posVector, Vec2 sizeVector) {
@@ -32,10 +37,10 @@ public class ManagedCircleView extends ManagedElementView {
 				                sizeVector.x,
 				                sizeVector.y);
 		
-		g2.setColor(this.fillColorC);
+		g2.setColor(m_fillColor);
 		g2.fill(ballE2D);
-		g2.setColor(this.strokeColorC);
-		g2.setStroke(this.stroke);
+		g2.setColor(m_strokeColor);
+		g2.setStroke(m_stroke);
 		g2.draw(ballE2D);	
 
 	}

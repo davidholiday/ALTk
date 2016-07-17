@@ -1,5 +1,6 @@
 package com.projectvalis.altk.noc.ch5;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
@@ -15,6 +16,10 @@ import org.jbox2d.common.Vec2;
 public class ManagedRectangleView extends ManagedElementView {
 
 	
+	ManagedRectangleView(int strokeWidth, Color strokeColor, Color fillColor) {
+		super(strokeWidth, strokeColor, fillColor);
+	}
+
 	@Override
 	protected void renderPresentation(Graphics2D g2, 
 			                          Vec2 posVector,
@@ -31,10 +36,10 @@ public class ManagedRectangleView extends ManagedElementView {
 		                               sizeVector.x,
 		                               sizeVector.y);
 		
-		g2.setColor(this.fillColorC);
+		g2.setColor(m_fillColor);
 		g2.fill(rectangle2D);
-		g2.setColor(this.strokeColorC);
-		g2.setStroke(this.stroke);
+		g2.setColor(m_strokeColor);
+		g2.setStroke(m_stroke);
 		g2.draw(rectangle2D);		
 	}
 

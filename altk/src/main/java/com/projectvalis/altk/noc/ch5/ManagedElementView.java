@@ -18,33 +18,41 @@ import com.projectvalis.altk.util.Pair;
  */
 public abstract class ManagedElementView {
 	
-	protected Stroke stroke = new BasicStroke(2);
-	protected Color strokeColorC = GUI.orangeC;
-	protected Color fillColorC = GUI.mustardC;
+	protected Stroke m_stroke;
+	protected Color m_strokeColor;
+	protected Color m_fillColor;
 
+	ManagedElementView(int strokeWidth,
+			           Color strokeColor,
+			           Color fillColor) {
+		
+		m_stroke = new BasicStroke(strokeWidth);
+		m_strokeColor = strokeColor;
+		m_fillColor = fillColor;
+	}
 	
 	public Stroke getStroke() {
-		return stroke;
+		return m_stroke;
 	}
 
 	public void setStroke(Stroke stroke) {
-		this.stroke = stroke;
+		m_stroke = stroke;
 	}
 
 	public Color getStrokeColorC() {
-		return strokeColorC;
+		return m_strokeColor;
 	}
 
 	public void setStrokeColorC(Color strokeColorC) {
-		this.strokeColorC = strokeColorC;
+		this.m_strokeColor = strokeColorC;
 	}
 
 	public Color getFillColorC() {
-		return fillColorC;
+		return m_fillColor;
 	}
 
 	public void setFillColorC(Color fillColorC) {
-		this.fillColorC = fillColorC;
+		this.m_fillColor = fillColorC;
 	}
 
 	

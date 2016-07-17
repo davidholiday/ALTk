@@ -1,5 +1,6 @@
 package com.projectvalis.altk.noc.ch5;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import org.jbox2d.common.Vec2;
@@ -11,6 +12,10 @@ import org.jbox2d.common.Vec2;
  *
  */
 public class ManagedNullView extends ManagedElementView {
+
+	ManagedNullView(int strokeWidth, Color strokeColor, Color fillColor) {
+		super(strokeWidth, strokeColor, fillColor);
+	}
 
 	@Override
 	protected void renderPresentation(Graphics2D g2,

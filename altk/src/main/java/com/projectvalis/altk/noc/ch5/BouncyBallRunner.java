@@ -7,13 +7,15 @@ import org.jbox2d.common.Vec2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.projectvalis.altk.init.GUI;
+
 public class BouncyBallRunner extends ManagedElementRunner {
 	
     Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	public void run() {
-		Vec2 gravityVector = new Vec2(0, -10);
+		Vec2 gravityVector = new Vec2(0, 0);
 		Vec2 windowSizeVector = new Vec2(600, 600);
 		Vec2 windowPositionVector = new Vec2(800, 200);
 	    float timeStep = 1.0f / 60.0f;
@@ -40,23 +42,27 @@ public class BouncyBallRunner extends ManagedElementRunner {
 		// circles
 		//
 		Vec2 modelStartPosition = new Vec2(0, 0);
-		Vec2 modelLinearVelocity = new Vec2(3, 0);
-		
-		ManagedCircleModel circleModel = 
-				new ManagedCircleModel(modelStartPosition, 
-						               modelLinearVelocity,
-						               1, 
-						               1f, 
-						               0.3f, 
-						               1);
-		
-		ManagedCircleView circleView = new ManagedCircleView();
-		
-		ManagedElementPair circlePair = new 
-				ManagedElementPair(circleModel, circleView);
+//		Vec2 modelLinearVelocity = new Vec2(3, 0);
+//		
+//		ManagedCircleModel circleModel = 
+//				new ManagedCircleModel(modelStartPosition, 
+//						               modelLinearVelocity,
+//						               1, 
+//						               1f, 
+//						               0.3f, 
+//						               1);
+//		
+//		ManagedCircleView circleView = new ManagedCircleView();
+//		
+//		ManagedElementPair circlePair = new 
+//				ManagedElementPair(circleModel, circleView);
+
+for (int i = 0; i < 10; i ++) {
+		ManagedElementPair circlePair = 
+			ManagedCircleGenerator.getRandomManagedCircle(modelStartPosition);
 		
 		m_managedElementList.add(circlePair);
-		
+}	
 		
         // the ground
         //
@@ -70,8 +76,10 @@ public class BouncyBallRunner extends ManagedElementRunner {
         				                 1, 
         				                 floorCeilingSizeVector);
         
-        ManagedNullView nullView = new ManagedNullView();
-        ManagedRectangleView rectangleView = new ManagedRectangleView();
+        ManagedNullView nullView = new ManagedNullView(0, null, null);
+        
+        ManagedRectangleView rectangleView = 
+        		new ManagedRectangleView(1, GUI.redC, GUI.redC);
         
         ManagedElementPair groundPair = new
         		ManagedElementPair(groundModel, rectangleView);
