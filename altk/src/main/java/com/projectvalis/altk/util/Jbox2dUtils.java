@@ -51,27 +51,28 @@ public class Jbox2dUtils {
 	
 	
 
-//	/**
-//	 * 
-//	 * @param pixelCoordinate
-//	 * @param screenCenterInPixel
-//	 * @return
-//	 */
-//	public static Vec2 pixelToBox2dCoordinate(Vec2 pixelCoordinate,
-//			                                  Vec2 screenSizeInPixels) {
-//		
-//		float offsetX =  screenSizeInPixels.x / 2;
-//		float offsetY =  screenSizeInPixels.y / 2;
-//		
-//		Vec2 box2dCoordinate = new Vec2();
-//		box2dCoordinate.x = pixelCoordinate.x - offsetX / NUM_PIXELS_TO_METER;
-//		box2dCoordinate.y = -pixelCoordinate.y + offsetY / NUM_PIXELS_TO_METER;
-//		
-////LOGGER.info("pixel2box out: " + box2dCoordinate.x + " " + box2dCoordinate.y);		
-////LOGGER.info("pixel2box in: " + pixelCoordinate.x + " " + pixelCoordinate.y);
-////LOGGER.info("=-=-=-=-");		
-//		return box2dCoordinate;
-//	}
+	/**
+	 * 
+	 * @param pixelCoordinate
+	 * @param screenCenterInPixel
+	 * @return
+	 */
+	public static Vec2 pixelToBox2dCoordinate(Vec2 pixelCoordinate,
+			                                  Vec2 screenSizeInPixels) {
+		
+		float offsetX =  screenSizeInPixels.x / 2;
+		float offsetY =  screenSizeInPixels.y / 2;
+		
+		Vec2 box2dCoordinate = new Vec2();
+		
+		box2dCoordinate.x = 
+				((pixelCoordinate.x - offsetX) / NUM_PIXELS_TO_METER);
+		
+		box2dCoordinate.y = 
+				((-pixelCoordinate.y + offsetY) / NUM_PIXELS_TO_METER);
+		
+		return box2dCoordinate;
+	}
 	
 	
 }

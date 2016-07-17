@@ -37,32 +37,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
 	@Override
 	public void populateElementList() {
 		m_managedElementList = new ArrayList<ManagedElementPair>();
-		
-		
-		// circles
-		//
-		Vec2 modelStartPosition = new Vec2(0, 0);
-//		Vec2 modelLinearVelocity = new Vec2(3, 0);
-//		
-//		ManagedCircleModel circleModel = 
-//				new ManagedCircleModel(modelStartPosition, 
-//						               modelLinearVelocity,
-//						               1, 
-//						               1f, 
-//						               0.3f, 
-//						               1);
-//		
-//		ManagedCircleView circleView = new ManagedCircleView();
-//		
-//		ManagedElementPair circlePair = new 
-//				ManagedElementPair(circleModel, circleView);
 
-for (int i = 0; i < 10; i ++) {
-		ManagedElementPair circlePair = 
-			ManagedCircleGenerator.getRandomManagedCircle(modelStartPosition);
-		
-		m_managedElementList.add(circlePair);
-}	
 		
         // the ground
         //

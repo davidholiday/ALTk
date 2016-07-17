@@ -25,11 +25,12 @@ public class ManagedCircleGenerator {
 	public static ManagedElementPair 
 		getRandomManagedCircle(Vec2 modelStartPosition) {
 		
-		Color[] colorArray = new Color[4];
+		Color[] colorArray = new Color[5];
 		colorArray[0] = GUI.mustardC;
 		colorArray[1] = GUI.orangeC;
 		colorArray[2] = GUI.redC;
 		colorArray[3] = GUI.tealC;
+		colorArray[4] = GUI.purpleC.brighter();
 		
 		float randomLinearVelocityX = getRandomFloat();
 		float randomLinearVelocityY = getRandomFloat();
@@ -37,8 +38,8 @@ public class ManagedCircleGenerator {
 		Vec2 modelLinearVelocity = 
 				new Vec2(randomLinearVelocityX, randomLinearVelocityY);
 		
-		int radius = getRandomBoundedInt(8);
-		int colorArrayIndex = getRandomBoundedInt(4);
+		int radius = getRandomBoundedInt(7) + 1; // prevents radius:0 circles
+		int colorArrayIndex = getRandomBoundedInt(5);
 		
 		ManagedCircleModel circleModel = 
 				new ManagedCircleModel(modelStartPosition, 
@@ -77,7 +78,7 @@ public class ManagedCircleGenerator {
 	 * @return
 	 */
 	private static int getRandomBoundedInt(int bound) {
-		return ThreadLocalRandom.current().nextInt(1, bound);
+		return ThreadLocalRandom.current().nextInt(bound);
 	}
 	
 }

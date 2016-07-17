@@ -28,7 +28,7 @@ public abstract class ManagedElementController extends internalFrameDark {
     private final int m_positionIterations;
     protected List<ManagedElementPair> m_managedPairList;
     
-    private ManagedElementPanel m_ballPanel; 
+    protected final ManagedElementPanel m_ballPanel; 
 
     /**
      * root controller class for all elements managed by jbox2d
@@ -84,6 +84,7 @@ public abstract class ManagedElementController extends internalFrameDark {
                 		     m_velocityIterations, 
                 		     m_positionIterations);
                 
+                checkInputFlags();
 				this.repaint();
 				Thread.sleep(10);
 				

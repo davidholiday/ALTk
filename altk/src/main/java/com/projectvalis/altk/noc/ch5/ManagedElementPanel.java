@@ -40,9 +40,11 @@ public class ManagedElementPanel
 	
    
     protected List<ManagedElementPair> m_managedPairList;
-	public boolean[] m_keyFlagsARR;
+	protected boolean[] m_keyFlagsARR;
 	protected boolean m_mouseInFrame = false;
-	protected Vec2 m_mousePressPositionVector; 
+	protected boolean m_mousePressed = false;
+	protected Vec2 m_mousePressPixelPositionVector; 
+	protected Vec2 m_mousePressBox2dPositionVector;
 
 
 	public ManagedElementPanel(List<ManagedElementPair> managedPairList) {
@@ -110,17 +112,28 @@ public class ManagedElementPanel
 
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {	
+		m_mousePressed = true;
 		Point p = this.getMousePosition();
-		m_mousePressPositionVector = new Vec2((float)p.getX(), (float)p.getY());
+		
+		m_mousePressPixelPositionVector = 
+				new Vec2((float)p.getX(), (float)p.getY());
+				
+		Dimension screenSize = this.getSize();
+		
+		Vec2 screenSizeVector = 
+				new Vec2(screenSize.width, screenSize.height);
+			
+		m_mousePressBox2dPositionVector = 
+				Jbox2dUtils.pixelToBox2dCoordinate(
+						m_mousePressPixelPositionVector, screenSizeVector);
 	}
 
 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		m_mousePressed = false;	
 	}
 
 

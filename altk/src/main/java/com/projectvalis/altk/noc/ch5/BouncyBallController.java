@@ -39,7 +39,19 @@ public class BouncyBallController extends ManagedElementController {
 
 	@Override
 	public void checkInputFlags() {
-		// TODO Auto-generated method stub
+		
+		if (m_ballPanel.m_mouseInFrame && m_ballPanel.m_mousePressed) {
+
+			Vec2 modelStartPosition = 
+					m_ballPanel.m_mousePressBox2dPositionVector;
+
+			ManagedElementPair circlePair = 
+					ManagedCircleGenerator.getRandomManagedCircle(
+							modelStartPosition);
+LOGGER.info(circlePair.getLeft().m_startPosition+"");			
+//			m_managedPairList.add(circlePair);
+			
+		}
 		
 	}
 	
