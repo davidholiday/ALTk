@@ -66,11 +66,11 @@ public class Jbox2dUtils {
 		Vec2 box2dCoordinate = new Vec2();
 		
 		box2dCoordinate.x = 
-				((pixelCoordinate.x - offsetX) / NUM_PIXELS_TO_METER);
+				((pixelCoordinate.x - offsetX) / NUM_PIXELS_TO_METER) * 2;
 		
 		box2dCoordinate.y = 
-				((-pixelCoordinate.y + offsetY) / NUM_PIXELS_TO_METER);
-		
+				((-pixelCoordinate.y + offsetY) / NUM_PIXELS_TO_METER) * 2;
+LOGGER.info(""+box2dCoordinate);		
 		return box2dCoordinate;
 	}
 	

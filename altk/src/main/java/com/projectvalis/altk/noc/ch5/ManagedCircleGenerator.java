@@ -62,12 +62,16 @@ public class ManagedCircleGenerator {
 	
 	
 	/**
-	 * returns .nextFloat() * 10 * 2
+	 * returns (.nextFloat() * 10 * 2) * (1/2 chance of *= -1)
 	 * 
 	 * @return
 	 */
 	private static float getRandomFloat() {
-		return ThreadLocalRandom.current().nextFloat() * 10 * 2;
+		float randomFloat = ThreadLocalRandom.current().nextFloat() * 10 * 2;
+		float coinFlip = ThreadLocalRandom.current().nextInt(2);
+		if (coinFlip > 0) { randomFloat *= -1; }
+		return randomFloat;
+		
 	}
 	
 
