@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-      <!-- <module>jbox2d</module> -->
+      <module>jbox2d</module>
       <module>swingJD</module>
       <module>beanshell</module>
       <module>altk</module>
