@@ -18,7 +18,7 @@ There is a simple Swing interface, but interaction with ALTk is currently limite
 * **vectorBall** -- Balls that bounce around the window. Not managed by JBox2D.
 * **gravityBall** -- 'Planet' ball in the center of the screen to which all other elements are attracted. 'Planet' ball is movable via mouse. Not managed by JBox2D.
 * **spaceWar** -- Simple (and incomplete) asteroids-like simulation. No collision detection. Ship can fly around via arrow keys (up for thrust, right/left to turn). Ship thruster effect made using a particle system. Not managed by JBox2D.
-* **bounce2()** -- Click mouse anywhere in the window to create a stream of randomly generated bouncy balls. First demo managed by JBox2D so collision detection is present. 
+* **bounce2** -- Click mouse anywhere in the window to create a stream of randomly generated bouncy balls. First demo managed by JBox2D so collision detection is present. 
 
 ### how to make your own demos
 There is an [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) framework that hooks into [JBox2D](https://github.com/jbox2d/jbox2d). To make new simulations, simply extend the Managed Element, Runner, Controller, View, and Model classes. Note also that the JBox2D testbed library is included, which is enormously helpful in working out the 'physics' of your world before integrating your demo into the application. Enable/disable the testbed in ALTk's main method. 
