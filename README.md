@@ -29,5 +29,5 @@ There is an [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93contr
 
 ### some helpful links
 * [JBox2D JavaDoc](http://trentcoder.github.io/JBox2D_JavaDoc/apidocs/)
-* [Box2D Manual (JBox2D is a port of Box2D and is similar enough to where the Box2D manual is applicable)](http://box2d.org/manual.pdf)
+* [Box2D Manual] ](http://box2d.org/manual.pdf)(JBox2D is a port of Box2D and is similar enough to where the Box2D manual is applicable)
 * [JBox2D wiki](https://github.com/jbox2d/jbox2d/wiki)
