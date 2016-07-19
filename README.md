@@ -21,7 +21,7 @@ There is a simple Swing interface, but interaction with ALTk is currently limite
 
 * **vectorBall** -- Balls that bounce around the window. Not managed by JBox2D.
 * **gravityBall** -- 'Planet' ball in the center of the screen to which all other elements are attracted. 'Planet' ball is movable via mouse. Not managed by JBox2D.
-* **spaceWar** -- Simple (and incomplete) asteroids-like simulation. No collision detection. Ship can fly around via arrow keys (up for thrust, right/left to turn). Ship thruster effect made using a particle system. Not managed by JBox2D.
+* **spacewar** -- Simple (and incomplete) asteroids-like simulation. No collision detection. Ship can fly around via arrow keys (up for thrust, right/left to turn). Ship thruster effect made using a particle system. Not managed by JBox2D.
 * **bounce2** -- Click mouse anywhere in the window to create a stream of randomly generated bouncy balls. First demo managed by JBox2D so collision detection is present. 
 
 ### how to make your own demos
