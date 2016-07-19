@@ -2,8 +2,12 @@
 
 ALTk is a Java implementation of the exercises in Daniel Shiffman's book [The Nature of Code](http://natureofcode.com/book/preface/). 
 
-### how to install
-It is assumed you have git, maven, and Java8 installed on your computer. If you don't, do that then come back. To install, you should only need to do a maven install from the project root directory.
+### how to build
+*It is assumed you have git, maven, and Java8 installed on your computer. If you don't, do that then come back.*
+
+To build, you should only need to do a maven install from the project root directory thusly:
+
+```mvn clean install```
 
 ### how to run
 Open a terminal window, and from the project root directory type:
