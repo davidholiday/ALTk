@@ -72,6 +72,7 @@ public class TestbedRunner {
     TestPanelJ2D panel = new TestPanelJ2D(model, controller);
     model.setPanel(panel);
     model.setDebugDraw(new DebugDrawJ2D(panel, true));
+    model.addTest(new AsteroidsTestRun());
     model.addTest(new BouncingBallsTestRun());
     model.addTest(new MJWTest2());
 //    TestList.populateModel(model);
