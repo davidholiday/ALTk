@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
+import org.jbox2d.dynamics.joints.WeldJointDef;
 import org.jbox2d.testbed.framework.TestbedTest;
 
 
@@ -34,13 +35,15 @@ public class AsteroidsTestRun extends TestbedTest {
 		this.getWorld().setGravity(gravityVector);
 		
 		Vec2 screenCenterVector = new Vec2(10, 10);
-		makeAsteroid(2, screenCenterVector);
+		makeAsteroid(4, screenCenterVector);
 		
 	}
 
 	
 	
 	/**
+	 * TODO doesn't work for dimensions other than 2!!
+	 * 
 	 * 
 	 * @param dimension
 	 * @param position
@@ -50,6 +53,7 @@ public class AsteroidsTestRun extends TestbedTest {
 		List<Body> asteroidBodyList = new ArrayList<>();
 		Vec2 currentPosition = position.clone();
 		int xInversion = 1;
+		boolean xInversionChange = false;
 		
 		for (int i = 0; i < dimension; i ++) {
 					
@@ -63,43 +67,46 @@ public class AsteroidsTestRun extends TestbedTest {
                 
         		PolygonShape asteroidElementShape = new PolygonShape();
         		asteroidElementShape.setAsBox(0.5f, 0.5f);
-        		asteroidBody.createFixture(asteroidElementShape, 10);
- System.out.println(currentPosition.x);        		
- 				currentPosition.x += (1 * xInversion);
-      		        		
+        		asteroidBody.createFixture(asteroidElementShape, 10);        		
+ 				currentPosition.x += (1 * xInversion);   
+ 				
+ 				if ((k % 2 == 1) && (k > 0)) {
+ 					//if (xInversionChange) break;
+ 					int currentIndex = k * (i + 1);
+					
+ 					Vec2 anchorAngleVector = 
+ 						(xInversionChange) ? 
+ 								(new Vec2(0, 1)) : (new Vec2(xInversion, 0));
+ 					
+ 					xInversionChange = false;
+ 								
+ 					WeldJointDef weldJointDef = new WeldJointDef();
+ 	 				weldJointDef.bodyA = asteroidBodyList.get(currentIndex);
+ 	 				weldJointDef.bodyB = asteroidBodyList.get(currentIndex - 1);
+ 	 				weldJointDef.localAnchorA.set(anchorAngleVector);
+ 	 				
+ 	 				this.getWorld().createJoint(weldJointDef);			
+ 				}
+				
 			}
 			
 			//currentPosition.x = position.x;
+			xInversionChange = true;
 			currentPosition.x -= (1 * xInversion);
 			xInversion *= -1;
 			currentPosition.y -= 1;
-		}
-		
-		
-		int halfListSize = asteroidBodyList.size() / 2;
-		int lastElementIndex = asteroidBodyList.size() - 1;
-		float jointLength = 1.0f;
-		float jointFrequency = 0;
-		
-		for (int i = 0; i < halfListSize + 1; i ++) {
-			DistanceJointDef distanceJointDef = new DistanceJointDef();
-			distanceJointDef.bodyA = asteroidBodyList.get(i);
-			distanceJointDef.bodyB = asteroidBodyList.get(i+1);
-			distanceJointDef.length = jointLength;
-			distanceJointDef.frequencyHz = jointFrequency;
 			
-			this.getWorld().createJoint(distanceJointDef);
+			
 		}
 		
-		// attach head to tail element
-		DistanceJointDef distanceJointDef = new DistanceJointDef();
-		distanceJointDef.bodyA = asteroidBodyList.get(0);
-		distanceJointDef.bodyB = asteroidBodyList.get(lastElementIndex);
-		distanceJointDef.length = jointLength;
-		distanceJointDef.frequencyHz = jointFrequency;
 		
-		this.getWorld().createJoint(distanceJointDef);
+		int lastElementIndex = asteroidBodyList.size() - 1;
+		WeldJointDef weldJointDef = new WeldJointDef();
+		weldJointDef.bodyA = asteroidBodyList.get(lastElementIndex);
+		weldJointDef.bodyB = asteroidBodyList.get(lastElementIndex - 1);
+		weldJointDef.localAnchorA.set(-1, 0);
 		
+		this.getWorld().createJoint(weldJointDef);
 		
 	}
 	
