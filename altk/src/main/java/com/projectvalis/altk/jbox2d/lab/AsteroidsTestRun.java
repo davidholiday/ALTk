@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Rot;
 import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.dynamics.joints.WeldJointDef;
 import org.jbox2d.testbed.framework.TestbedTest;
@@ -41,10 +43,10 @@ public class AsteroidsTestRun extends TestbedTest {
 		this.getWorld().setGravity(gravityVector);
 		
 		Vec2 posVector = new Vec2(10, 10);
-		makeJointedCompoundAsteroid(4, posVector);
+		makeJointedCompoundAsteroid(8, posVector);
 		
 		posVector = new Vec2(0, 10);
-		makeCompoundAsteroid(4, posVector);
+		makeCompoundAsteroid(8, posVector);
 		
 	}
 
@@ -64,19 +66,22 @@ public class AsteroidsTestRun extends TestbedTest {
 					
 			for (int k = 0; k < dimension; k ++) {								 						
 				PolygonShape asteroidElementShape = new PolygonShape();
-        		asteroidElementShape.setAsBox(0.5f, 0.5f);
-        		
-        		Transform transform = new Transform();
-        		asteroidElementShape.centroid(transform);
-        		
+        		//asteroidElementShape.setAsBox(0.5f, 0.5f);
+        		asteroidElementShape.setAsBox(0.5f, 0.5f, transformPosition, 0.0f);
+asteroidElementShape.m_centroid.set(currentPosition);
+System.out.println(currentPosition + " " + asteroidElementShape);
         		asteroidBody.createFixture(asteroidElementShape, 10);  
+System.out.println("num fixtures is: " + asteroidBody.m_fixtureCount);
         		
         		currentPosition.x += 1;		
         		transformPosition.x += 1;
 			}
 			
+			transformPosition.x = position.x;	
+			transformPosition.y -=1;
+			
 			currentPosition.x = position.x;
-			currentPosition.y -= 1;					
+			currentPosition.y -= 1;		
 		}
 
 	
