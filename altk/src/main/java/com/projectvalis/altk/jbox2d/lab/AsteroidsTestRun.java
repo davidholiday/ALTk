@@ -1,23 +1,16 @@
 package com.projectvalis.altk.jbox2d.lab;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.common.Rot;
-import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.Fixture;
-import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.dynamics.joints.WeldJointDef;
+import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 
 
@@ -42,16 +35,59 @@ public class AsteroidsTestRun extends TestbedTest {
 		Vec2 gravityVector = new Vec2(0, 0);
 		this.getWorld().setGravity(gravityVector);
 		
-		Vec2 posVector = new Vec2(10, 10);
-		makeJointedCompoundAsteroid(8, posVector);
-		
-		posVector = new Vec2(0, 10);
-		makeCompoundAsteroid(8, posVector);
+		makeJointedCompoundAsteroid(8, new Vec2(10, 10));		
+		makeCompoundAsteroid(8, new Vec2(0, 0));
+		makeUssTriangle(new Vec2(-5, -5));
 		
 	}
 
 	
+	@Override
+	public void step(TestbedSettings settings) {
+	  super.step(settings);
+
+//	  TestbedModel model = getModel();
+//	  if (model.getKeys()['a']) { // model also contains the coded key values
+//	    
+//	  }
+
+
+	  Vec2 worldMouse = super.getWorldMouse(); // which is in world coordinates
+
+	  // etc
+	}
 	
+	
+	
+	private void makeUssTriangle(Vec2 position) {
+		BodyDef triangleBodyDef = new BodyDef();
+		triangleBodyDef.setType(BodyType.DYNAMIC);
+		triangleBodyDef.setPosition(position);
+		
+		Body triangleBody = this.getWorld().createBody(triangleBodyDef);
+		
+		//double x2Points[] = {0, -10, 0, 10};			
+		//double y2Points[] = {0, 35, 25, 35};
+		
+		Vec2[] verticies = new Vec2[4];
+		verticies[0] = new Vec2(0, 0);
+		verticies[1] = new Vec2(-1, 3.5f);
+		verticies[2] = new Vec2(0, 2.5f);
+		verticies[3] = new Vec2(1, 3.5f);
+		
+		PolygonShape triangleShape = new PolygonShape();
+		triangleShape.set(verticies, verticies.length);
+		
+		triangleBody.createFixture(triangleShape, 10);
+	}
+	
+	
+	/**
+	 * creates one body with multiple shapes
+	 * 
+	 * @param dimension
+	 * @param position
+	 */
 	private void makeCompoundAsteroid(int dimension, Vec2 position) {		
 		Vec2 currentPosition = position.clone();
 		Vec2 transformPosition = new Vec2(0, 0);
@@ -66,22 +102,14 @@ public class AsteroidsTestRun extends TestbedTest {
 					
 			for (int k = 0; k < dimension; k ++) {								 						
 				PolygonShape asteroidElementShape = new PolygonShape();
-        		//asteroidElementShape.setAsBox(0.5f, 0.5f);
         		asteroidElementShape.setAsBox(0.5f, 0.5f, transformPosition, 0.0f);
-asteroidElementShape.m_centroid.set(currentPosition);
-System.out.println(currentPosition + " " + asteroidElementShape);
         		asteroidBody.createFixture(asteroidElementShape, 10);  
-System.out.println("num fixtures is: " + asteroidBody.m_fixtureCount);
         		
-        		currentPosition.x += 1;		
         		transformPosition.x += 1;
 			}
 			
 			transformPosition.x = position.x;	
-			transformPosition.y -=1;
-			
-			currentPosition.x = position.x;
-			currentPosition.y -= 1;		
+			transformPosition.y -=1;	
 		}
 
 	
@@ -90,7 +118,8 @@ System.out.println("num fixtures is: " + asteroidBody.m_fixtureCount);
 	
 	
 	/**
-	 * 
+	 * creates multiple bodies each with their own shape. bodies are joined
+	 * by a weld joint
 	 * 
 	 * @param dimension
 	 * @param position
@@ -122,9 +151,6 @@ System.out.println("num fixtures is: " + asteroidBody.m_fixtureCount);
 				PolygonShape asteroidElementShape = new PolygonShape();
         		asteroidElementShape.setAsBox(0.5f, 0.5f);
         		currentAsteroidBody.createFixture(asteroidElementShape, 10);  
-        		
-//        		currentAsteroidBody.getFixtureList().setRestitution(0);
-//        		currentAsteroidBody.getFixtureList().setFriction(1);
         		
         		currentPosition.x += 1;
 
