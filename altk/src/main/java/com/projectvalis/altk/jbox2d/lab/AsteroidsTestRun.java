@@ -35,8 +35,8 @@ public class AsteroidsTestRun extends TestbedTest {
 		Vec2 gravityVector = new Vec2(0, 0);
 		this.getWorld().setGravity(gravityVector);
 		
-		makeJointedCompoundAsteroid(8, new Vec2(10, 10));		
-		makeCompoundAsteroid(8, new Vec2(0, 0));
+//		makeJointedCompoundAsteroid(8, new Vec2(10, 10));		
+//		makeCompoundAsteroid(8, new Vec2(0, 0));
 		makeUssTriangle(new Vec2(-5, -5));
 		
 	}
@@ -69,17 +69,29 @@ public class AsteroidsTestRun extends TestbedTest {
 		//double x2Points[] = {0, -10, 0, 10};			
 		//double y2Points[] = {0, 35, 25, 35};
 		
-		Vec2[] verticies = new Vec2[4];
-		verticies[0] = new Vec2(0, 0);
-		verticies[1] = new Vec2(-1, 3.5f);
-		verticies[2] = new Vec2(0, 2.5f);
-		verticies[3] = new Vec2(1, 3.5f);
+		Vec2[] verticiesRight = new Vec2[3];
+		verticiesRight[0] = new Vec2(0, 0);
+		verticiesRight[1] = new Vec2(1, -3.5f);
+		verticiesRight[2] = new Vec2(0, -2.5f);
+//		verticies[3] = new Vec2(1, 3.5f);
+		PolygonShape triangleShapeRight = new PolygonShape();
+		triangleShapeRight.set(verticiesRight, verticiesRight.length);		
 		
-		PolygonShape triangleShape = new PolygonShape();
-		triangleShape.set(verticies, verticies.length);
 		
-		triangleBody.createFixture(triangleShape, 10);
+		Vec2[] verticiesLeft = new Vec2[3];
+		verticiesLeft[0] = new Vec2(0, 0);
+		verticiesLeft[1] = new Vec2(-1, -3.5f);
+		verticiesLeft[2] = new Vec2(0, -2.5f);
+//		verticies[3] = new Vec2(1, 3.5f);
+		PolygonShape triangleShapeLeft = new PolygonShape();
+		triangleShapeLeft.set(verticiesLeft, verticiesLeft.length);			
+
+		
+		triangleBody.createFixture(triangleShapeRight, 10);
+		triangleBody.createFixture(triangleShapeLeft, 10);
+		
 	}
+	
 	
 	
 	/**
