@@ -66,23 +66,25 @@ public class AsteroidsTestRun extends TestbedTest {
 		
 		Body triangleBody = this.getWorld().createBody(triangleBodyDef);
 		
+		// original swing shape dimensions
+		//
 		//double x2Points[] = {0, -10, 0, 10};			
 		//double y2Points[] = {0, 35, 25, 35};
 		
 		Vec2[] verticiesRight = new Vec2[3];
 		verticiesRight[0] = new Vec2(0, 0);
-		verticiesRight[1] = new Vec2(1, -3.5f);
-		verticiesRight[2] = new Vec2(0, -2.5f);
-//		verticies[3] = new Vec2(1, 3.5f);
+		verticiesRight[1] = new Vec2(0.5f, -1.75f);
+		verticiesRight[2] = new Vec2(0, -1.25f);
+
 		PolygonShape triangleShapeRight = new PolygonShape();
 		triangleShapeRight.set(verticiesRight, verticiesRight.length);		
 		
 		
 		Vec2[] verticiesLeft = new Vec2[3];
 		verticiesLeft[0] = new Vec2(0, 0);
-		verticiesLeft[1] = new Vec2(-1, -3.5f);
-		verticiesLeft[2] = new Vec2(0, -2.5f);
-//		verticies[3] = new Vec2(1, 3.5f);
+		verticiesLeft[1] = new Vec2(-0.5f, -1.75f);
+		verticiesLeft[2] = new Vec2(0, -1.25f);
+
 		PolygonShape triangleShapeLeft = new PolygonShape();
 		triangleShapeLeft.set(verticiesLeft, verticiesLeft.length);			
 
