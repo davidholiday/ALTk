@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import org.jbox2d.collision.shapes.CircleShape;
 
@@ -35,7 +36,8 @@ import com.projectvalis.altk.util.TrigHelpers;
 public class AsteroidsTestRun extends TestbedTest {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(AsteroidsTestRun.class);
-	public static final int BATTERY_CAPACITY = 10;
+	public static final int BATTERY_CAPACITY = 25;
+	public static final int BATTERY_RECHARGE_RATE = 1;
 	
 	private Body ussTriangleBody = null;
 	private int ussTriangleBattery = BATTERY_CAPACITY;
@@ -53,65 +55,78 @@ public class AsteroidsTestRun extends TestbedTest {
 		Vec2 gravityVector = new Vec2(0, 0);
 		this.getWorld().setGravity(gravityVector);
 		
+		bulletList.clear();
+		
 //		makeJointedCompoundAsteroid(8, new Vec2(10, 10));		
-//		makeCompoundAsteroid(8, new Vec2(0, 0));
+		makeCompoundAsteroid(3, new Vec2(0, 0));
 		makeUssTriangle(new Vec2(-5, -5));
 		
 	}
+	
+	
 
 	
 	@Override
 	public void step(TestbedSettings settings) {
-	  super.step(settings);
-	  
-	  ussTriangleBody.setAngularVelocity(0);
-	  
-	  TestbedModel model = getModel();
-	  Vec2 shipPosition = ussTriangleBody.getPosition();
-	  
-	  if (model.getKeys()['x'] && ussTriangleBattery > 0) { 
-		  bulletList.add(makeBullet(shipPosition));
-		  
-		  ussTriangleBattery = 0;
-	  }
-	  
-	  
-	  // movement
-	  //
-	  if (model.getCodedKeys()[KeyConstants.UP]) {
-		  // 1.57 radians = 90 degrees
-		  float headingAngle = ussTriangleBody.getAngle() + 1.57f;
-	  
+		super.step(settings);
+
+		ussTriangleBody.setAngularVelocity(0);
+
+		TestbedModel model = getModel();
+		Vec2 shipPosition = ussTriangleBody.getPosition();
+
+		// fire!
+		//
+		if (model.getKeys()['x'] && ussTriangleBattery == BATTERY_CAPACITY) { 
+			bulletList.add(makeBullet(shipPosition));
+
+			ussTriangleBattery = 0;
+		}
+
+
+		// movement
+		//
+		if (model.getCodedKeys()[KeyConstants.UP]) {
+			// 1.57 radians = 90 degrees
+			float headingAngle = ussTriangleBody.getAngle() + 1.57f;
+
 			Vec2 newAccelerationVector = 
 					TrigHelpers.PolarToVec2(headingAngle, 5);
-		  
-		  ussTriangleBody.applyForceToCenter(newAccelerationVector);
-	  }
-	  if (model.getCodedKeys()[KeyConstants.RIGHT]) {
-		  ussTriangleBody.setAngularVelocity(-5);
-		  
-	  }
-	  if (model.getCodedKeys()[KeyConstants.LEFT]) {
-		  ussTriangleBody.setAngularVelocity(5);
-	  }
+
+			ussTriangleBody.applyForceToCenter(newAccelerationVector);
+		}
+		if (model.getCodedKeys()[KeyConstants.RIGHT]) {
+			ussTriangleBody.setAngularVelocity(-5);
+
+		}
+		if (model.getCodedKeys()[KeyConstants.LEFT]) {
+			ussTriangleBody.setAngularVelocity(5);
+		}
 
 
-	  //
-	  //
-	  Vec2 worldMouse = super.getWorldMouse(); // which is in world coordinates
+		//
+		//
+		Vec2 worldMouse = super.getWorldMouse(); // which is in world coordinates
 
 
-	  
-	  ussTriangleBattery = 
-			  (ussTriangleBattery == BATTERY_CAPACITY) ? 
-					  (ussTriangleBattery) : (ussTriangleBattery + 1);
-			
-					  
-	    if (bulletList.size() > 100) {
-	    	for (int i = 0; i < 75; i ++) {
-	    		bulletList.remove(0);
-	    	}
-	    }
+
+		ussTriangleBattery = 
+				(ussTriangleBattery == BATTERY_CAPACITY) ? 
+						(ussTriangleBattery) : 
+							(ussTriangleBattery + BATTERY_RECHARGE_RATE);
+
+
+						if (bulletList.size() > 10) {
+
+							IntStream.range(0, bulletList.size() - 10)
+							         .forEach(i -> this.getWorld().destroyBody(bulletList.get(i)));
+							
+							for (int i = 0; i < bulletList.size() - 10; i ++) {
+								//this.getWorld().destroyBody(bulletList.get(0));
+								bulletList.remove(i);
+							}
+
+						}
 	}
 	
 	
@@ -126,7 +141,7 @@ public class AsteroidsTestRun extends TestbedTest {
 		float headingAngle = ussTriangleBody.getAngle() + 1.57f;
 	  
 		Vec2 velocityVector = 
-				TrigHelpers.PolarToVec2(headingAngle, 5);
+				TrigHelpers.PolarToVec2(headingAngle, 50);
 		
 		bulletBody.setLinearVelocity(velocityVector);
 		
@@ -134,7 +149,7 @@ public class AsteroidsTestRun extends TestbedTest {
 		CircleShape bulletShape = new CircleShape();
 		bulletShape.setRadius(0.1f);
 		
-		bulletBody.createFixture(bulletShape, 1);
+		bulletBody.createFixture(bulletShape, 50);
 		return bulletBody;
 	}
 	
@@ -200,7 +215,7 @@ public class AsteroidsTestRun extends TestbedTest {
 			for (int k = 0; k < dimension; k ++) {								 						
 				PolygonShape asteroidElementShape = new PolygonShape();
         		asteroidElementShape.setAsBox(0.5f, 0.5f, transformPosition, 0.0f);
-        		asteroidBody.createFixture(asteroidElementShape, 10);  
+        		asteroidBody.createFixture(asteroidElementShape, 1);  
         		
         		transformPosition.x += 1;
 			}
