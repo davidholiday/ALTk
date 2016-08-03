@@ -15,8 +15,9 @@ import org.jbox2d.dynamics.joints.WeldJointDef;
 import org.jbox2d.testbed.framework.TestbedModel;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.projectvalis.altk.noc.ch1.Vector;
 import com.projectvalis.altk.util.KeyConstants;
 import com.projectvalis.altk.util.TrigHelpers;
 
@@ -29,6 +30,8 @@ import com.projectvalis.altk.util.TrigHelpers;
  */
 public class AsteroidsTestRun extends TestbedTest {
 
+	public static final Logger LOGGER = LoggerFactory.getLogger(AsteroidsTestRun.class);
+	
 	private Body ussTriangleBody = null;
 	
 	@Override
@@ -53,7 +56,8 @@ public class AsteroidsTestRun extends TestbedTest {
 	@Override
 	public void step(TestbedSettings settings) {
 	  super.step(settings);
-
+	  
+	  ussTriangleBody.setAngularVelocity(0);
 	  TestbedModel model = getModel();
 //	  if (model.getKeys()['a']) { // model also contains the coded key values
 //
@@ -61,26 +65,20 @@ public class AsteroidsTestRun extends TestbedTest {
 	  
 	  
 	  if (model.getCodedKeys()[KeyConstants.UP]) {
-//		  model.getCurrTest().getWorld().getBodyList().g
-		  float headingAngle = ussTriangleBody.getAngle();
-		  
-			// convert heading to radians - which is what polar format 
-			// expects. the (-90) is to account for the difference in 
-			// orientation between heading and angle (eg -- heading 000 is a
-			// 90 degree angle).
-			float theta = (float) Math.toRadians(headingAngle + 90);
-			float radius = 50;
-			
+		  // 1.57 radians = 90 degrees
+		  float headingAngle = ussTriangleBody.getAngle() + 1.57f;
+	  
 			Vec2 newAccelerationVector = 
-					TrigHelpers.PolarToVec2(theta, radius);
+					TrigHelpers.PolarToVec2(headingAngle, 5);
 		  
 		  ussTriangleBody.applyForceToCenter(newAccelerationVector);
 	  }
-	  else if (model.getCodedKeys()[KeyConstants.RIGHT]) {
+	  if (model.getCodedKeys()[KeyConstants.RIGHT]) {
+		  ussTriangleBody.setAngularVelocity(-5);
 		  
 	  }
-	  else if (model.getCodedKeys()[KeyConstants.LEFT]) {
-		  
+	  if (model.getCodedKeys()[KeyConstants.LEFT]) {
+		  ussTriangleBody.setAngularVelocity(5);
 	  }
 
 
@@ -120,8 +118,8 @@ public class AsteroidsTestRun extends TestbedTest {
 		PolygonShape triangleShapeLeft = new PolygonShape();
 		triangleShapeLeft.set(verticiesLeft, verticiesLeft.length);			
 	
-		ussTriangleBody.createFixture(triangleShapeRight, 10);
-		ussTriangleBody.createFixture(triangleShapeLeft, 10);
+		ussTriangleBody.createFixture(triangleShapeRight, 1);
+		ussTriangleBody.createFixture(triangleShapeLeft, 1);
 		
 	}
 	
