@@ -1,8 +1,12 @@
 package com.projectvalis.altk.jbox2d.lab;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.jbox2d.collision.shapes.CircleShape;
 
 //import com.projectvalis.altk.util.KeyConstants;
 
@@ -31,8 +35,11 @@ import com.projectvalis.altk.util.TrigHelpers;
 public class AsteroidsTestRun extends TestbedTest {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(AsteroidsTestRun.class);
+	public static final int BATTERY_CAPACITY = 10;
 	
 	private Body ussTriangleBody = null;
+	private int ussTriangleBattery = BATTERY_CAPACITY;
+	private List<Body> bulletList = new ArrayList<>();
 	
 	@Override
 	public String getTestName() {
@@ -58,12 +65,19 @@ public class AsteroidsTestRun extends TestbedTest {
 	  super.step(settings);
 	  
 	  ussTriangleBody.setAngularVelocity(0);
+	  
 	  TestbedModel model = getModel();
-//	  if (model.getKeys()['a']) { // model also contains the coded key values
-//
-//	  }
+	  Vec2 shipPosition = ussTriangleBody.getPosition();
+	  
+	  if (model.getKeys()['x'] && ussTriangleBattery > 0) { 
+		  bulletList.add(makeBullet(shipPosition));
+		  
+		  ussTriangleBattery = 0;
+	  }
 	  
 	  
+	  // movement
+	  //
 	  if (model.getCodedKeys()[KeyConstants.UP]) {
 		  // 1.57 radians = 90 degrees
 		  float headingAngle = ussTriangleBody.getAngle() + 1.57f;
@@ -82,13 +96,53 @@ public class AsteroidsTestRun extends TestbedTest {
 	  }
 
 
+	  //
+	  //
 	  Vec2 worldMouse = super.getWorldMouse(); // which is in world coordinates
 
-	  // etc
+
+	  
+	  ussTriangleBattery = 
+			  (ussTriangleBattery == BATTERY_CAPACITY) ? 
+					  (ussTriangleBattery) : (ussTriangleBattery + 1);
+			
+					  
+	    if (bulletList.size() > 100) {
+	    	for (int i = 0; i < 75; i ++) {
+	    		bulletList.remove(0);
+	    	}
+	    }
 	}
 	
 	
 	
+	private Body makeBullet(Vec2 shipPosition) {
+		BodyDef bulletBodyDef = new BodyDef();
+		bulletBodyDef.setType(BodyType.DYNAMIC);
+		bulletBodyDef.setPosition(shipPosition);
+		
+		Body bulletBody = this.getWorld().createBody(bulletBodyDef);
+	    // 1.57 radians = 90 degrees
+		float headingAngle = ussTriangleBody.getAngle() + 1.57f;
+	  
+		Vec2 velocityVector = 
+				TrigHelpers.PolarToVec2(headingAngle, 5);
+		
+		bulletBody.setLinearVelocity(velocityVector);
+		
+		
+		CircleShape bulletShape = new CircleShape();
+		bulletShape.setRadius(0.1f);
+		
+		bulletBody.createFixture(bulletShape, 1);
+		return bulletBody;
+	}
+	
+	
+	/**
+	 * 
+	 * @param position
+	 */
 	private void makeUssTriangle(Vec2 position) {
 		BodyDef triangleBodyDef = new BodyDef();
 		triangleBodyDef.setType(BodyType.DYNAMIC);
