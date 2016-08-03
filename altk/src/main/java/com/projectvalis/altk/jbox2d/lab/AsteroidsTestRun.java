@@ -4,14 +4,21 @@ package com.projectvalis.altk.jbox2d.lab;
 import java.util.HashMap;
 import java.util.Map;
 
+//import com.projectvalis.altk.util.KeyConstants;
+
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.joints.WeldJointDef;
+import org.jbox2d.testbed.framework.TestbedModel;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
+
+import com.projectvalis.altk.noc.ch1.Vector;
+import com.projectvalis.altk.util.KeyConstants;
+import com.projectvalis.altk.util.TrigHelpers;
 
 
 /**
@@ -22,6 +29,7 @@ import org.jbox2d.testbed.framework.TestbedTest;
  */
 public class AsteroidsTestRun extends TestbedTest {
 
+	private Body ussTriangleBody = null;
 	
 	@Override
 	public String getTestName() {
@@ -46,10 +54,34 @@ public class AsteroidsTestRun extends TestbedTest {
 	public void step(TestbedSettings settings) {
 	  super.step(settings);
 
-//	  TestbedModel model = getModel();
+	  TestbedModel model = getModel();
 //	  if (model.getKeys()['a']) { // model also contains the coded key values
-//	    
+//
 //	  }
+	  
+	  
+	  if (model.getCodedKeys()[KeyConstants.UP]) {
+//		  model.getCurrTest().getWorld().getBodyList().g
+		  float headingAngle = ussTriangleBody.getAngle();
+		  
+			// convert heading to radians - which is what polar format 
+			// expects. the (-90) is to account for the difference in 
+			// orientation between heading and angle (eg -- heading 000 is a
+			// 90 degree angle).
+			float theta = (float) Math.toRadians(headingAngle + 90);
+			float radius = 50;
+			
+			Vec2 newAccelerationVector = 
+					TrigHelpers.PolarToVec2(theta, radius);
+		  
+		  ussTriangleBody.applyForceToCenter(newAccelerationVector);
+	  }
+	  else if (model.getCodedKeys()[KeyConstants.RIGHT]) {
+		  
+	  }
+	  else if (model.getCodedKeys()[KeyConstants.LEFT]) {
+		  
+	  }
 
 
 	  Vec2 worldMouse = super.getWorldMouse(); // which is in world coordinates
@@ -64,7 +96,7 @@ public class AsteroidsTestRun extends TestbedTest {
 		triangleBodyDef.setType(BodyType.DYNAMIC);
 		triangleBodyDef.setPosition(position);
 		
-		Body triangleBody = this.getWorld().createBody(triangleBodyDef);
+		ussTriangleBody = this.getWorld().createBody(triangleBodyDef);
 		
 		// original swing shape dimensions
 		//
@@ -87,10 +119,9 @@ public class AsteroidsTestRun extends TestbedTest {
 
 		PolygonShape triangleShapeLeft = new PolygonShape();
 		triangleShapeLeft.set(verticiesLeft, verticiesLeft.length);			
-
-		
-		triangleBody.createFixture(triangleShapeRight, 10);
-		triangleBody.createFixture(triangleShapeLeft, 10);
+	
+		ussTriangleBody.createFixture(triangleShapeRight, 10);
+		ussTriangleBody.createFixture(triangleShapeLeft, 10);
 		
 	}
 	
