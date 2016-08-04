@@ -1,4 +1,4 @@
-package com.projectvalis.altk.jbox2d.lab;
+package com.projectvalis.altk.jbox2d.lab.asteroids;
 
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class AsteroidsTestRun extends TestbedTest {
 	public static final int BATTERY_CAPACITY = 25;
 	public static final int BATTERY_RECHARGE_RATE = 1;
 	
-	private Body ussTriangleBody = null;
+	private UssTriangle ussTriangle = null;
 	private int ussTriangleBattery = BATTERY_CAPACITY;
 	private List<Body> bulletList = new ArrayList<>();
 	
@@ -54,6 +54,8 @@ public class AsteroidsTestRun extends TestbedTest {
 	public void initTest(boolean arg0) {
 		Vec2 gravityVector = new Vec2(0, 0);
 		this.getWorld().setGravity(gravityVector);
+		
+		this.getWorld().setContactListener(new AsteroidsContactListener());
 		
 		bulletList.clear();
 		
@@ -70,15 +72,16 @@ public class AsteroidsTestRun extends TestbedTest {
 	public void step(TestbedSettings settings) {
 		super.step(settings);
 
-		ussTriangleBody.setAngularVelocity(0);
+		ussTriangle.m_body.setAngularVelocity(0);
 
 		TestbedModel model = getModel();
-		Vec2 shipPosition = ussTriangleBody.getPosition();
+		Vec2 shipPosition = ussTriangle.m_body.getPosition();
 
 		// fire!
 		//
 		if (model.getKeys()['x'] && ussTriangleBattery == BATTERY_CAPACITY) { 
-			bulletList.add(makeBullet(shipPosition));
+			Bullet bullet = makeBullet(shipPosition);
+			bulletList.add(bullet.m_body);
 
 			ussTriangleBattery = 0;
 		}
@@ -88,19 +91,19 @@ public class AsteroidsTestRun extends TestbedTest {
 		//
 		if (model.getCodedKeys()[KeyConstants.UP]) {
 			// 1.57 radians = 90 degrees
-			float headingAngle = ussTriangleBody.getAngle() + 1.57f;
+			float headingAngle = ussTriangle.m_body.getAngle() + 1.57f;
 
 			Vec2 newAccelerationVector = 
 					TrigHelpers.PolarToVec2(headingAngle, 5);
 
-			ussTriangleBody.applyForceToCenter(newAccelerationVector);
+			ussTriangle.m_body.applyForceToCenter(newAccelerationVector);
 		}
 		if (model.getCodedKeys()[KeyConstants.RIGHT]) {
-			ussTriangleBody.setAngularVelocity(-5);
+			ussTriangle.m_body.setAngularVelocity(-5);
 
 		}
 		if (model.getCodedKeys()[KeyConstants.LEFT]) {
-			ussTriangleBody.setAngularVelocity(5);
+			ussTriangle.m_body.setAngularVelocity(5);
 		}
 
 
@@ -122,7 +125,6 @@ public class AsteroidsTestRun extends TestbedTest {
 							         .forEach(i -> this.getWorld().destroyBody(bulletList.get(i)));
 							
 							for (int i = 0; i < bulletList.size() - 10; i ++) {
-								//this.getWorld().destroyBody(bulletList.get(0));
 								bulletList.remove(i);
 							}
 
@@ -131,26 +133,19 @@ public class AsteroidsTestRun extends TestbedTest {
 	
 	
 	
-	private Body makeBullet(Vec2 shipPosition) {
+	private Bullet makeBullet(Vec2 shipPosition) {
+		Vec2 torpedoLauncerPosition = shipPosition.clone();
+		torpedoLauncerPosition.y += 0.1;
+		
 		BodyDef bulletBodyDef = new BodyDef();
 		bulletBodyDef.setType(BodyType.DYNAMIC);
-		bulletBodyDef.setPosition(shipPosition);
+		bulletBodyDef.setPosition(torpedoLauncerPosition);
 		
 		Body bulletBody = this.getWorld().createBody(bulletBodyDef);
 	    // 1.57 radians = 90 degrees
-		float headingAngle = ussTriangleBody.getAngle() + 1.57f;
-	  
-		Vec2 velocityVector = 
-				TrigHelpers.PolarToVec2(headingAngle, 50);
+		float headingAngle = ussTriangle.m_body.getAngle() + 1.57f;
 		
-		bulletBody.setLinearVelocity(velocityVector);
-		
-		
-		CircleShape bulletShape = new CircleShape();
-		bulletShape.setRadius(0.1f);
-		
-		bulletBody.createFixture(bulletShape, 50);
-		return bulletBody;
+		return new Bullet(headingAngle, bulletBody);
 	}
 	
 	
@@ -163,33 +158,34 @@ public class AsteroidsTestRun extends TestbedTest {
 		triangleBodyDef.setType(BodyType.DYNAMIC);
 		triangleBodyDef.setPosition(position);
 		
-		ussTriangleBody = this.getWorld().createBody(triangleBodyDef);
+		Body ussTriangleBody = this.getWorld().createBody(triangleBodyDef);
+		ussTriangle = new UssTriangle(ussTriangleBody);
 		
-		// original swing shape dimensions
-		//
-		//double x2Points[] = {0, -10, 0, 10};			
-		//double y2Points[] = {0, 35, 25, 35};
-		
-		Vec2[] verticiesRight = new Vec2[3];
-		verticiesRight[0] = new Vec2(0, 0);
-		verticiesRight[1] = new Vec2(0.5f, -1.75f);
-		verticiesRight[2] = new Vec2(0, -1.25f);
-
-		PolygonShape triangleShapeRight = new PolygonShape();
-		triangleShapeRight.set(verticiesRight, verticiesRight.length);		
-		
-		
-		Vec2[] verticiesLeft = new Vec2[3];
-		verticiesLeft[0] = new Vec2(0, 0);
-		verticiesLeft[1] = new Vec2(-0.5f, -1.75f);
-		verticiesLeft[2] = new Vec2(0, -1.25f);
-
-		PolygonShape triangleShapeLeft = new PolygonShape();
-		triangleShapeLeft.set(verticiesLeft, verticiesLeft.length);			
-	
-		ussTriangleBody.createFixture(triangleShapeRight, 1);
-		ussTriangleBody.createFixture(triangleShapeLeft, 1);
-		
+//		// original swing shape dimensions
+//		//
+//		//double x2Points[] = {0, -10, 0, 10};			
+//		//double y2Points[] = {0, 35, 25, 35};
+//		
+//		Vec2[] verticiesRight = new Vec2[3];
+//		verticiesRight[0] = new Vec2(0, 0);
+//		verticiesRight[1] = new Vec2(0.5f, -1.75f);
+//		verticiesRight[2] = new Vec2(0, -1.25f);
+//
+//		PolygonShape triangleShapeRight = new PolygonShape();
+//		triangleShapeRight.set(verticiesRight, verticiesRight.length);		
+//		
+//		
+//		Vec2[] verticiesLeft = new Vec2[3];
+//		verticiesLeft[0] = new Vec2(0, 0);
+//		verticiesLeft[1] = new Vec2(-0.5f, -1.75f);
+//		verticiesLeft[2] = new Vec2(0, -1.25f);
+//
+//		PolygonShape triangleShapeLeft = new PolygonShape();
+//		triangleShapeLeft.set(verticiesLeft, verticiesLeft.length);			
+//	
+//		ussTriangleBody.createFixture(triangleShapeRight, 1);
+//		ussTriangleBody.createFixture(triangleShapeLeft, 1);
+//		
 	}
 	
 	

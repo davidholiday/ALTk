@@ -18,6 +18,8 @@ import org.jbox2d.testbed.framework.j2d.DebugDrawJ2D;
 import org.jbox2d.testbed.framework.j2d.TestPanelJ2D;
 import org.jbox2d.testbed.framework.j2d.TestbedSidePanel;
 
+import com.projectvalis.altk.jbox2d.lab.asteroids.AsteroidsTestRun;
+
 /*******************************************************************************
  * Copyright (c) 2013, Daniel Murphy
  * All rights reserved.
