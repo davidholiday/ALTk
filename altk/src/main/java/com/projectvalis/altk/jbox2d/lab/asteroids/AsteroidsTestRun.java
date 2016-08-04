@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.jbox2d.collision.shapes.CircleShape;
@@ -39,9 +40,12 @@ public class AsteroidsTestRun extends TestbedTest {
 	public static final int BATTERY_CAPACITY = 25;
 	public static final int BATTERY_RECHARGE_RATE = 1;
 	
+	private boolean gameOver = false;
+	
 	private UssTriangle ussTriangle = null;
 	private int ussTriangleBattery = BATTERY_CAPACITY;
-	private List<Body> bulletList = new ArrayList<>();
+	private List<Bullet> bulletList = new ArrayList<>();
+	private List<SquareAsteroid> asteroidList = new ArrayList<>();
 	
 	@Override
 	public String getTestName() {
@@ -58,11 +62,13 @@ public class AsteroidsTestRun extends TestbedTest {
 		this.getWorld().setContactListener(new AsteroidsContactListener());
 		
 		bulletList.clear();
+		gameOver = false;
 		
 //		makeJointedCompoundAsteroid(8, new Vec2(10, 10));		
-		makeCompoundAsteroid(3, new Vec2(0, 0));
+//		makeCompoundAsteroid(3, new Vec2(0, 0));
+		makeSquareAsteroid(new Vec2(0, 0));
 		makeUssTriangle(new Vec2(-5, -5));
-		
+	
 	}
 	
 	
@@ -71,17 +77,54 @@ public class AsteroidsTestRun extends TestbedTest {
 	@Override
 	public void step(TestbedSettings settings) {
 		super.step(settings);
+		
+		if (gameOver) { return; }
 
 		ussTriangle.m_body.setAngularVelocity(0);
 
 		TestbedModel model = getModel();
 		Vec2 shipPosition = ussTriangle.m_body.getPosition();
+		
+		
+		// check for destruct flags
+		// TODO : this is more than a little inefficient...
+		//
+		if (ussTriangle.m_selfDestruct) { 
+			this.getWorld().destroyBody(ussTriangle.m_body);
+			ussTriangle = null;
+			gameOver = true;
+		}
+		
+		for (WorldElement we : asteroidList) {
+			
+			if (we.m_selfDestruct) {
+				this.getWorld().destroyBody(we.m_body);
+				gameOver = true;
+			}
+			
+		}
+	
+		asteroidList = asteroidList.stream()
+		            			   .filter(x -> x.m_selfDestruct == false)
+		            			   .collect(Collectors.toList());
+		
+
+		for (Bullet b : bulletList) {
+			
+			if (b.m_selfDestruct) {
+				this.getWorld().destroyBody(b.m_body);
+				gameOver = true;
+			}
+			
+		}
+		
+		
 
 		// fire!
 		//
 		if (model.getKeys()['x'] && ussTriangleBattery == BATTERY_CAPACITY) { 
 			Bullet bullet = makeBullet(shipPosition);
-			bulletList.add(bullet.m_body);
+			bulletList.add(bullet);
 
 			ussTriangleBattery = 0;
 		}
@@ -122,7 +165,7 @@ public class AsteroidsTestRun extends TestbedTest {
 						if (bulletList.size() > 10) {
 
 							IntStream.range(0, bulletList.size() - 10)
-							         .forEach(i -> this.getWorld().destroyBody(bulletList.get(i)));
+							         .forEach(i -> this.getWorld().destroyBody(bulletList.get(i).m_body));
 							
 							for (int i = 0; i < bulletList.size() - 10; i ++) {
 								bulletList.remove(i);
@@ -160,32 +203,22 @@ public class AsteroidsTestRun extends TestbedTest {
 		
 		Body ussTriangleBody = this.getWorld().createBody(triangleBodyDef);
 		ussTriangle = new UssTriangle(ussTriangleBody);
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param position
+	 */
+	private void makeSquareAsteroid(Vec2 position) {
+		BodyDef asteroidBodyDef = new BodyDef();
+		asteroidBodyDef.setType(BodyType.DYNAMIC);
+		asteroidBodyDef.setPosition(position);
 		
-//		// original swing shape dimensions
-//		//
-//		//double x2Points[] = {0, -10, 0, 10};			
-//		//double y2Points[] = {0, 35, 25, 35};
-//		
-//		Vec2[] verticiesRight = new Vec2[3];
-//		verticiesRight[0] = new Vec2(0, 0);
-//		verticiesRight[1] = new Vec2(0.5f, -1.75f);
-//		verticiesRight[2] = new Vec2(0, -1.25f);
-//
-//		PolygonShape triangleShapeRight = new PolygonShape();
-//		triangleShapeRight.set(verticiesRight, verticiesRight.length);		
-//		
-//		
-//		Vec2[] verticiesLeft = new Vec2[3];
-//		verticiesLeft[0] = new Vec2(0, 0);
-//		verticiesLeft[1] = new Vec2(-0.5f, -1.75f);
-//		verticiesLeft[2] = new Vec2(0, -1.25f);
-//
-//		PolygonShape triangleShapeLeft = new PolygonShape();
-//		triangleShapeLeft.set(verticiesLeft, verticiesLeft.length);			
-//	
-//		ussTriangleBody.createFixture(triangleShapeRight, 1);
-//		ussTriangleBody.createFixture(triangleShapeLeft, 1);
-//		
+		Body asteroidBody = this.getWorld().createBody(asteroidBodyDef);
+		SquareAsteroid asteroid = new SquareAsteroid(asteroidBody);
+		asteroidList.add(asteroid);
 	}
 	
 	

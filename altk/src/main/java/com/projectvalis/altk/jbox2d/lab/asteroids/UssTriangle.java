@@ -4,12 +4,11 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-public class UssTriangle {
-
-	public final Body m_body;
+public class UssTriangle extends WorldElement {
 	
 	public UssTriangle(Body ussTriangleBody) {
-		m_body = ussTriangleBody;
+		super(ussTriangleBody);
+
 		
 		// original swing shape dimensions
 		//
@@ -35,6 +34,8 @@ public class UssTriangle {
 	
 		m_body.createFixture(triangleShapeRight, 1);
 		m_body.createFixture(triangleShapeLeft, 1);	
+		
+		m_body.setUserData(this);
 	}
 	
 }
