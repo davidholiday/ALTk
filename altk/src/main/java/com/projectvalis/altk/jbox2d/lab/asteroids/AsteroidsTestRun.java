@@ -99,7 +99,6 @@ public class AsteroidsTestRun extends TestbedTest {
 			
 			if (we.m_selfDestruct) {
 				this.getWorld().destroyBody(we.m_body);
-				gameOver = true;
 			}
 			
 		}
@@ -113,7 +112,6 @@ public class AsteroidsTestRun extends TestbedTest {
 			
 			if (b.m_selfDestruct) {
 				this.getWorld().destroyBody(b.m_body);
-				gameOver = true;
 			}
 			
 		}
