@@ -10,8 +10,12 @@ import org.jbox2d.dynamics.Body;
 
 public class ExplosionParticle extends WorldElement {
 
+	private int life;
+	
 	public ExplosionParticle(Body body) {
 		super(body);
+		
+		life = ThreadLocalRandom.current().nextInt(25, 75);
 		
 		CircleShape circleShape = new CircleShape();
 		circleShape.setRadius(0.1f);
@@ -27,6 +31,11 @@ public class ExplosionParticle extends WorldElement {
 		
 	}
 
+	
+	public void minusLife() {
+		if (life > 0) { life-= 1; }
+		else { this.m_selfDestruct = true; }
+	}
 	
 	
 	/**

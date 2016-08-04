@@ -64,11 +64,17 @@ public class AsteroidsTestRun extends TestbedTest {
 		this.getWorld().setContactListener(new AsteroidsContactListener());
 		
 		bulletList.clear();
+		asteroidList.clear();
+		explosionList.clear();
 		gameOver = false;
 		
 //		makeJointedCompoundAsteroid(8, new Vec2(10, 10));		
 //		makeCompoundAsteroid(3, new Vec2(0, 0));
 		makeSquareAsteroid(new Vec2(0, 0));
+		makeSquareAsteroid(new Vec2(-10, -10));
+		makeSquareAsteroid(new Vec2(20, 10));
+		makeSquareAsteroid(new Vec2(-50,50));
+		
 		makeUssTriangle(new Vec2(-5, -5));
 	
 	}
@@ -80,17 +86,32 @@ public class AsteroidsTestRun extends TestbedTest {
 	public void step(TestbedSettings settings) {
 		super.step(settings);
 		
-		if (gameOver) { return; }
-
-		ussTriangle.m_body.setAngularVelocity(0);
-
 		TestbedModel model = getModel();
+		
+		
+		// new asteroid
+		//
+		if (model.getKeys()['n'] && !gameOver) { 
+			if (asteroidList.size() == 0) { makeSquareAsteroid(new Vec2(0, 0)); }
+		}
+		
+		
+		for (List<ExplosionParticle> epList : explosionList) {
+			
+			for (ExplosionParticle ep : epList) {
+				ep.minusLife();
+				if (ep.m_selfDestruct) { this.getWorld().destroyBody(ep.m_body); }			
+			}
+
+		}
+					
+		
+		// check destruct flags
+		//
+		if (gameOver) { return; }
+		
 		Vec2 shipPosition = ussTriangle.m_body.getPosition();
 		
-		
-		// check for destruct flags
-		// TODO : this is more than a little inefficient...
-		//
 		if (ussTriangle.m_selfDestruct) { 
 			this.getWorld().destroyBody(ussTriangle.m_body);
 			makeExplosion(ussTriangle.m_body.getPosition());
@@ -121,16 +142,13 @@ public class AsteroidsTestRun extends TestbedTest {
 			
 		}
 		
-		
-		// new asteroid
+		// check again to make sure our ship didn't blow up 
 		//
-		if (model.getKeys()['n']) { 
-			if (asteroidList.size() == 0) { makeSquareAsteroid(new Vec2(0, 0)); }
-		}
-		
-		
 		if (gameOver) { return; }
 		
+	
+		
+		ussTriangle.m_body.setAngularVelocity(0);
 
 		// fire!
 		//
@@ -174,16 +192,17 @@ public class AsteroidsTestRun extends TestbedTest {
 							(ussTriangleBattery + BATTERY_RECHARGE_RATE);
 
 
-						if (bulletList.size() > 10) {
+		if (bulletList.size() > 10) {
 
-							IntStream.range(0, bulletList.size() - 10)
-							         .forEach(i -> this.getWorld().destroyBody(bulletList.get(i).m_body));
-							
-							for (int i = 0; i < bulletList.size() - 10; i ++) {
-								bulletList.remove(i);
-							}
+		    IntStream.range(0, bulletList.size() - 10)
+			     	 .forEach(i -> this.getWorld().destroyBody(bulletList.get(i).m_body));
 
-						}
+			for (int i = 0; i < bulletList.size() - 10; i ++) {
+				bulletList.remove(i);
+			}
+
+		}
+		
 	}
 	
 	
