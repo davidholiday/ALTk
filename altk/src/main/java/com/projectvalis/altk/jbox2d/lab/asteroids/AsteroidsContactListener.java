@@ -19,7 +19,9 @@ public class AsteroidsContactListener implements ContactListener {
 		
 		Object objA = arg0.getFixtureA().getBody().getUserData();
 		Object objB = arg0.getFixtureB().getBody().getUserData();
-	
+
+		if ((objA == null) || (objB == null)) { return; }
+		
 		if ((objA.getClass() == SquareAsteroid.class) || 
 				(objB.getClass() == SquareAsteroid.class)) {
 			

@@ -47,6 +47,8 @@ public class AsteroidsTestRun extends TestbedTest {
 	private List<Bullet> bulletList = new ArrayList<>();
 	private List<SquareAsteroid> asteroidList = new ArrayList<>();
 	
+	private List<List<ExplosionParticle>> explosionList = new ArrayList<>();
+	
 	@Override
 	public String getTestName() {
 		return "asteroids test run";
@@ -91,6 +93,7 @@ public class AsteroidsTestRun extends TestbedTest {
 		//
 		if (ussTriangle.m_selfDestruct) { 
 			this.getWorld().destroyBody(ussTriangle.m_body);
+			makeExplosion(ussTriangle.m_body.getPosition());
 			ussTriangle = null;
 			gameOver = true;
 		}
@@ -98,7 +101,9 @@ public class AsteroidsTestRun extends TestbedTest {
 		for (WorldElement we : asteroidList) {
 			
 			if (we.m_selfDestruct) {
+				Vec2 position = we.m_body.getPosition().clone();
 				this.getWorld().destroyBody(we.m_body);
+				makeExplosion(position);
 			}
 			
 		}
@@ -116,6 +121,15 @@ public class AsteroidsTestRun extends TestbedTest {
 			
 		}
 		
+		
+		// new asteroid
+		//
+		if (model.getKeys()['n']) { 
+			if (asteroidList.size() == 0) { makeSquareAsteroid(new Vec2(0, 0)); }
+		}
+		
+		
+		if (gameOver) { return; }
 		
 
 		// fire!
@@ -331,6 +345,28 @@ public class AsteroidsTestRun extends TestbedTest {
 			
 			this.getWorld().createJoint(weldJointUpDef);
 	}
+	
+	
+	
+	/**
+	 * 
+	 * @param location
+	 */
+	private void makeExplosion(Vec2 location) {
+		ArrayList<ExplosionParticle> particleList = new ArrayList<>();
+		
+		for (int i = 0; i < 25; i ++) {
+			BodyDef circleBodyDef = new BodyDef();
+			circleBodyDef.setPosition(location);
+			circleBodyDef.setType(BodyType.DYNAMIC);
+						
+			Body circleBody = this.getWorld().createBody(circleBodyDef);
+			particleList.add(new ExplosionParticle(circleBody));
+		}
+		
+		explosionList.add(particleList);
+	}
+	
 	
 }
 
