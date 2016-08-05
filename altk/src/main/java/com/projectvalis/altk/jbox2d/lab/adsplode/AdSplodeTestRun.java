@@ -3,6 +3,7 @@ package com.projectvalis.altk.jbox2d.lab.adsplode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import org.jbox2d.collision.shapes.ChainShape;
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -14,6 +15,7 @@ import org.jbox2d.testbed.framework.TestbedModel;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 
+import com.projectvalis.altk.jbox2d.lab.asteroids.ExplosionParticle;
 import com.projectvalis.altk.jbox2d.lab.asteroids.WorldElement;
 
 
@@ -27,6 +29,9 @@ public class AdSplodeTestRun extends TestbedTest {
 	private List<Body> m_chainBodyList = new ArrayList<>();
 	private boolean m_chainDrawing = false;
 	private float m_chainDistance = 0;
+	
+	private List<List<ExplosionParticle>> explosionList = new ArrayList<>();
+	
 	
 	@Override
 	public String getTestName() {
@@ -45,12 +50,38 @@ public class AdSplodeTestRun extends TestbedTest {
 		super.step(settings);
 		TestbedModel model = getModel();
 
+		// check for explosions
+		//
+		for (List<ExplosionParticle> epList : explosionList) {
+			
+			for (ExplosionParticle ep : epList) {
+				ep.minusLife();
+				if (ep.m_selfDestruct) { this.getWorld().destroyBody(ep.m_body); }			
+			}
+
+		}
+		
+		for (WorldElement we : m_brickList) {
+			
+			if (we.m_selfDestruct) {
+				Vec2 position = we.m_body.getPosition().clone();
+				this.getWorld().destroyBody(we.m_body);
+				makeExplosion(position);
+			}
+			
+		}
+	
+		m_brickList = m_brickList.stream()
+		            			 .filter(x -> x.m_selfDestruct == false)
+		            			 .collect(Collectors.toList());
+		
 		
 		
 		// new ball
 		//
 		if (model.getKeys()['n']) { makeRandomBall(); }
 
+		
 		// draw paddle?
 		//		
 		if (super.isMouseTracing()) {
@@ -77,7 +108,7 @@ public class AdSplodeTestRun extends TestbedTest {
 		}
 		
 
-		
+		checkBallLinearVelocity();
 		
 		
 	}
@@ -151,6 +182,7 @@ public class AdSplodeTestRun extends TestbedTest {
 		m_paddleVecList.clear();
 		m_chainBodyList.clear();
 		m_brickList.clear();
+		explosionList.clear();
 		m_chainDrawing = false;
 		m_chainDistance = 0;
 		m_ball = null;
@@ -266,7 +298,7 @@ public class AdSplodeTestRun extends TestbedTest {
 				
 		for (Vec2 position : positionArray) {
 			
-			if ((position.y > 10) || (position.x < -31) || (position.x > 34)) {		
+			if ((position.y > 20) || (position.x < -31) || (position.x > 34)) {		
 				return true;
 			}
 		
@@ -277,9 +309,13 @@ public class AdSplodeTestRun extends TestbedTest {
 	}
 	
 	
-	
+	/**
+	 * 
+	 */
 	private void makeRandomBall() {
-		float randomHeading = (float)ThreadLocalRandom.current().nextInt(30, 150);
+		float randomHeading = ThreadLocalRandom.current().nextFloat();
+		randomHeading += ThreadLocalRandom.current().nextInt(2);
+
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.setType(BodyType.DYNAMIC);
 		Body ballBody = this.getWorld().createBody(bodyDef);
@@ -294,6 +330,42 @@ public class AdSplodeTestRun extends TestbedTest {
 	
 	
 	
+	/**
+	 * 
+	 * @param location
+	 */
+	private void makeExplosion(Vec2 location) {
+		ArrayList<ExplosionParticle> particleList = new ArrayList<>();
+		
+		for (int i = 0; i < 25; i ++) {
+			BodyDef circleBodyDef = new BodyDef();
+			circleBodyDef.setPosition(location);
+			circleBodyDef.setType(BodyType.DYNAMIC);
+						
+			Body circleBody = this.getWorld().createBody(circleBodyDef);
+			particleList.add(new ExplosionParticle(circleBody));
+		}
+		
+		explosionList.add(particleList);
+	}
+	
+	
+
+	/**
+	 * ensures the ball doesn't endlessly bounce between walls
+	 * 
+	 */
+	private void checkBallLinearVelocity() {
+		if (m_ball == null) { return;}
+		
+		if ((m_ball.m_body.getLinearVelocity().y < 1) &&
+				(m_ball.m_body.getLinearVelocity().y > -1)) {
+			
+			Vec2 newLinearVelocity = m_ball.m_body.getLinearVelocity().clone();
+			newLinearVelocity.y += 3;
+			m_ball.m_body.setLinearVelocity(newLinearVelocity);
+		}
+	}
 	
 }
 

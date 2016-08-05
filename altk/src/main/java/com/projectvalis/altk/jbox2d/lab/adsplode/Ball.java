@@ -12,14 +12,14 @@ public class Ball extends WorldElement {
 	public Ball(float headingAngle, Body ballBody) {
 		super(ballBody);
 
-		Vec2 velocityVector = TrigHelpers.PolarToVec2(headingAngle, 50);
+		Vec2 velocityVector = TrigHelpers.PolarToVec2(headingAngle, 35);
 		m_body.setLinearVelocity(velocityVector);
 		CircleShape ballShape = new CircleShape();
-		ballShape.setRadius(1f);
+		ballShape.setRadius(0.5f);
 
 		m_body.createFixture(ballShape, 10);
-		m_body.getFixtureList().setRestitution(1);
-		m_body.getFixtureList().setFriction(0);
+		m_body.getFixtureList().setRestitution(1.1f);
+		m_body.getFixtureList().setFriction(0.5f);
 		m_body.setUserData(this);
 	}
 	
