@@ -18,6 +18,7 @@ import org.jbox2d.testbed.framework.j2d.DebugDrawJ2D;
 import org.jbox2d.testbed.framework.j2d.TestPanelJ2D;
 import org.jbox2d.testbed.framework.j2d.TestbedSidePanel;
 
+import com.projectvalis.altk.jbox2d.lab.adsplode.AdSplodeTestRun;
 import com.projectvalis.altk.jbox2d.lab.asteroids.AsteroidsTestRun;
 
 /*******************************************************************************
@@ -74,6 +75,7 @@ public class TestbedRunner {
     TestPanelJ2D panel = new TestPanelJ2D(model, controller);
     model.setPanel(panel);
     model.setDebugDraw(new DebugDrawJ2D(panel, true));
+    model.addTest(new AdSplodeTestRun());
     model.addTest(new AsteroidsTestRun());
     model.addTest(new BouncingBallsTestRun());
     model.addTest(new MJWTest2());
