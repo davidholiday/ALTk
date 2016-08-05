@@ -2,6 +2,7 @@ package com.projectvalis.altk.jbox2d.lab.adsplode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.jbox2d.collision.shapes.ChainShape;
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -9,6 +10,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.testbed.framework.TestbedModel;
 import org.jbox2d.testbed.framework.TestbedSettings;
 import org.jbox2d.testbed.framework.TestbedTest;
 
@@ -17,8 +19,11 @@ import com.projectvalis.altk.jbox2d.lab.asteroids.WorldElement;
 
 public class AdSplodeTestRun extends TestbedTest {
 
+	
 	private List<Vec2> m_paddleVecList = new ArrayList<>();	
 	private List<WorldElement> m_brickList = new ArrayList<>();	
+	private WorldElement m_ball = null;
+	
 	private List<Body> m_chainBodyList = new ArrayList<>();
 	private boolean m_chainDrawing = false;
 	private float m_chainDistance = 0;
@@ -38,11 +43,16 @@ public class AdSplodeTestRun extends TestbedTest {
 	@Override
 	public void step(TestbedSettings settings) {
 		super.step(settings);
+		TestbedModel model = getModel();
+
 		
-		// draw paddle?
+		
+		// new ball
 		//
-		//Vec2 mousePosition = this.getWorldMouse();
-		
+		if (model.getKeys()['n']) { makeRandomBall(); }
+
+		// draw paddle?
+		//		
 		if (super.isMouseTracing()) {
 			Vec2 mouseTracerPosition = super.getMouseTracerPosition().clone();			
 			
@@ -143,6 +153,7 @@ public class AdSplodeTestRun extends TestbedTest {
 		m_brickList.clear();
 		m_chainDrawing = false;
 		m_chainDistance = 0;
+		m_ball = null;
 	}
 	
 	
@@ -264,6 +275,24 @@ public class AdSplodeTestRun extends TestbedTest {
 		return false;
 		
 	}
+	
+	
+	
+	private void makeRandomBall() {
+		float randomHeading = (float)ThreadLocalRandom.current().nextInt(30, 150);
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.setType(BodyType.DYNAMIC);
+		Body ballBody = this.getWorld().createBody(bodyDef);
+		
+		if (m_ball != null) {
+			this.getWorld().destroyBody(m_ball.m_body);
+		}
+		
+		m_ball = new Ball(randomHeading, ballBody);
+	}
+	
+	
+	
 	
 	
 }
