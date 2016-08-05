@@ -85,37 +85,32 @@ public class AdSplodeTestRun extends TestbedTest {
 	public void step(TestbedSettings settings) {
 		super.step(settings);
 		
+		// draw paddle?
 		//
-		//
-		//Vec2 worldMouse = super.getWorldMouse(); 
-		
-		List<Vec2> boundaryVerticies = new ArrayList<>();
-		
 		if (super.isMouseTracing()) {
 			Vec2 mouseTracerPosition = super.getMouseTracerPosition().clone();
-		
-//System.out.println(mouseTracerPosition);	
-
+//if (paddleVecList.isEmpty() == false) {			
+//System.out.println(paddleVecList.size() + " " + paddleVecList.get(0).equals(mouseTracerPosition));
+//System.out.println(paddleVecList.get(0) + " " + mouseTracerPosition);
+//}
+//
+//			if ((paddleVecList.size() == 1) &&
+//			       (!(paddleVecList.get(0).equals(mouseTracerPosition))) ) {
+//					paddleVecList.add(mouseTracerPosition);		
+//			}
 			if (paddleVecList.size() == 1) {
-System.out.println(paddleVecList.get(0) + " " + mouseTracerPosition);				
-				if ( !paddleVecList.get(0).equals(mouseTracerPosition) ) {
+
+				boolean xSame = paddleVecList.get(0).x == mouseTracerPosition.x;
+				boolean ySame = paddleVecList.get(0).y == mouseTracerPosition.y;
+				
+				if (!(xSame && ySame)) {
 					paddleVecList.add(mouseTracerPosition);
-					System.out.println("here!");
 				}
 				
 			}
 			else if (paddleVecList.size() == 2) {
-				BodyDef chainBodyDef = new BodyDef();
-				Body chainBody = this.getWorld().createBody(chainBodyDef);
-			
-				ChainShape chainShape = new ChainShape();	
-				Vec2[] vecArray = new Vec2[paddleVecList.size()];
-				vecArray = paddleVecList.toArray(vecArray);
-System.out.println(Arrays.toString(vecArray));
-				chainShape.createChain(vecArray, paddleVecList.size());
+				createChainLink();
 				paddleVecList.remove(0);
-				
-				chainBody.createFixture(chainShape, 1);
 			}
 			else {
 				paddleVecList.add(mouseTracerPosition);
@@ -130,6 +125,26 @@ System.out.println(Arrays.toString(vecArray));
 		
 	}
 
+	
+	private void createChainLink() {		
+		ChainShape chainShape = new ChainShape();	
+		Vec2[] vecArray = new Vec2[paddleVecList.size()];
+		vecArray = paddleVecList.toArray(vecArray);
+		
+		try {
+			chainShape.createChain(vecArray, paddleVecList.size());	
+			BodyDef chainBodyDef = new BodyDef();
+			Body chainBody = this.getWorld().createBody(chainBodyDef);	
+			chainBody.createFixture(chainShape, 1);
+		} catch(RuntimeException e) {
+			// probably a 'verticies of chain shape are too close together
+			// this because we only save chain link pairs at the moment, so
+			// if the mouse doubles back onto an existing segment, problems...
+		}
+
+	}
+	
+	
 }
 
 
