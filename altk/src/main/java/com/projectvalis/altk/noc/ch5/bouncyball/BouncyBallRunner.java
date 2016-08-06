@@ -1,4 +1,4 @@
-package com.projectvalis.altk.noc.ch5;
+package com.projectvalis.altk.noc.ch5.bouncyball;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.init.GUI;
+import com.projectvalis.altk.noc.ch5.ManagedElementPair;
+import com.projectvalis.altk.noc.ch5.ManagedElementRunner;
 
 public class BouncyBallRunner extends ManagedElementRunner {
 	

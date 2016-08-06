@@ -49,6 +49,9 @@ public class bsInternalFrame extends internalFrameDark {
 		String importPkg6S = "import com.projectvalis.altk.noc.ch3.*";
 		String importPkg7s = "import com.projectvalis.altk.noc.ch4.*";
 		String importPkg8s = "import com.projectvalis.altk.noc.ch5.*";
+		String importPkg9 = "import com.projectvalis.altk.noc.ch5.bouncyball.*";
+		String importPkg10 = "import com.projectvalis.altk.noc.ch5.asteroids.*";
+		
 
 		try {
 			bsInterp.eval(importCmdS);
@@ -60,6 +63,8 @@ public class bsInternalFrame extends internalFrameDark {
 			bsInterp.eval(importPkg6S);
 			bsInterp.eval(importPkg7s);
 			bsInterp.eval(importPkg8s);
+			bsInterp.eval(importPkg9);
+			bsInterp.eval(importPkg10);
 
 			// setup the beanshell shared hashtable if it isn't already
 			// initialized.

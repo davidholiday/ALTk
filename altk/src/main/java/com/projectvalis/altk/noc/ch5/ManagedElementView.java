@@ -22,9 +22,9 @@ public abstract class ManagedElementView {
 	protected Color m_strokeColor;
 	protected Color m_fillColor;
 
-	ManagedElementView(int strokeWidth,
-			           Color strokeColor,
-			           Color fillColor) {
+	public ManagedElementView(int strokeWidth,
+			                  Color strokeColor,
+			                  Color fillColor) {
 		
 		m_stroke = new BasicStroke(strokeWidth);
 		m_strokeColor = strokeColor;

@@ -44,12 +44,12 @@ public class ManagedElementPanel
 	
     protected boolean[] m_keyFlagsARR;
 	
-    protected boolean m_mouseInFrame = false;
-	protected boolean m_mousePressed = false;
-	protected boolean m_mouseClicked = false;
+    public boolean m_mouseInFrame = false;
+	public boolean m_mousePressed = false;
+	public boolean m_mouseClicked = false;
 	
 	protected Vec2 m_mousePressPixelPositionVector; 
-	protected Vec2 m_mousePressBox2dPositionVector;
+	public Vec2 m_mousePressBox2dPositionVector;
 
 	protected final Vec2 m_originalWindowSize;
 	

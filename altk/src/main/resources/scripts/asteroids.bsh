@@ -1,0 +1,9 @@
+// File: asteroids.bsh
+
+bsh.asteroids.help = "runs the jbox2d asteroids simulation";
+
+
+asteroids() {
+    Thread t1 = new Thread(new AsteroidsRunner());
+    t1.start();
+}

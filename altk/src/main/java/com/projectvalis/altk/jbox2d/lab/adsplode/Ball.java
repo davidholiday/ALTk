@@ -12,7 +12,7 @@ public class Ball extends WorldElement {
 	public Ball(float headingAngle, Body ballBody) {
 		super(ballBody);
 
-		Vec2 velocityVector = TrigHelpers.PolarToVec2(headingAngle, 35);
+		Vec2 velocityVector = TrigHelpers.PolarToVec2(headingAngle, 25);
 		m_body.setLinearVelocity(velocityVector);
 		CircleShape ballShape = new CircleShape();
 		ballShape.setRadius(0.5f);

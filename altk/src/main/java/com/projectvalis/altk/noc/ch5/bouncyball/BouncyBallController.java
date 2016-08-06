@@ -1,4 +1,4 @@
-package com.projectvalis.altk.noc.ch5;
+package com.projectvalis.altk.noc.ch5.bouncyball;
 
 
 import java.util.List;
@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.noc.ch1.BallRunner;
+import com.projectvalis.altk.noc.ch5.ManagedElementController;
+import com.projectvalis.altk.noc.ch5.ManagedElementPair;
 
 import junit.framework.Assert;
 

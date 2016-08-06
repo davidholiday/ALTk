@@ -45,7 +45,7 @@ public abstract class ManagedElementModel {
 	    m_friction = friction;
 	};
 	
-	protected void createInWorld(World world) {
+	public void createInWorld(World world) {
 	    makeBody(world);
 	    makeShape(world);
 	}

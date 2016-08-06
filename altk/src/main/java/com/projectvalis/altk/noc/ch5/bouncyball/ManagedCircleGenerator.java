@@ -1,4 +1,4 @@
-package com.projectvalis.altk.noc.ch5;
+package com.projectvalis.altk.noc.ch5.bouncyball;
 
 import java.awt.Color;
 import java.util.concurrent.ThreadLocalRandom;
@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.jbox2d.common.Vec2;
 
 import com.projectvalis.altk.init.GUI;
+import com.projectvalis.altk.noc.ch5.ManagedElementPair;
 
 
 /**

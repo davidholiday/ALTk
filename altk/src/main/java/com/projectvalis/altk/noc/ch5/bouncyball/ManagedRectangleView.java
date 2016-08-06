@@ -1,10 +1,12 @@
-package com.projectvalis.altk.noc.ch5;
+package com.projectvalis.altk.noc.ch5.bouncyball;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import org.jbox2d.common.Vec2;
+
+import com.projectvalis.altk.noc.ch5.ManagedElementView;
 
 
 /**

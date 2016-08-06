@@ -1,10 +1,12 @@
-package com.projectvalis.altk.noc.ch5;
+package com.projectvalis.altk.noc.ch5.bouncyball;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
+
+import com.projectvalis.altk.noc.ch5.ManagedElementModel;
 
 
 /**
