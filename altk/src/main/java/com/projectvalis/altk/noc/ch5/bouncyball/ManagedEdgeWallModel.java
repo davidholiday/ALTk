@@ -33,7 +33,7 @@ public class ManagedEdgeWallModel extends ManagedElementModel {
 			                    float friction, 
 			                    Vec2 jboxSizeVector) {
 		
-		super(startPosition, null, null, density, restitution, friction);	
+		super(startPosition, null, null, density, restitution, friction, 0);	
 		m_jboxSizeVector = jboxSizeVector;
 	}
 

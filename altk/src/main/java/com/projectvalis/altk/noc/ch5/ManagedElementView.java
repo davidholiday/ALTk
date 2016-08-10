@@ -62,7 +62,7 @@ public abstract class ManagedElementView {
 	 * @param g2
 	 */
 	protected abstract void renderPresentation(
-			Graphics2D g2, Vec2 posVector, Vec2 sizeVector);
+			Graphics2D g2, Vec2 posVector, Vec2 sizeVector, float heading);
 
 
 	

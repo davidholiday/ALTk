@@ -29,13 +29,18 @@ public abstract class ManagedElementModel {
 	protected float m_restitution;
 	protected float m_friction;
 	
+	// heading goes from (-180 : 180) 
+	// don't forget heading isn't the same thing as angle!
+	protected float m_heading; 
+	
 
 	public ManagedElementModel(Vec2 startPosition,
 			                   Vec2 linearVelocity,
 			                   Vec2 angularVelocity,
 			                   float density, 
 			                   float restitution, 
-			                   float friction) {
+			                   float friction, 
+			                   float heading) {
 
 	    m_startPosition = startPosition;
 	    m_linearVelocity = linearVelocity;
@@ -43,6 +48,7 @@ public abstract class ManagedElementModel {
 	    m_density = density;
 	    m_restitution = restitution;
 	    m_friction = friction;
+	    m_heading = heading;
 	};
 	
 	public void createInWorld(World world) {
@@ -73,4 +79,14 @@ public abstract class ManagedElementModel {
 	public float getFriction() { return m_friction; }
 	protected void setFriction(float friction) { this.m_friction = friction; }
 	
+	public float getHeading() { return m_heading; }
+	protected void setHeading(float heading) {this.m_heading = heading; }
+	
 }
+
+
+
+
+
+
+

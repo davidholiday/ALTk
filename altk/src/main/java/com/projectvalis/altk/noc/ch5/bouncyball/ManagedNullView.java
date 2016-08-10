@@ -22,7 +22,8 @@ public class ManagedNullView extends ManagedElementView {
 	@Override
 	protected void renderPresentation(Graphics2D g2,
                                       Vec2 posVector,
-			                          Vec2 sizeVector) {
+			                          Vec2 sizeVector, 
+			                          float heading) {
 		
 		/*NOOP*/
 	}

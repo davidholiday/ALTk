@@ -59,7 +59,7 @@ public class BouncyBallRunner extends ManagedElementRunner {
         		new ManagedRectangleView(1, GUI.redC, GUI.redC);
         
         ManagedElementPair groundPair = new
-        		ManagedElementPair(groundModel, rectangleView);
+        		ManagedElementPair(groundModel, nullView);
         
         m_managedElementList.add(groundPair);
         

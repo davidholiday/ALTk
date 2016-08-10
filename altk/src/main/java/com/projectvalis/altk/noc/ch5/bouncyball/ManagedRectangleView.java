@@ -25,7 +25,8 @@ public class ManagedRectangleView extends ManagedElementView {
 	@Override
 	protected void renderPresentation(Graphics2D g2, 
 			                          Vec2 posVector,
-			                          Vec2 sizeVector) {
+			                          Vec2 sizeVector, 
+			                          float heading) {
 		
 		// java draws from the upper left corner. here we are 
 		// ensuring the center of the shape is placed at the desired x/y coord

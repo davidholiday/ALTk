@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 
 import com.projectvalis.altk.init.GUI;
 import com.projectvalis.altk.noc.ch5.ManagedElementPair;
+import com.projectvalis.altk.util.RandomVectorUtils;
 
 
 /**
@@ -32,15 +33,11 @@ public class ManagedCircleGenerator {
 		colorArray[2] = GUI.redC;
 		colorArray[3] = GUI.tealC;
 		colorArray[4] = GUI.purpleC.brighter();
+
+		Vec2 modelLinearVelocity = RandomVectorUtils.getRandomVector(2);
 		
-		float randomLinearVelocityX = getRandomFloat();
-		float randomLinearVelocityY = getRandomFloat();
-					
-		Vec2 modelLinearVelocity = 
-				new Vec2(randomLinearVelocityX, randomLinearVelocityY);
-		
-		int radius = getRandomBoundedInt(4) + 1; // prevents radius:0 circles
-		int colorArrayIndex = getRandomBoundedInt(5);
+		int radius = RandomVectorUtils.getRandomBoundedInt(4) + 1; // prevents radius:0 circles
+		int colorArrayIndex = RandomVectorUtils.getRandomBoundedInt(5);
 		
 		ManagedCircleModel circleModel = 
 				new ManagedCircleModel(modelStartPosition, 
@@ -62,28 +59,6 @@ public class ManagedCircleGenerator {
 	}
 	
 	
-	/**
-	 * returns (.nextFloat() * 10 * 2) * (1/2 chance of *= -1)
-	 * 
-	 * @return
-	 */
-	private static float getRandomFloat() {
-		float randomFloat = ThreadLocalRandom.current().nextFloat() * 10 * 2;
-		float coinFlip = ThreadLocalRandom.current().nextInt(2);
-		if (coinFlip > 0) { randomFloat *= -1; }
-		return randomFloat;
-		
-	}
-	
 
-	/**
-	 * bound is exclusive
-	 * 
-	 * @param bound
-	 * @return
-	 */
-	private static int getRandomBoundedInt(int bound) {
-		return ThreadLocalRandom.current().nextInt(bound);
-	}
 	
 }

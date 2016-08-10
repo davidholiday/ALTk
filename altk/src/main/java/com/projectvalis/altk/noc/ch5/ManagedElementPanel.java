@@ -108,7 +108,11 @@ public class ManagedElementPanel
 	                                     m_managedPairList.get(i)
 	                                                      .getLeft()
 	                                                      .m_jboxSizeVector
-	                                                      .mul(sizeScale)));	
+	                                                      .mul(sizeScale),
+	             	                     m_managedPairList.get(i)
+	                                                      .getLeft()
+	                                                      .m_heading));
+                                  				  
 	
 		}
 		

@@ -28,7 +28,7 @@ public abstract class ManagedElementController extends internalFrameDark {
     private final int m_positionIterations;
     protected List<ManagedElementPair> m_managedPairList;
     
-    protected final ManagedElementPanel m_ballPanel; 
+    protected final ManagedElementPanel m_elementPanel; 
 
     /**
      * root controller class for all elements managed by jbox2d
@@ -66,8 +66,8 @@ public abstract class ManagedElementController extends internalFrameDark {
 		this.setResizable(false);
 		this.setMaximizable(false);
 		
-    	m_ballPanel = new ManagedElementPanel(m_managedPairList, windowSize);
-	    this.add(m_ballPanel);
+    	m_elementPanel = new ManagedElementPanel(m_managedPairList, windowSize);
+	    this.add(m_elementPanel);
 	    this.attach(true);
     }
 	
@@ -85,6 +85,7 @@ public abstract class ManagedElementController extends internalFrameDark {
                 		     m_velocityIterations, 
                 		     m_positionIterations);
                 
+                updateHeadings();
                 checkInputFlags();
 				this.repaint();
 				Thread.sleep(10);
@@ -101,6 +102,24 @@ public abstract class ManagedElementController extends internalFrameDark {
 		
     }
 	
+
+    /**
+     * ensures rendering is done properly 
+     */
+    public void updateHeadings() {
+
+for (ManagedElementPair m : m_managedPairList) {
+	System.out.println(m.getLeft().m_heading);
+	System.out.println(m.getLeft().m_body);
+}
+   
+    	m_managedPairList.parallelStream()
+    					 .map(ManagedElementPair::getLeft)
+    					 .forEach(x ->
+    					 	x.m_heading += x.m_body.m_angularVelocity);
+    	
+    }
+    
     
     /**
      * for handling user input
@@ -108,3 +127,12 @@ public abstract class ManagedElementController extends internalFrameDark {
     public abstract void checkInputFlags();
     
 }
+
+
+
+
+
+
+
+
+
