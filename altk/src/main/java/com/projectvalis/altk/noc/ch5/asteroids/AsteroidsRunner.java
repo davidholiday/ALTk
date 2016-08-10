@@ -26,14 +26,14 @@ public class AsteroidsRunner extends ManagedElementRunner {
 	    int velocityIterations = 6;
 	    int positionIterations = 2;
 	    
-		BouncyBallController managedController = 
-				new BouncyBallController(gravityVector, 
-						                 windowSizeVector, 
-						                 windowPositionVector, 
-						                 m_managedElementList,
-						                 timeStep, 
-		    		                     velocityIterations, 
-		    		                     positionIterations);
+		AsteroidsController managedController = 
+				new AsteroidsController(gravityVector, 
+						                windowSizeVector, 
+						                windowPositionVector, 
+						                m_managedElementList,
+						                timeStep, 
+		    		                    velocityIterations, 
+		    		                    positionIterations);
 		
 		managedController.runSimulation();
 		
@@ -66,16 +66,20 @@ public class AsteroidsRunner extends ManagedElementRunner {
 	 */
 	private ManagedAsteroidModel makeRandomAsteroid(boolean staticPosition) {
 		int randy = ThreadLocalRandom.current().nextInt(1, 40);
-		Vec2 startPosition = RandomVectorUtils.getRandomVector(randy);
+//		Vec2 startPosition = RandomVectorUtils.getRandomVector(randy);
+		Vec2 startPosition = new Vec2(25, 25);
 		Vec2 linearVelocity = RandomVectorUtils.getRandomVector(2);
+//		Vec2 linearVelocity = new Vec2(0, 0);
+		Vec2 shapeSize = new Vec2(5, 5);
+		float angularVelocity = 2;
 		
 		return new ManagedAsteroidModel(startPosition, 
 										linearVelocity,
-										linearVelocity.clone(),
+										shapeSize,
+										angularVelocity,
 										5f,
 										0f,
-										0.5f,
-										0f);
+										0.5f);
 										
 										
 		

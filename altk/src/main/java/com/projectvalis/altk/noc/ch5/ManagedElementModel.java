@@ -24,7 +24,7 @@ public abstract class ManagedElementModel {
 	protected Vec2 m_startPosition;	
 	protected Vec2 m_jboxSizeVector;
 	protected Vec2 m_linearVelocity;
-	protected Vec2 m_angularVelocity;
+	protected float m_angularVelocity;
 	protected float m_density;
 	protected float m_restitution;
 	protected float m_friction;
@@ -36,11 +36,10 @@ public abstract class ManagedElementModel {
 
 	public ManagedElementModel(Vec2 startPosition,
 			                   Vec2 linearVelocity,
-			                   Vec2 angularVelocity,
+			                   float angularVelocity,
 			                   float density, 
 			                   float restitution, 
-			                   float friction, 
-			                   float heading) {
+			                   float friction) {
 
 	    m_startPosition = startPosition;
 	    m_linearVelocity = linearVelocity;
@@ -48,7 +47,6 @@ public abstract class ManagedElementModel {
 	    m_density = density;
 	    m_restitution = restitution;
 	    m_friction = friction;
-	    m_heading = heading;
 	};
 	
 	public void createInWorld(World world) {
@@ -81,6 +79,7 @@ public abstract class ManagedElementModel {
 	
 	public float getHeading() { return m_heading; }
 	protected void setHeading(float heading) {this.m_heading = heading; }
+	
 	
 }
 

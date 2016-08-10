@@ -111,7 +111,8 @@ public class ManagedElementPanel
 	                                                      .mul(sizeScale),
 	             	                     m_managedPairList.get(i)
 	                                                      .getLeft()
-	                                                      .m_heading));
+	                                                      .getBody()
+	                                                      .getAngle()));
                                   				  
 	
 		}

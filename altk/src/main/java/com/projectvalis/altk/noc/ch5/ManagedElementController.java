@@ -85,7 +85,6 @@ public abstract class ManagedElementController extends internalFrameDark {
                 		     m_velocityIterations, 
                 		     m_positionIterations);
                 
-                updateHeadings();
                 checkInputFlags();
 				this.repaint();
 				Thread.sleep(10);
@@ -102,23 +101,6 @@ public abstract class ManagedElementController extends internalFrameDark {
 		
     }
 	
-
-    /**
-     * ensures rendering is done properly 
-     */
-    public void updateHeadings() {
-
-for (ManagedElementPair m : m_managedPairList) {
-	System.out.println(m.getLeft().m_heading);
-	System.out.println(m.getLeft().m_body);
-}
-   
-    	m_managedPairList.parallelStream()
-    					 .map(ManagedElementPair::getLeft)
-    					 .forEach(x ->
-    					 	x.m_heading += x.m_body.m_angularVelocity);
-    	
-    }
     
     
     /**

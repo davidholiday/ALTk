@@ -29,11 +29,10 @@ public class ManagedCircleModel extends ManagedElementModel {
 		
 		super(startPosition, 
 			  linearVelocity, 
-			  null, 
+			  0, 
 			  density, 
 			  restitution, 
-			  friction,
-			  0);
+			  friction);
 		
 		m_radius = radius;
 		m_jboxSizeVector = new Vec2(radius, radius);

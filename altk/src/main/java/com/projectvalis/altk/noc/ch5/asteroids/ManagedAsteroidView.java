@@ -22,7 +22,7 @@ public class ManagedAsteroidView extends ManagedElementView {
 	
 	@Override
 	protected void renderPresentation(
-			Graphics2D g2, Vec2 posVector, Vec2 sizeVector, float heading) {
+			Graphics2D g2, Vec2 posVector, Vec2 sizeVector, float angleInRadians) {
 		
 		// java draws from the upper left corner. here we are 
 		// ensuring the center of the shape is placed at the desired x/y coord
@@ -39,17 +39,17 @@ public class ManagedAsteroidView extends ManagedElementView {
 	    squareAsPath.append(squareR2D, false);
 	    AffineTransform affineTransform = new AffineTransform();
 	   
-	    affineTransform.rotate(Math.toRadians(heading), 
+	    affineTransform.rotate(angleInRadians, 
 	    					   squareR2D.getCenterX(), 
 	    					   squareR2D.getCenterY());
 	    
 	    squareAsPath.transform(affineTransform);
 	    
 		g2.setColor(m_fillColor);
-		g2.fill(squareR2D);
+		g2.fill(squareAsPath);
 		g2.setColor(m_strokeColor);
 		g2.setStroke(m_stroke);
-		g2.draw(squareR2D);	
+		g2.draw(squareAsPath);	
 	}
 
 }
