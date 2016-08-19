@@ -42,48 +42,49 @@ public class AsteroidsRunner extends ManagedElementRunner {
 	@Override
 	public void populateElementList() {
 		m_managedElementList = new ArrayList<ManagedElementPair>();
-		
-		ManagedAsteroidModel asteroidModel = makeRandomAsteroid(false);
-		
-		ManagedAsteroidView asteroidView = 
-				new ManagedAsteroidView(1, GUI.redC.darker(), GUI.redC);
-		
-		ManagedElementPair elementPair = 
-				new ManagedElementPair(asteroidModel, asteroidView);
-		
-		m_managedElementList.add(elementPair);
-		
-		
+		ManagedElementPair asteroid = makeRandomAsteroid(false);
+		m_managedElementList.add(asteroid);	
 	}
 
 	
 	
 	/**
-	 * TODO make boolean do something
 	 * 
 	 * @param staticPosition
 	 * @return
 	 */
-	private ManagedAsteroidModel makeRandomAsteroid(boolean staticPosition) {
+	private ManagedElementPair makeRandomAsteroid(boolean staticPosition) {
 		int randy = ThreadLocalRandom.current().nextInt(1, 40);
 //		Vec2 startPosition = RandomVectorUtils.getRandomVector(randy);
 		Vec2 startPosition = new Vec2(25, 25);
-		Vec2 linearVelocity = RandomVectorUtils.getRandomVector(2);
-//		Vec2 linearVelocity = new Vec2(0, 0);
+		Vec2 linearVelocity = null;
+		
+		if (staticPosition) {
+			linearVelocity = new Vec2(0, 0);
+		}
+		else {
+			linearVelocity = RandomVectorUtils.getRandomVector(2);
+		}
+		
 		Vec2 shapeSize = new Vec2(5, 5);
 		float angularVelocity = 2;
 		
-		return new ManagedAsteroidModel(startPosition, 
-										linearVelocity,
-										shapeSize,
-										angularVelocity,
-										5f,
-										0f,
-										0.5f);
-										
-										
+		ManagedAsteroidModel asteroidModel = 
+				new ManagedAsteroidModel(startPosition, 
+				 						 linearVelocity,
+				 						 shapeSize,
+				 						 angularVelocity,
+				 						 5f,
+				 						 0f,
+				 						 0.5f);
+			
+		ManagedAsteroidView asteroidView = 
+				new ManagedAsteroidView(1, GUI.redC.darker(), GUI.redC);
 		
-		
+		ManagedElementPair elementPair = 
+				new ManagedElementPair(asteroidModel, asteroidView);										
+										
+		return elementPair;
 	}
 	
 	

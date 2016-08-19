@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.init.internalFrameDark;
+import com.projectvalis.altk.util.Jbox2dUtils;
 
 
 
@@ -29,6 +30,8 @@ public abstract class ManagedElementController extends internalFrameDark {
     protected List<ManagedElementPair> m_managedPairList;
     
     protected final ManagedElementPanel m_elementPanel; 
+    protected final Vec2 m_windowSize;
+    protected final Vec2 m_windowSizeInBox;
 
     /**
      * root controller class for all elements managed by jbox2d
@@ -46,6 +49,11 @@ public abstract class ManagedElementController extends internalFrameDark {
     		        float timeStep, 
     		        int velocityIterations, 
     		        int positionIterations) {
+    	
+    	m_windowSize = windowSize;
+    	
+    	m_windowSizeInBox = 
+    			Jbox2dUtils.convertPixelScreenSizeToBox(windowSize);
     	
     	// setup world and create bodies
     	m_world = new World(gravityVector);
@@ -86,6 +94,8 @@ public abstract class ManagedElementController extends internalFrameDark {
                 		     m_positionIterations);
                 
                 checkInputFlags();
+                checkEdges();
+                
 				this.repaint();
 				Thread.sleep(10);
 				
@@ -107,6 +117,16 @@ public abstract class ManagedElementController extends internalFrameDark {
      * for handling user input
      */
     public abstract void checkInputFlags();
+    
+    
+    
+    /**
+     * for overriding the default jbox2d behavior of having an infinite 
+     * universe
+     */
+    public abstract void checkEdges();
+    
+    
     
 }
 

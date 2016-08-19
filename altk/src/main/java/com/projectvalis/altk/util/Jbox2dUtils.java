@@ -26,6 +26,13 @@ public class Jbox2dUtils {
 	public static final int NUM_PIXELS_TO_METER = 10;
 
 	
+	public static Vec2 convertPixelScreenSizeToBox(Vec2 screenSizeInPixels) {
+		
+		return new Vec2(screenSizeInPixels.x / NUM_PIXELS_TO_METER, 
+						screenSizeInPixels.y / NUM_PIXELS_TO_METER);
+		
+	}
+	
 	/**
 	 * 
 	 * @param box2dCoordinate

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.projectvalis.altk.noc.ch1.BallRunner;
 import com.projectvalis.altk.noc.ch5.ManagedElementController;
+import com.projectvalis.altk.noc.ch5.ManagedElementModel;
 import com.projectvalis.altk.noc.ch5.ManagedElementPair;
 
 import junit.framework.Assert;
@@ -59,6 +60,15 @@ public class BouncyBallController extends ManagedElementController {
 			m_managedPairList.add(circlePair);
 
 		}
+		
+	}
+
+
+
+
+	@Override
+	public void checkEdges() {
+		// noop
 		
 	}
 	

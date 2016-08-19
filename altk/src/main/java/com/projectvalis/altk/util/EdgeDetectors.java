@@ -1,6 +1,9 @@
 package com.projectvalis.altk.util;
 
+import org.jbox2d.common.Vec2;
+
 import com.projectvalis.altk.noc.ch1.Vector;
+import com.projectvalis.altk.noc.ch5.ManagedElementModel;
 
 
 /**
@@ -31,6 +34,40 @@ public class EdgeDetectors {
 		if (locationV.yD < 10) { locationV.yD = panelHeight - 10; }
 		
 	}
+	
+	
+	/**
+	 * if you hit the edge of the panel, redraw element at opposite end
+	 * of panel
+	 * 
+	 * @param panelWidth
+	 * @param panelHeight
+	 * @param locationV
+	 */
+	public static void loopEdges(Vec2 panelSizeInBox, 
+								 ManagedElementModel elementModel) {
+		
+		float panelWidth = panelSizeInBox.x;
+		float panelHeight = panelSizeInBox.y;
+		Vec2 locationV = elementModel.getBody().getPosition().clone();
+		
+		if (locationV.x > panelWidth - 10) { locationV.x = 10; }
+		if (locationV.x < 10) { locationV.x = panelWidth - 10; }
+		
+		if (locationV.y > panelHeight - 10) { locationV.y = 10; }
+		if (locationV.y < 10) { locationV.y = panelHeight - 10; }
+		
+		float angularVelocity = elementModel.getBody().getAngle();
+System.out.println(locationV);
+		elementModel.getBody().setTransform(locationV, angularVelocity);
+		
+	}	
+	
+	
+	
+	
+	
+	
 	
 	
 	/**

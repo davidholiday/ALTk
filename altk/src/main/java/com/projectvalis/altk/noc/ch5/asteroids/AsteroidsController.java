@@ -3,9 +3,12 @@ package com.projectvalis.altk.noc.ch5.asteroids;
 import java.util.List;
 
 import org.jbox2d.common.Vec2;
+import org.slf4j.Logger;
 
 import com.projectvalis.altk.noc.ch5.ManagedElementController;
+import com.projectvalis.altk.noc.ch5.ManagedElementModel;
 import com.projectvalis.altk.noc.ch5.ManagedElementPair;
+import com.projectvalis.altk.util.EdgeDetectors;
 
 public class AsteroidsController extends ManagedElementController {
 
@@ -35,4 +38,17 @@ public class AsteroidsController extends ManagedElementController {
 		
 	}
 
+
+
+	@Override
+	public void checkEdges() {
+	
+      m_managedPairList.parallelStream()
+		 			   .map(ManagedElementPair::getLeft)
+		 			   .forEach(x -> EdgeDetectors.loopEdges(m_windowSizeInBox, x));
+		
+	}
+
+	
+	
 }
