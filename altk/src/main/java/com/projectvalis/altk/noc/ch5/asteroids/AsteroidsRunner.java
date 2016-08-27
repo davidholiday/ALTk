@@ -15,79 +15,75 @@ import com.projectvalis.altk.util.RandomVectorUtils;
 import scala.concurrent.forkjoin.ThreadLocalRandom;
 
 public class AsteroidsRunner extends ManagedElementRunner {
-	Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	
-	@Override
-	public void run() {
-		Vec2 gravityVector = new Vec2(0, 0);
-		Vec2 windowSizeVector = new Vec2(1280, 720);
-		Vec2 windowPositionVector = new Vec2(400, 200);
-	    float timeStep = 1.0f / 60.0f;
-	    int velocityIterations = 6;
-	    int positionIterations = 2;
-	    
-		AsteroidsController managedController = 
-				new AsteroidsController(gravityVector, 
-						                windowSizeVector, 
-						                windowPositionVector, 
-						                m_managedElementList,
-						                timeStep, 
-		    		                    velocityIterations, 
-		    		                    positionIterations);
-		
-		managedController.runSimulation();
-		
-	}
+    Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-	@Override
-	public void populateElementList() {
-		m_managedElementList = new ArrayList<ManagedElementPair>();
-		ManagedElementPair asteroid = makeRandomAsteroid(false);
-		m_managedElementList.add(asteroid);	
-	}
+    @Override
+    public void run() {
+        Vec2 gravityVector = new Vec2(0, 0);
+        Vec2 windowSizeVector = new Vec2(1280, 720);
+        Vec2 windowPositionVector = new Vec2(400, 200);
+        float timeStep = 1.0f / 60.0f;
+        int velocityIterations = 6;
+        int positionIterations = 2;
 
-	
-	
-	/**
-	 * 
-	 * @param staticPosition
-	 * @return
-	 */
-	private ManagedElementPair makeRandomAsteroid(boolean staticPosition) {
-		int randy = ThreadLocalRandom.current().nextInt(1, 40);
-//		Vec2 startPosition = RandomVectorUtils.getRandomVector(randy);
-		Vec2 startPosition = new Vec2(25, 25);
-		Vec2 linearVelocity = null;
-		
-		if (staticPosition) {
-			linearVelocity = new Vec2(0, 0);
-		}
-		else {
-			linearVelocity = RandomVectorUtils.getRandomVector(2);
-		}
-linearVelocity = new Vec2(-10, 0);		
-		Vec2 shapeSize = new Vec2(5, 5);
-		float angularVelocity = 2;
-		
-		ManagedAsteroidModel asteroidModel = 
-				new ManagedAsteroidModel(startPosition, 
-				 						 linearVelocity,
-				 						 shapeSize,
-				 						 angularVelocity,
-				 						 5f,
-				 						 0f,
-				 						 0.5f);
-			
-		ManagedAsteroidView asteroidView = 
-				new ManagedAsteroidView(1, GUI.redC.darker(), GUI.redC);
-		
-		ManagedElementPair elementPair = 
-				new ManagedElementPair(asteroidModel, asteroidView);										
-										
-		return elementPair;
-	}
-	
-	
+        AsteroidsController managedController = 
+                new AsteroidsController(gravityVector, 
+                                        windowSizeVector, 
+                                        windowPositionVector,
+                                        m_managedElementList, 
+                                        timeStep, 
+                                        velocityIterations,
+                                        positionIterations);
+
+        managedController.runSimulation();
+
+    }
+
+    @Override
+    public void populateElementList() {
+        m_managedElementList = new ArrayList<ManagedElementPair>();
+        ManagedElementPair asteroid = makeRandomAsteroid(false);
+        m_managedElementList.add(asteroid);
+    }
+
+    /**
+     * 
+     * @param staticPosition
+     * @return
+     */
+    private ManagedElementPair makeRandomAsteroid(boolean staticPosition) {
+        int randyX = ThreadLocalRandom.current().nextInt(1, 40);
+        int randyY = ThreadLocalRandom.current().nextInt(1, 40);
+        Vec2 startPosition = RandomVectorUtils.getRandomVector(randyX, randyY);
+        Vec2 linearVelocity = null;
+
+        if (staticPosition) {
+            linearVelocity = new Vec2(0, 0);
+        } else {
+            linearVelocity = RandomVectorUtils.getRandomVector(2, 2);
+        }
+
+        Vec2 shapeSize = new Vec2(5, 5);
+        float angularVelocity = 2;
+
+        ManagedAsteroidModel asteroidModel = 
+                new ManagedAsteroidModel(startPosition, 
+                                         linearVelocity, 
+                                         shapeSize, 
+                                         angularVelocity, 
+                                         5f,
+                                         0f, 
+                                         0.5f);
+
+        ManagedAsteroidView asteroidView = 
+                new ManagedAsteroidView(1,
+                                        GUI.redC.darker(), 
+                                        GUI.redC);
+
+        ManagedElementPair elementPair = 
+                new ManagedElementPair(asteroidModel, asteroidView);
+
+        return elementPair;
+    }
+
 }
-
-

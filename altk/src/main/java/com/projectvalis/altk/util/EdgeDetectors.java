@@ -49,32 +49,32 @@ public class EdgeDetectors {
 		
 		float panelWidth = panelSizeInBox.x;
 		float panelHeight = panelSizeInBox.y;
-		Vec2 locationV = elementModel.getBody().getPosition().clone();
+		
+		Vec2 locationV = elementModel.getBody()
+		                             .getPosition()
+		                             .clone();
 
-System.out.println(panelWidth + " " + panelHeight + " " + locationV);		
-//		if (locationV.x > panelWidth - 10) { locationV.x = 10; }
-//		if (locationV.x < 10) { locationV.x = panelWidth - 10; }
-//		
-//		if (locationV.y > panelHeight - 10) { locationV.y = 10; }
-//		if (locationV.y < 10) { locationV.y = panelHeight - 10; }
-		
-		if ((locationV.x > panelWidth - 1) || 
-				(locationV.x < (panelWidth * -1))) { 
-System.out.println("in x" + " " + locationV.x + " " + ((panelWidth + 1) * -1));			
-			locationV.x *= -1; 
+		////
+		//
+		if (locationV.x > panelWidth - 1) { 
+		    locationV.x = (panelWidth - 5) * -1; 
 		}
 		
+		if (locationV.x < panelWidth * -1) { 
+		    locationV.x = panelWidth - 5; 
+		}
+		
+		////
+		//
+		if (locationV.y > panelHeight - 1) { 
+		    locationV.y = (panelHeight - 5) * -1; 
+		}
 				
-		if ((locationV.y > panelHeight - 1) || 
-				(locationV.y < (panelHeight * -1))) { 
-System.out.println("in y"+ " " + locationV.y + " " + ((panelHeight + 1) * -1));				
-			locationV.y *= -1; 
+		if (locationV.y < panelHeight * -1) { 
+		    locationV.y = panelHeight - 5; 
 		}
-		
 		
 		float angularVelocity = elementModel.getBody().getAngle();
-System.out.println(locationV);
-System.out.println("-=-=-=-=-=-=-=-=-=-=");
 		elementModel.getBody().setTransform(locationV, angularVelocity);
 		
 	}	

@@ -34,7 +34,7 @@ public class ManagedCircleGenerator {
 		colorArray[3] = GUI.tealC;
 		colorArray[4] = GUI.purpleC.brighter();
 
-		Vec2 modelLinearVelocity = RandomVectorUtils.getRandomVector(2);
+		Vec2 modelLinearVelocity = RandomVectorUtils.getRandomVector(2, 2);
 		
 		int radius = RandomVectorUtils.getRandomBoundedInt(4) + 1; // prevents radius:0 circles
 		int colorArrayIndex = RandomVectorUtils.getRandomBoundedInt(5);
