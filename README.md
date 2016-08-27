@@ -30,7 +30,7 @@ There is an [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93contr
 ### jbox2d demo mode
 JBox2D comes with a nifty sandbox mode that provides a pre-baked view and controller. This makes it easier to sort out physics logic without having to also contend with application logic. To run, type:
 
-```java -jar altk/target/altK-0.0.1-SNAPSHOT-jar-with-dependencies.jar -Dsun.java2d.opengl=true debug```
+```java -jar altk/target/altK-0.0.1-SNAPSHOT-jar-with-dependencies.jar debug -Dsun.java2d.opengl=true```
 
 
 ### some helpful links
