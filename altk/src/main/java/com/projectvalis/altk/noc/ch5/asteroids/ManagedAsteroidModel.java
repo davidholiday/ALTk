@@ -38,7 +38,8 @@ public class ManagedAsteroidModel extends ManagedElementModel{
 		Body asteroidBody = world.createBody(asteroidBodyDef);
 		asteroidBody.setLinearVelocity(m_linearVelocity);
 		asteroidBody.setAngularVelocity(m_angularVelocity);
-		m_body = asteroidBody;		
+		m_body = asteroidBody;
+		m_body.setUserData(this);
 	}
 
 	@Override

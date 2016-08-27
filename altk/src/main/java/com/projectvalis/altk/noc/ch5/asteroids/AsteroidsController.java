@@ -26,6 +26,8 @@ public class AsteroidsController extends ManagedElementController {
               timeStep, 
               velocityIterations, 
               positionIterations);
+        
+        this.m_world.setContactListener(new AsteroidsContactListener());
 
     }
 
@@ -35,11 +37,15 @@ public class AsteroidsController extends ManagedElementController {
     @Override
     public void checkEdges() {
 
+//        synchronized(m_managedPairList) {
+        
         m_managedPairList.parallelStream()
                          .map(ManagedElementPair::getLeft)
                          .forEach(x -> 
                              EdgeDetectors.loopEdges(m_windowSizeInBox, x));
 
+//        }
+        
     }
 
 }

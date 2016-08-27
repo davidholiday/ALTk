@@ -9,10 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class AsteroidsContactListener implements ContactListener {
+public class AsteroidsTestContactListener implements ContactListener {
 
 	public static final Logger LOGGER = 
-			LoggerFactory.getLogger(AsteroidsContactListener.class);
+			LoggerFactory.getLogger(AsteroidsTestContactListener.class);
 	
 	@Override
 	public void beginContact(Contact arg0) {

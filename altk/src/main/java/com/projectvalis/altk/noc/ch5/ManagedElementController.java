@@ -2,7 +2,10 @@ package com.projectvalis.altk.noc.ch5;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,6 +98,7 @@ public abstract class ManagedElementController extends internalFrameDark {
                 
                 checkInputFlags();
                 checkEdges();
+                checkDestruct();
                 
 				this.repaint();
 				Thread.sleep(10);
@@ -125,6 +129,39 @@ public abstract class ManagedElementController extends internalFrameDark {
      * universe
      */
     public abstract void checkEdges();
+    
+    
+    /**
+     * for handling objects marked for doooooooom
+     */
+    public void checkDestruct() {
+//synchronized(m_managedPairList) {  
+        m_managedPairList.stream()
+                         .map(ManagedElementPair::getLeft)
+                         .filter(x -> x.getSelfDestruct() == true)
+                         .forEach(x -> m_world.destroyBody(x.getBody()));
+
+        m_managedPairList =
+                m_managedPairList.stream()
+                                 .filter(x -> 
+                                     x.getLeft().getSelfDestruct() == false)
+                                 .collect(Collectors.toList());
+//
+//}
+   
+//        for (int i = 0; i < m_managedPairList.size(); i ++) {
+//            ManagedElementModel elementModel = 
+//                    m_managedPairList.get(i).getLeft();
+//            
+//            if (elementModel.getSelfDestruct()) {
+//                m_world.destroyBody(elementModel.getBody());
+//            }
+//            
+//        }
+        
+    }
+    
+    
     
     
     

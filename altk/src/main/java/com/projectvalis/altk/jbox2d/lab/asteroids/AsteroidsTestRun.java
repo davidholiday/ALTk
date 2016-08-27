@@ -61,7 +61,7 @@ public class AsteroidsTestRun extends TestbedTest {
 		Vec2 gravityVector = new Vec2(0, 0);
 		this.getWorld().setGravity(gravityVector);
 		
-		this.getWorld().setContactListener(new AsteroidsContactListener());
+		this.getWorld().setContactListener(new AsteroidsTestContactListener());
 		
 		bulletList.clear();
 		asteroidList.clear();

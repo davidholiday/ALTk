@@ -42,8 +42,12 @@ public class AsteroidsRunner extends ManagedElementRunner {
     @Override
     public void populateElementList() {
         m_managedElementList = new ArrayList<ManagedElementPair>();
-        ManagedElementPair asteroid = makeRandomAsteroid(false);
-        m_managedElementList.add(asteroid);
+        
+        for (int i = 0; i < 4; i ++) {    
+            ManagedElementPair asteroid = makeRandomAsteroid(false);
+            m_managedElementList.add(asteroid);           
+        }
+
     }
 
     /**
