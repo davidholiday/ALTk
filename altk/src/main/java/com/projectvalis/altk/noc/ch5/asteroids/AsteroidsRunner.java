@@ -65,7 +65,7 @@ public class AsteroidsRunner extends ManagedElementRunner {
 		else {
 			linearVelocity = RandomVectorUtils.getRandomVector(2);
 		}
-		
+linearVelocity = new Vec2(-10, 0);		
 		Vec2 shapeSize = new Vec2(5, 5);
 		float angularVelocity = 2;
 		

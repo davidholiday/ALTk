@@ -27,6 +27,12 @@ There is a simple Swing interface, but interaction with ALTk is currently limite
 ### how to make your own demos
 There is an [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) framework that hooks into [JBox2D](https://github.com/jbox2d/jbox2d). To make new simulations, simply extend the Managed Element, Runner, Controller, View, and Model classes. Note also that the JBox2D testbed library is included, which is enormously helpful in working out the 'physics' of your world before integrating your demo into the application. Enable/disable the testbed in ALTk's main method. 
 
+### jbox2d demo mode
+JBox2D comes with a nifty sandbox mode that provides a pre-baked view and controller. This makes it easier to sort out physics logic without having to also contend with application logic. To run, type:
+
+```java -jar altk/target/altK-0.0.1-SNAPSHOT-jar-with-dependencies.jar -Dsun.java2d.opengl=true debug```
+
+
 ### some helpful links
 * [JBox2D JavaDoc](http://trentcoder.github.io/JBox2D_JavaDoc/apidocs/)
 * [Box2D Manual](http://box2d.org/manual.pdf) (JBox2D is a port of Box2D and is similar enough to where the Box2D manual is applicable)

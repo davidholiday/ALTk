@@ -40,8 +40,13 @@ public class bootstrap {
 				System.setProperty("org.graphstream.ui.renderer",
 		                "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 				
-				//new TestbedRunner().bootstrapTestBedRunner();
-				gui.buildGUI();	
+				if (args.length > 0 && args[0].equalsIgnoreCase("debug")) {
+					new TestbedRunner().bootstrapTestBedRunner();
+				}
+				else {
+					gui.buildGUI();	
+				}
+				
 			}
 			
 		});
